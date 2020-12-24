@@ -1,0 +1,360 @@
+.wrapper {
+    margin: 0;
+    padding: 50px;
+}
+
+.contents {
+    text-align: center;
+    padding: 30px;
+}
+
+.date-wrap {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.date-wrap.main {
+    margin-bottom: 0;
+    position: relative;
+}
+
+.loading-wrap {
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.85);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.loading-wrap.active {
+    display: flex;
+}
+
+.loading-wrap .calendar-loading {
+    width: 64px;
+    height: 64px;
+    background: #f1f1f1;
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.loading-wrap .calendar-loading img {
+    width: 100%;
+    animation-name: loading;
+    animation-duration: 2.5s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes loading {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(90deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    75% {
+        transform: rotate(270deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-wrap .loading-desc {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-top: 12px;
+}
+
+.select-date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.select-date h2 {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 30px;
+}
+
+.select-date img {
+    width: 20px;
+}
+
+.select-date span {
+    cursor: pointer;
+}
+
+.select-date .next {
+    /* transform: rotate(180deg); */
+}
+
+.select-date .op {
+    opacity: 0.4;
+}
+
+.calendar {
+    width: 100%;
+    border-spacing: 0;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.3);
+    background-color: #e9e9e9;
+}
+
+.calendar tr:first-of-type {
+    border-bottom: solid 1px #f1f1f1;
+    background: #ffffff;
+}
+
+.calendar tr:first-of-type th {
+    /*border-top: solid 1px #555;*/
+    border-right: solid 1px #ddd;
+    border-bottom: solid 1px #ddd;
+}
+
+.calendar tr:last-of-type th {
+    border-right: none;
+}
+
+.calendar tr th {
+    padding: 10px 0;
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+    text-align: center;
+}
+
+.calendar tr td {
+    background-color: #fff;
+    text-align: right;
+    vertical-align: middle;
+    position: relative;
+    font-size: 12px;
+    color: #4f4f4f;
+    font-weight: 500;
+    border-right: solid 1px #ddd;
+    border-bottom: solid 1px #ddd;
+    width: 14.285%;
+    height: 145px;
+}
+.calendar tr td span {
+    padding: 5px;
+}
+
+.calendar tr th:first-of-type,
+.calendar tr td:first-of-type {
+    color: #ff7272;
+}
+
+.calendar tr th:last-of-type {
+    border-right: none;
+}
+
+.calendar tr td:last-of-type {
+    border-right: none;
+}
+
+.calendar tr:last-of-type td:last-of-type {
+    border-right: 1px solid #ddd;
+}
+
+.calendar tr td div {
+    width: 100%;
+    min-height: 34px;
+}
+
+.calendar tr td div span {
+    width: 100%;
+    height: 15px;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /*margin-top: 8px;*/
+    font-size: 12px;
+    float: right;
+}
+
+.calendar .empty {
+    background: #e9e9e9;
+}
+.calendar .empty:hover {
+    background: #e9e9e9;
+}
+
+.calendar tr td:hover {
+    background: #cfe8df;
+}
+
+.calendar tr td.today {
+    background: #cfe8e8;
+}
+
+/* 시작 날짜 */
+.calendar tr td.start div {
+    width: 100%;
+    float: right;
+}
+
+.calendar tr span.point {
+    display: block;
+}
+
+.calendar tr td.start span.point {
+    background: #386392;
+    color: #fff;
+}
+
+/* 종료 날짜 */
+.calendar tr td.end div {
+    width: 100%;
+}
+
+/* 진행 중 */
+.calendar tr td.ing div {
+    background: #edf5fd;
+}
+
+.calendar tr td.end span.point {
+    background: #386392;
+    color: #fff;
+}
+
+/* 토요일일 때 */
+.calendar tr td.sat div {
+    width: 50%;
+}
+
+.calendar tr td.sat div span {
+    background: #edf5fd;
+}
+
+/* 일요일일 때 */
+.calendar tr td.sun div {
+    width: 50%;
+    float: right;
+}
+
+.calendar tr td.sun div span {
+    background: #edf5fd;
+}
+
+/* main calendar */
+.calendar tr th {
+    width: 14.285%;
+}
+
+
+.calendar.main tr td div {
+    min-height: 100px;
+}
+
+.calendar.main tr td p {
+    font-size: 10px;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+.calendar.main tr td div span.start {
+    color: #fff;
+    font-weight: 700;
+    border-radius: 100px 0 0 100px;
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 183, 74, 1);
+    position: relative;
+    float: left;
+}
+
+.calendar.main tr td div span.end {
+    border-radius: 0 100px 100px 0;
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 183, 74, 1);
+    position: relative;
+}
+
+.calendar.main tr td div span.ing {
+    border-radius: 0;
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 183, 74, 1);
+    position: relative;
+}
+
+.calendar.main tr td.today p {
+    color: #333;
+}
+
+.calendar.main tr td.today div span {
+    background: #ffdd00;
+    color: #333;
+}
+
+.calendar.main tr td.schedule div span {
+    background: #386392;
+    color: #fff;
+}
+
+.calendar.main tr td.schedule p {
+    color: #386392;
+}
+
+.calendar-note {
+    font-size: 12px;
+    color: #777;
+    padding: 15px 0 20px;
+    border-top: solid 1px #f1f1f1;
+}
+.time-table-wrap {
+    background: #fff;
+    width: 100%;
+    margin-top: 35px;
+}
+
+.time-table {
+    width: 100%;
+    height: 635px;
+    border-spacing: 0;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.3);
+}
+.time-table tr th {
+    height: 30px;
+    padding: 10px 0;
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+    text-align: center;
+    border-right: solid 1px #e9e9e9;
+    border-bottom: solid 1px #e9e9e9;
+}
+.time-table tr:first-of-type th:first-of-type {
+    width: 14.285%;
+}
+
+.time-table tr td:first-of-type {
+    width: 14.285%;
+}
+
+.time-table tr td {
+    height: 35px;
+    text-align: center;
+    border-right: solid 1px #e9e9e9;
+    border-bottom: solid 1px #e9e9e9;
+}
