@@ -9,19 +9,12 @@ export interface CalendarProps {
 
 export interface CalendarState {
     events: any[]
-    calendar: {
-        lists: {
-            all: any[];
-            hospital: any[];
-            local: any[];
-        };
-    };
 }
 
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
     private curDate: any = moment(new Date());
     private date = new Date(2020, 11, 1);
-    private array: any = [];
+    private array: any = {};
 
     constructor(props?: any) {
         super(props);
@@ -44,32 +37,30 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                 },
                 {
                     startDate: "2020-12-11",
-                    endDate: "2020-12-17",
+                    endDate: "2020-12-16",
                     eventTitle: '일정4',
                 },
+                // {
+                //     startDate: "2020-12-14",
+                //     endDate: "2020-12-15",
+                //     eventTitle: '일정4',
+                // },
                 {
                     startDate: "2020-12-15",
-                    endDate: "2020-12-25",
+                    endDate: "2020-12-27",
                     eventTitle: '일정5',
                 },
-                {
-                    startDate: "2020-12-16",
-                    endDate: "2020-12-17",
-                    eventTitle: '일정6',
-                },
-                {
-                    startDate: "2020-12-23",
-                    endDate: "2020-12-23",
-                    eventTitle: '일정7',
-                },
+                // {
+                //     startDate: "2020-12-16",
+                //     endDate: "2020-12-17",
+                //     eventTitle: '일정6',
+                // },
+                // {
+                //     startDate: "2020-12-21",
+                //     endDate: "2020-12-22",
+                //     eventTitle: '일정7',
+                // },
             ],
-            calendar: {
-                lists: {
-                    all: [],
-                    hospital: [],
-                    local: [],
-                },
-            },
         };
 
     }
@@ -136,48 +127,49 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         const {events} = this.state;
         let html: any[] = [];
         let date = Utils.convertDateToString(this.date);
-        console.log();
         let className = '';
         let eventTitle = '';
-        let dayEventLength = 0;
         let eventArray = this.array;
-        this.array = [];
+        this.array = {};
 
         events.map((event, idx) => {
             // start 0 / ing 1 / end 2 / one-day 3 / empty 4 / double empty 5
-            if (event.startDate === date) { //start
+            if (event.startDate === date) { // start
                 if (event.startDate !== event.endDate) {
-
-                    this.array.push(idx + '_' + 0);
-                } else this.array.push(idx + '_' + 3); // one-day
-            } else if (event.endDate === date) { //end
-                if (eventArray[idx - 1] === `${idx - 1}_4`) {
-                    this.array.push(idx + '_' + 5);
+                    this.array[idx] = 0;
                 } else {
-                    this.array.push(idx + '_' + 2);
+                    this.array[idx] = 3;
+                } // one-day
+            } else if (event.endDate === date) { // end
+                if (eventArray[idx - 1] === 4) {
+                    this.array[idx] = 5;
+                } else {
+                    this.array[idx] = 2;
                 }
-            } else if (event.startDate < date && event.endDate > date) { //ing
-                this.array.push(idx + '_' + 1);
-            } else if (event.startDate > date || event.endDate < date) { //empty
+            } else if (event.startDate < date && event.endDate > date) { // ing
+                // this.array[idx] = eventArray[idx];
+                this.array[idx] = 1;
+            } else if (event.startDate > date || event.endDate < date) { // empty
                 if (this.date.getDay() !== 0) {
-                    if (eventArray[idx - 1] === `${idx - 1}_4`) { // double empty
-                        this.array.push(idx + '_' + 5);
+                    if (this.array[idx - 1] === 4) { // double empty
+                        this.array[idx] = 5;
                     } else {
-                        this.array.push(idx + '_' + 4);
+                        this.array[idx] = 4;
                     }
-                } else if (this.date.getDay() === 0) { // 일요일
-                    this.array.push(idx + '_' + 1);
                 }
-
+            } else if (this.date.getDay() === 0) {
+                this.array = {
+                    ...this.array,
+                    [idx - 1]: 1,
+                };
             }
-
-
             return event;
         })
         // console.log(this.date.getDate(), this.date.getDay() === 0)
-        console.log(Utils.convertDateToString(this.date))
         // console.log(this.array)
+        console.log(Utils.convertDateToString(this.date))
         console.log(eventArray)
+
         events.map((event, idx) => {
                 eventTitle = event.eventTitle;
                 if (event.startDate === date) {
@@ -187,9 +179,9 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     } else {
                         className = 'start'
                     }
-                    if (idx !== 0 && event.startDate !== event.endDate || this.date.getDay() !== 0) {
-                        if (!(this.array.includes(`${idx - 1}_0`) || this.array.includes(`${idx - 1}_1`) || this.array.includes(`${idx - 1}_2`))) {
-                            if (eventArray.includes(`${idx - 1}_0`) || eventArray.includes(`${idx - 1}_1`) || eventArray.includes(`${idx - 1}_2`) || eventArray.includes(`${idx - 1}_4`)) {
+                    if (idx !== 0 && event.startDate !== event.endDate || this.date.getDay() > 0) {
+                        if (!(this.array[idx - 1] === 0 || this.array[idx - 1] === 1 || this.array[idx - 1] === 2)) {
+                            if (eventArray[idx - 1] === 0 || eventArray[idx - 1] === 1 || eventArray[idx - 1] !== 2 || eventArray[idx - 1] === 4) {
                                 html.push(
                                     <span key={Math.random()} className={"empty"}>empty</span>
                                 )
@@ -201,13 +193,13 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     )
                 } else if (event.endDate === date) {
                     className = 'end'
-                    if (this.date.getDay() !== 0) {
-                        if (!(this.array.includes(`${idx - 1}_0`) || this.array.includes(`${idx - 1}_1`) || this.array.includes(`${idx - 1}_2`))) {
-                            if (eventArray.includes(`${idx - 1}_1`) || eventArray.includes(`${idx - 1}_2`) || eventArray.includes(`${idx - 1}_4`)) {
+                    if (this.date.getDay() > 0) {
+                        if (!(this.array[idx - 1] === 0 || this.array[idx - 1] === 1 || this.array[idx - 1] === 2)) {
+                            if (eventArray[idx - 1] === 1 || eventArray[idx - 1] === 2 || eventArray[idx - 1] === 4) {
                                 html.push(
                                     <span key={Math.random()} className={"empty"}>empty</span>
                                 )
-                            } else if (eventArray.includes(`${idx - 1}_5`)) {
+                            } else if (eventArray[idx - 1] === 5) {
                                 html.push(<span key={Math.random()} className={"empty"}>double</span>)
                                 html.push(<span key={Math.random()} className={"empty"}>double</span>)
                             }
@@ -218,14 +210,13 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     )
                 } else if (event.startDate < date && event.endDate > date) {
                     className = 'ing'
-                    if (this.date.getDay() !== 0) {
-                        if (!(this.array.includes(`${idx - 1}_0`) || this.array.includes(`${idx - 1}_1`) || this.array.includes(`${idx - 1}_2`))) {
-                            // if (eventArray.includes(`${idx - 1}_0`) || eventArray.includes(`${idx - 1}_1`) || eventArray.includes(`${idx - 1}_2`) || eventArray.includes(`${idx - 1}_4`)) {
-                            if (eventArray.includes(`${idx - 1}_0`) || eventArray.includes(`${idx - 1}_2`) || eventArray.includes(`${idx - 1}_4`)) {
+                    if (this.date.getDay() > 0) {
+                        if (!(this.array[idx - 1] === 0) || this.array[idx - 1] === 1 || this.array[idx - 1] === 2) {
+                            if (eventArray[idx - 1] === 0 || eventArray[idx - 1] === 2 || eventArray[idx - 1] === 4) {
                                 html.push(
                                     <span key={Math.random()} className={"empty"}>empty</span>
                                 )
-                            } else if (eventArray.includes(`${idx - 1}_5`)) {
+                            } else if (eventArray[idx - 1] === 5) {
                                 html.push(<span key={Math.random()} className={"empty"}>double</span>)
                                 html.push(<span key={Math.random()} className={"empty"}>double</span>)
                             }
@@ -238,7 +229,6 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                 return event;
             }
         )
-
         return html;
     }
 

@@ -272,15 +272,23 @@
 }
 
 .calendar.main tr td div span.event3 {
-    background: #ffcc00;
+    background: #d15edd;
 }
 
 .calendar.main tr td div span.event4 {
-    background: #00B74A;
+    background: #ffcc00;
 }
 
 .calendar.main tr td div span.event5 {
+    background: #00B74A;
+}
+
+.calendar.main tr td div span.event6 {
     background: #0099cc;
+}
+
+.calendar.main tr td div span.event7 {
+    background: #ff3366;
 }
 
 
