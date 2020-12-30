@@ -147,7 +147,7 @@
     border-right: solid 1px #ddd;
     border-bottom: solid 1px #ddd;
     width: 14.285%;
-    height: 145px;
+    /*height: 145px;*/
 }
 
 .calendar tr td span {
@@ -188,7 +188,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    margin-top: 7px;
+    /*margin-top: 7px;*/
     font-size: 12px;
     float: right;
 }
@@ -210,7 +210,7 @@
 }
 
 .calendar.main tr td div {
-    min-height: 100px;
+    min-height: 110px;
 }
 
 .calendar.main tr td p {
@@ -259,6 +259,11 @@
     position: relative;
 }
 
+.calendar.main tr td div span:last-of-type {
+    /*margin-bottom: 8px;*/
+    /*background: red !important;*/
+}
+
 .calendar.main tr td div span.event0 {
     background: #00B74A;
 }
@@ -272,11 +277,11 @@
 }
 
 .calendar.main tr td div span.event3 {
-    background: #d15edd;
+    background: #ffcc00;
 }
 
 .calendar.main tr td div span.event4 {
-    background: #ffcc00;
+    background: #d15edd;
 }
 
 .calendar.main tr td div span.event5 {
