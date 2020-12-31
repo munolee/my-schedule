@@ -1,6 +1,8 @@
 .wrapper {
     margin: 0;
     padding: 50px;
+    background: #f9f8f7;
+    height: 100%;
 }
 
 .contents {
@@ -105,13 +107,62 @@
     opacity: 0.4;
 }
 
+.select-date .back {
+    left: 0;
+    position: absolute;
+}
+
 .calendar {
     width: 100%;
+    height: 85vh;
     border-spacing: 0;
-    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
     background-color: #e9e9e9;
     overflow: hidden;
 }
+
+.calendar tr {
+    height: 0;
+    transition: .6s all;
+}
+
+.calendar tr.active {
+    height: 450px;
+}
+
+.calendar tr.active span.hide {
+    display: flex !important;
+}
+
+.calendar tr.active span.more {
+    display: none !important;
+}
+
+.calendar tr.passive {
+    opacity: 0;
+}
+
+.calendar tr.passive td {
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-bottom: none !important;
+}
+
+.calendar tr.passive td div {
+    min-height: inherit;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.calendar tr.passive span {
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+
+}
+
 
 .calendar tr:first-of-type {
     border-bottom: solid 1px #f1f1f1;
@@ -147,11 +198,8 @@
     border-right: solid 1px #ddd;
     border-bottom: solid 1px #ddd;
     width: 14.285%;
-    /*height: 145px;*/
-}
-
-.calendar tr td span {
-    padding: 5px;
+    height: 140px;
+    transition: 1s all;
 }
 
 .calendar tr th:first-of-type,
@@ -173,7 +221,14 @@
 
 .calendar tr td div {
     width: 100%;
-    min-height: 34px;
+    min-height: 90px;
+}
+
+.calendar tr td span.calendar-date {
+    padding: 5px;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .calendar tr td div span {
@@ -191,6 +246,8 @@
     /*margin-top: 7px;*/
     font-size: 12px;
     float: right;
+    padding: 5px;
+    cursor: default;
 }
 
 .calendar .empty {
@@ -207,10 +264,6 @@
 
 .calendar tr td.today {
     background: #cfe8e8;
-}
-
-.calendar.main tr td div {
-    min-height: 110px;
 }
 
 .calendar.main tr td p {
@@ -259,47 +312,41 @@
     position: relative;
 }
 
-.calendar.main tr td div span:last-of-type {
-    /*margin-bottom: 8px;*/
-    /*background: red !important;*/
+.calendar.main tr td div span.more {
+    position: relative;
+    padding: 0;
+    margin: 0;
 }
+
+.calendar.main tr td div span.hide {
+    display: none;
+}
+
 
 .calendar.main tr td div span.event0 {
     background: #00B74A;
 }
 
 .calendar.main tr td div span.event1 {
-    background: #0099cc;
+    background: #ff3366;
 }
 
 .calendar.main tr td div span.event2 {
-    background: #ff3366;
-}
-
-.calendar.main tr td div span.event3 {
     background: #ffcc00;
 }
 
-.calendar.main tr td div span.event4 {
+.calendar.main tr td div span.event3 {
     background: #d15edd;
 }
 
-.calendar.main tr td div span.event5 {
-    background: #00B74A;
-}
-
-.calendar.main tr td div span.event6 {
+.calendar.main tr td div span.event4 {
     background: #0099cc;
 }
 
-.calendar.main tr td div span.event7 {
-    background: #ff3366;
+
+.calendar.main tr td div span.event1:hover ~ .event1 {
+    opacity: .8;
 }
-
-
-/*.calendar.main tr td div span.event1:hover {*/
-/*    background: #4f4f4f;*/
-/*}*/
 
 
 .time-table-wrap {

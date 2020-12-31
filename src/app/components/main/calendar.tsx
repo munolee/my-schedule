@@ -15,6 +15,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     private curDate: any = moment(new Date());
     private date = new Date(2020, 11, 1);
     private array: any = {};
+    private weekData: any = {};
 
     constructor(props?: any) {
         super(props);
@@ -32,8 +33,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     eventTitle: '일정2',
                 },
                 {
-                    startDate: "2020-12-08",
-                    endDate: "2020-12-15",
+                    startDate: "2020-12-10",
+                    endDate: "2020-12-13",
                     eventTitle: '일정3',
                 },
                 {
@@ -42,25 +43,80 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     eventTitle: '일정4',
                 },
                 {
-                    startDate: "2020-12-13",
+                    startDate: "2020-12-14",
                     endDate: "2020-12-16",
                     eventTitle: '일정5',
                 },
                 {
-                    startDate: "2020-12-17",
-                    endDate: "2020-12-19",
-                    eventTitle: '일정5',
+                    startDate: "2020-12-14",
+                    endDate: "2020-12-15",
+                    eventTitle: '일정6',
+                },
+                {
+                    startDate: "2020-12-15",
+                    endDate: "2020-12-16",
+                    eventTitle: '일정7',
+                },
+                {
+                    startDate: "2020-12-15",
+                    endDate: "2020-12-16",
+                    eventTitle: '일정8',
                 },
                 {
                     startDate: "2020-12-17",
-                    endDate: "2020-12-18",
-                    eventTitle: '일정6',
+                    endDate: "2020-12-20",
+                    eventTitle: '일정9',
                 },
-                // {
-                //     startDate: "2020-12-23",
-                //     endDate: "2020-12-23",
-                //     eventTitle: '일정7',
-                // },
+                {
+                    startDate: "2020-12-18",
+                    endDate: "2020-12-20",
+                    eventTitle: '일정10',
+                },
+                {
+                    startDate: "2020-12-21",
+                    endDate: "2020-12-23",
+                    eventTitle: '일정11',
+                },
+                {
+                    startDate: "2020-12-21",
+                    endDate: "2020-12-23",
+                    eventTitle: '일정12',
+                },
+                {
+                    startDate: "2020-12-21",
+                    endDate: "2020-12-23",
+                    eventTitle: '일정13',
+                },
+                {
+                    startDate: "2020-12-21",
+                    endDate: "2020-12-23",
+                    eventTitle: '일정14',
+                },
+                {
+                    startDate: "2020-12-21",
+                    endDate: "2020-12-23",
+                    eventTitle: '일정15',
+                },
+                {
+                    startDate: "2020-12-21",
+                    endDate: "2020-12-23",
+                    eventTitle: '일정16',
+                },
+                {
+                    startDate: "2020-12-21",
+                    endDate: "2020-12-23",
+                    eventTitle: '일정17',
+                },
+                {
+                    startDate: "2020-12-24",
+                    endDate: "2020-12-26",
+                    eventTitle: '일정18',
+                },
+                {
+                    startDate: "2020-12-25",
+                    endDate: "2020-12-27",
+                    eventTitle: '일정19',
+                },
             ],
         };
 
@@ -109,8 +165,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     className = 'today';
                 }
                 html.push(
-                    <td key={Math.random()} className={className}>
-                        <span onClick={() => this.handleTimeTable(date)}>{this.date.getDate()}</span>
+                    <td key={Math.random()} className={className} onClick={() => this.handleTimeTable(week)}>
+                        <span className={'calendar-date'}>{this.date.getDate()}</span>
                         <div className='event-list'>{this.renderCalendarEvent()}</div>
                     </td>
                 )
@@ -129,24 +185,38 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         const {events} = this.state;
         let html: any[] = [];
         let date = Utils.convertDateToString(this.date);
-        // console.log(date)
-        // console.log(Utils.convertDateToString(this.curDate));
         let className = '';
         let eventTitle = '';
         let eventArray = this.array;
         this.array = {};
-        let cnt = 0;
         let tempData: any = {};
+        let weekStartDate = date;
+        let weekEndDate = date;
 
-        events.map((event, idx) => {
-            if (event.startDate === date) { // start
-                this.array[idx] = idx;
-            } else if (event.startDate <= date && event.endDate >= date) {
-                tempData[idx] = idx;
+        if (this.date.getDay() === 0) { // 일요일일때 초기화
+            this.weekData = {};
+            weekStartDate = date;
+            this.date.setDate(this.date.getDate() + 6);
+            weekEndDate = Utils.convertDateToString(this.date);
+            this.date.setDate(this.date.getDate() - 6);
+        }
+
+        let cnt = 0;
+        for (let i = 0; i < events.length; i++) {
+            if (events[i].startDate === date) {
+                this.array[i] = i;
+            } else if (events[i].startDate <= date && events[i].endDate >= date) {
+                tempData[i] = i;
             }
-            html.push(<span key={Math.random()} className={"empty"}>empty</span>)
-            return event;
-        })
+            if ((events[i].startDate >= weekStartDate && events[i].startDate <= weekEndDate) ||
+                (events[i].endDate >= weekStartDate && events[i].endDate <= weekEndDate)) {
+                this.weekData[i] = events[i];
+            }
+            if (!Utils.isEmpty(this.weekData[i])) { //&& cnt < 5
+                html.push(<span key={Math.random()} className={`empty ${cnt >= 4 ? "hide" : ""}`}></span>)
+                cnt++;
+            }
+        }
 
         events.map((event, idx) => {
                 eventTitle = event.eventTitle;
@@ -158,17 +228,34 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     } else {
                         className = 'start'
                     }
-                    for (let i = idx - 1; i >= Object.keys(this.array).length; i--) {
-                        if (idx !== 0 && !Utils.isEmpty(this.array[i])) {
-                            position = this.array[i] + 1;
-                            this.array[idx] = position;
-                            break;
-                        } else if (Utils.isEmpty(this.array[i])) {
+
+                    for (let i = Object.keys(this.array).length; i <= idx; i++) {
+                        if (Utils.isEmpty(this.array[i - 1])) {
                             position = 0;
+                            this.array[idx] = position;
+                        } else {
+                            position = this.array[i - 1] + 1;
                             this.array[idx] = position;
                         }
                     }
-                    html[position] = <span key={idx} className={`${className} event${idx}`}>{idx}</span>;
+                    if (this.date.getDay() === 0) {
+                        let i = 0;
+                        for (let key in this.array) {
+                            if (Number(key) === idx) {
+                                position = i;
+                                this.array[key] = i;
+                            }
+                            i++;
+                        }
+                    }
+                    if (position === 5) {
+                        html.push(<span key={Math.random()} className={'more'}
+                                        onClick={() => this.handleEventShow(idx)}>. . .</span>)
+                    }
+                    html[position] =
+                        <span key={idx} className={`${className} event${idx % 5} ${position >= 4 ? "hide" : ""}`}
+                              onMouseEnter={() => this.handleCalendarHover(`event${idx}`, true)}
+                              onMouseLeave={() => this.handleCalendarHover(`event${idx}`, false)}>{eventTitle}</span>;
                 } else if (event.endDate === date) {
                     className = 'end'
                     if (this.date.getDay() === 0) {
@@ -184,7 +271,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                         position = eventArray[idx];
                         this.array[idx] = position;
                     }
-                    html[position] = <span key={idx} className={`${className} event${idx}`}>{idx}</span>;
+                    html[position] =
+                        <span key={idx} className={`${className} event${idx % 5} ${position >= 4 ? "hide" : ""}`}></span>;
                 } else if (event.startDate < date && event.endDate > date) {
                     className = 'ing'
                     if (this.date.getDay() === 0) {
@@ -200,12 +288,20 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                         position = eventArray[idx];
                         this.array[idx] = position;
                     }
-                    html[position] = <span key={idx} className={`${className} event${idx}`}>{idx}</span>;
+                    html[position] = <span key={idx}
+                                           className={`${className} event${idx % 5}  ${position >= 4 ? "hide" : ""}`}></span>;
                 }
                 return event;
             }
         )
+
         return html;
+    }
+
+
+    handleEventShow = (index: any) => {
+
+        console.log(index);
     }
 
     handleCalendar = (type: string) => {
@@ -218,13 +314,49 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         this.setState({})
     }
 
-    handleTimeTable = (date?: any) => {
-        console.log(date);
+    handleCalendarHover = (className: string, flag: boolean) => {
+        let name = '.' + className;
+        const el = document.querySelectorAll<HTMLElement>(name);
+
+        // if (flag) {
+        //     // let classColor = Number(className.split('event')[1]) % 5;
+        //     for (let i = 0; i < el.length; i++) {
+        //             el[i].style.opacity = '.8';
+        //     }
+        // } else {
+        //     for (let i = 0; i < el.length; i++) {
+        //         el[i].style.opacity = '1';
+        //     }
+        // }
+    }
+
+    handleTimeTable = (week?: any) => {
+        const selectWeek = document.querySelectorAll<HTMLElement>('.calendar tbody tr'); // 달력 week
+        const moreBtn = document.querySelectorAll<HTMLElement>('.more');
+
+        if (week === 'back') {
+            for (let i = 0; i <= selectWeek.length; i++) {
+                if (!Utils.isEmpty(selectWeek[i])) {
+                    selectWeek[i].classList.remove('passive');
+                    selectWeek[i].classList.remove('active');
+                }
+            }
+        } else {
+            for (let i = 0; i <= selectWeek.length; i++) {
+                if (!Utils.isEmpty(selectWeek[i])) {
+                    if (week + 1 !== i && i !== 0) {
+                        selectWeek[i].className = 'passive';
+                    } else {
+                        selectWeek[week + 1].className = 'active';
+                    }
+                }
+            }
+        }
+
         // history.push({
         //     pathname: `/table`,
         //     search: `date=${date}`,
         // });
-
     }
 
     render() {
@@ -235,6 +367,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
             <div className="wrapper">
                 <div className="date-wrap main">
                     <div className="select-date">
+                        <span className={"back"} onClick={() => this.handleTimeTable('back')}>돌아가기</span>
                         <span className={"pre " + (preFlag ? "" : "op")}
                               onClick={() => this.handleCalendar(preFlag ? "pre" : "pre")}>이전{" "}</span>
                         <h2 className="date">
