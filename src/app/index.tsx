@@ -22,7 +22,8 @@ const Root: React.FC = () => (
     <Router history={history}>
         <Switch>
             <Route path="/" exact component={Calendar}/>
-            <Route exact={true} path="/main" component={Main}/>
+            <Route exact={true} path="/calendar" component={Calendar}/>
+            <Route path="/main" component={Main}/>
             <Route path="/table" component={TimeTable}/>
             {/* <Route path="/error" component={Error} />
       <Redirect path="*" to="/error" /> */}

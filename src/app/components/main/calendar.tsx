@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import "moment/locale/ko";
+import {Link} from "react-router-dom";
 import history from "../../../app/containers/history";
 import * as Utils from "../../../app/containers/utils";
 
@@ -13,7 +14,7 @@ export interface CalendarState {
 
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
     private curDate: any = moment(new Date());
-    private date = new Date(2020, 11, 1);
+    private date = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
     private array: any = {};
     private weekData: any = {};
 
@@ -22,104 +23,131 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         this.state = {
             // 6 ~ 12
             events: [
+                // {
+                //     startDate: "2021-01-06",
+                //     endDate: "2021-01-07",
+                //     eventTitle: '일정1',
+                // },
+                // {
+                //     startDate: "2021-01-07",
+                //     endDate: "2021-01-09",
+                //     eventTitle: '일정2',
+                // },
+                // {
+                //     startDate: "2021-01-10",
+                //     endDate: "2021-01-13",
+                //     eventTitle: '일정3',
+                // },
+                // {
+                //     startDate: "2021-01-11",
+                //     endDate: "2021-01-13",
+                //     eventTitle: '일정4',
+                // },
+                // {
+                //     startDate: "2021-01-14",
+                //     endDate: "2021-01-16",
+                //     eventTitle: '일정5',
+                // },
+                // {
+                //     startDate: "2021-01-14",
+                //     endDate: "2021-01-15",
+                //     eventTitle: '일정6',
+                // },
+                // {
+                //     startDate: "2021-01-15",
+                //     endDate: "2021-01-16",
+                //     eventTitle: '일정7',
+                // },
+                // {
+                //     startDate: "2021-01-15",
+                //     endDate: "2021-01-16",
+                //     eventTitle: '일정8',
+                // },
+                // {
+                //     startDate: "2021-01-17",
+                //     endDate: "2021-01-20",
+                //     eventTitle: '일정9',
+                // },
+                // {
+                //     startDate: "2021-01-18",
+                //     endDate: "2021-01-20",
+                //     eventTitle: '일정10',
+                // },
                 {
-                    startDate: "2020-12-06",
-                    endDate: "2020-12-07",
-                    eventTitle: '일정1',
-                },
-                {
-                    startDate: "2020-12-07",
-                    endDate: "2020-12-09",
-                    eventTitle: '일정2',
-                },
-                {
-                    startDate: "2020-12-10",
-                    endDate: "2020-12-13",
-                    eventTitle: '일정3',
-                },
-                {
-                    startDate: "2020-12-11",
-                    endDate: "2020-12-13",
-                    eventTitle: '일정4',
-                },
-                {
-                    startDate: "2020-12-14",
-                    endDate: "2020-12-16",
-                    eventTitle: '일정5',
-                },
-                {
-                    startDate: "2020-12-14",
-                    endDate: "2020-12-15",
-                    eventTitle: '일정6',
-                },
-                {
-                    startDate: "2020-12-15",
-                    endDate: "2020-12-16",
-                    eventTitle: '일정7',
-                },
-                {
-                    startDate: "2020-12-15",
-                    endDate: "2020-12-16",
-                    eventTitle: '일정8',
-                },
-                {
-                    startDate: "2020-12-17",
-                    endDate: "2020-12-20",
-                    eventTitle: '일정9',
-                },
-                {
-                    startDate: "2020-12-18",
-                    endDate: "2020-12-20",
-                    eventTitle: '일정10',
-                },
-                {
-                    startDate: "2020-12-21",
-                    endDate: "2020-12-23",
+                    startDate: "2021-01-21",
+                    endDate: "2021-01-23",
                     eventTitle: '일정11',
                 },
                 {
-                    startDate: "2020-12-21",
-                    endDate: "2020-12-23",
+                    startDate: "2021-01-21",
+                    endDate: "2021-01-23",
                     eventTitle: '일정12',
                 },
                 {
-                    startDate: "2020-12-21",
-                    endDate: "2020-12-23",
+                    startDate: "2021-01-21",
+                    endDate: "2021-01-23",
                     eventTitle: '일정13',
                 },
                 {
-                    startDate: "2020-12-21",
-                    endDate: "2020-12-23",
+                    startDate: "2021-01-21",
+                    endDate: "2021-01-23",
                     eventTitle: '일정14',
                 },
                 {
-                    startDate: "2020-12-21",
-                    endDate: "2020-12-23",
+                    startDate: "2021-01-21",
+                    endDate: "2021-01-23",
                     eventTitle: '일정15',
                 },
                 {
-                    startDate: "2020-12-21",
-                    endDate: "2020-12-23",
+                    startDate: "2021-01-21",
+                    endDate: "2021-01-23",
                     eventTitle: '일정16',
                 },
                 {
-                    startDate: "2020-12-21",
-                    endDate: "2020-12-23",
+                    startDate: "2021-01-21",
+                    endDate: "2021-01-23",
                     eventTitle: '일정17',
                 },
                 {
-                    startDate: "2020-12-24",
-                    endDate: "2020-12-26",
+                    startDate: "2021-01-24",
+                    endDate: "2021-01-26",
                     eventTitle: '일정18',
                 },
                 {
-                    startDate: "2020-12-25",
-                    endDate: "2020-12-27",
+                    startDate: "2021-01-25",
+                    endDate: "2021-01-27",
                     eventTitle: '일정19',
                 },
             ],
         };
 
+    }
+
+    componentDidMount() {
+    }
+
+    componentDidUpdate() {
+        let week = localStorage.getItem('currentWeek');
+        if (!Utils.isEmpty(week)) {
+            this.handleTimeTable(Number(week));
+        }
+
+        window.onpopstate = () => {
+            let data = localStorage.getItem('currentState');
+            if (data != null) {
+                let jsonDate = JSON.parse(data);
+                this.setState({
+                    ...jsonDate
+                }, () => {
+                    const location: any = history.location;
+                    const queryString = require("query-string");
+                    const parsed = queryString.parse(location.search);
+                    let week = parsed.page ? Number(parsed.page) - 1 : "back";
+                    this.handleTimeTable(week);
+                })
+            }
+        };
+        // 새로고침시
     }
 
     renderCalendar = () => {
@@ -141,6 +169,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                 <tr key={Math.random()}>{this.renderCalendarDate(i)}</tr>
             );
         }
+        this.date = new Date(this.date.getFullYear(), this.date.getMonth(), 1);
         return html;
     }
 
@@ -165,9 +194,18 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     className = 'today';
                 }
                 html.push(
-                    <td key={Math.random()} className={className} onClick={() => this.handleTimeTable(week)}>
-                        <span className={'calendar-date'}>{this.date.getDate()}</span>
-                        <div className='event-list'>{this.renderCalendarEvent()}</div>
+                    <td key={Math.random()} className={className}>
+                        <Link to={{
+                            pathname: "/calendar",
+                            search: `page=${week + 1}`,
+                            state: {
+                                state: this.state,
+                                date: new Date(this.date.getFullYear(), this.date.getMonth(), 1)
+                            },
+                        }} onClick={() => this.handleSetTimeTable(week)}>
+                            <span className={'calendar-date'}>{this.date.getDate()}</span>
+                            <div className='event-list'>{this.renderCalendarEvent()}</div>
+                        </Link>
                     </td>
                 )
                 if (this.date.getDate() !== lastDay) { // 마지막 일 전까지 date + 1
@@ -212,7 +250,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                 (events[i].endDate >= weekStartDate && events[i].endDate <= weekEndDate)) {
                 this.weekData[i] = events[i];
             }
-            if (!Utils.isEmpty(this.weekData[i])) { //&& cnt < 5
+            if (!Utils.isEmpty(this.weekData[i])) {
                 html.push(<span key={Math.random()} className={`empty ${cnt >= 4 ? "hide" : ""}`}></span>)
                 cnt++;
             }
@@ -249,8 +287,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                         }
                     }
                     if (position === 5) {
-                        html.push(<span key={Math.random()} className={'more'}
-                                        onClick={() => this.handleEventShow(idx)}>. . .</span>)
+                        html.push(<span key={Math.random()} className={'more'}>. . .</span>)
                     }
                     html[position] =
                         <span key={idx} className={`${className} event${idx % 5} ${position >= 4 ? "hide" : ""}`}
@@ -272,7 +309,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                         this.array[idx] = position;
                     }
                     html[position] =
-                        <span key={idx} className={`${className} event${idx % 5} ${position >= 4 ? "hide" : ""}`}></span>;
+                        <span key={idx}
+                              className={`${className} event${idx % 5} ${position >= 4 ? "hide" : ""} ${this.date.getDay() === 0 ? "show-title" : ""}`}>{eventTitle}</span>;
                 } else if (event.startDate < date && event.endDate > date) {
                     className = 'ing'
                     if (this.date.getDay() === 0) {
@@ -296,12 +334,6 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         )
 
         return html;
-    }
-
-
-    handleEventShow = (index: any) => {
-
-        console.log(index);
     }
 
     handleCalendar = (type: string) => {
@@ -330,9 +362,15 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         // }
     }
 
+    handleSetTimeTable = (week: any) => {
+        localStorage.setItem('currentWeek', week);
+        localStorage.setItem('currentState', JSON.stringify(this.state));
+        this.date = new Date(this.date.getFullYear(), this.date.getMonth(), 1);
+    }
+
     handleTimeTable = (week?: any) => {
         const selectWeek = document.querySelectorAll<HTMLElement>('.calendar tbody tr'); // 달력 week
-        const moreBtn = document.querySelectorAll<HTMLElement>('.more');
+        this.date = new Date(this.date.getFullYear(), this.date.getMonth(), 1);
 
         if (week === 'back') {
             for (let i = 0; i <= selectWeek.length; i++) {
@@ -341,6 +379,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     selectWeek[i].classList.remove('active');
                 }
             }
+            localStorage.removeItem('currentWeek');
         } else {
             for (let i = 0; i <= selectWeek.length; i++) {
                 if (!Utils.isEmpty(selectWeek[i])) {
@@ -352,11 +391,6 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                 }
             }
         }
-
-        // history.push({
-        //     pathname: `/table`,
-        //     search: `date=${date}`,
-        // });
     }
 
     render() {
@@ -367,11 +401,11 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
             <div className="wrapper">
                 <div className="date-wrap main">
                     <div className="select-date">
-                        <span className={"back"} onClick={() => this.handleTimeTable('back')}>돌아가기</span>
+                        <span className={"back"} onClick={() => Utils.handleHistoryBack()}>돌아가기</span>
                         <span className={"pre " + (preFlag ? "" : "op")}
                               onClick={() => this.handleCalendar(preFlag ? "pre" : "pre")}>이전{" "}</span>
                         <h2 className="date">
-                            {this.curDate === null ? "" : `${this.curDate.format('YYYY.MM')}`}
+                            {this.curDate === null ? "" : `${this.date.getFullYear()}.${this.date.getMonth() + 1}`}
                         </h2>
                         <span className={"next "} onClick={() => this.handleCalendar("next")}>다음</span>
                     </div>
