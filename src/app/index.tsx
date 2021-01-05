@@ -3,7 +3,6 @@ import {Router, Route, Switch, Redirect} from "react-router-dom";
 // import { Provider } from "mobx-react";
 
 import {
-    Main,
     Calendar,
     TimeTable
 } from "./containers";
@@ -23,7 +22,6 @@ const Root: React.FC = () => (
         <Switch>
             <Route path="/" exact component={Calendar}/>
             <Route exact={true} path="/calendar" component={Calendar}/>
-            <Route path="/main" component={Main}/>
             <Route path="/table" component={TimeTable}/>
             {/* <Route path="/error" component={Error} />
       <Redirect path="*" to="/error" /> */}

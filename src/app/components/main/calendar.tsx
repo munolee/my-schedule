@@ -4,12 +4,14 @@ import "moment/locale/ko";
 import {Link} from "react-router-dom";
 import history from "../../../app/containers/history";
 import * as Utils from "../../../app/containers/utils";
+import SideBar from "../main/sideBar";
 
 export interface CalendarProps {
 }
 
 export interface CalendarState {
-    events: any[]
+    events: any[],
+    userList: any[],
 }
 
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
@@ -21,106 +23,81 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     constructor(props?: any) {
         super(props);
         this.state = {
-            // 6 ~ 12
             events: [
-                // {
-                //     startDate: "2021-01-06",
-                //     endDate: "2021-01-07",
-                //     eventTitle: '일정1',
-                // },
-                // {
-                //     startDate: "2021-01-07",
-                //     endDate: "2021-01-09",
-                //     eventTitle: '일정2',
-                // },
-                // {
-                //     startDate: "2021-01-10",
-                //     endDate: "2021-01-13",
-                //     eventTitle: '일정3',
-                // },
-                // {
-                //     startDate: "2021-01-11",
-                //     endDate: "2021-01-13",
-                //     eventTitle: '일정4',
-                // },
-                // {
-                //     startDate: "2021-01-14",
-                //     endDate: "2021-01-16",
-                //     eventTitle: '일정5',
-                // },
-                // {
-                //     startDate: "2021-01-14",
-                //     endDate: "2021-01-15",
-                //     eventTitle: '일정6',
-                // },
-                // {
-                //     startDate: "2021-01-15",
-                //     endDate: "2021-01-16",
-                //     eventTitle: '일정7',
-                // },
-                // {
-                //     startDate: "2021-01-15",
-                //     endDate: "2021-01-16",
-                //     eventTitle: '일정8',
-                // },
-                // {
-                //     startDate: "2021-01-17",
-                //     endDate: "2021-01-20",
-                //     eventTitle: '일정9',
-                // },
-                // {
-                //     startDate: "2021-01-18",
-                //     endDate: "2021-01-20",
-                //     eventTitle: '일정10',
-                // },
                 {
-                    startDate: "2021-01-21",
-                    endDate: "2021-01-23",
-                    eventTitle: '일정11',
+                    startDate: "2021-01-04",
+                    endDate: "2021-01-05",
+                    eventTitle: '일정1',
+                    userId: 0,
+                },
+                {
+                    startDate: "2021-01-05",
+                    endDate: "2021-01-07",
+                    eventTitle: '일정2',
+                    userId: 1,
+                },
+                {
+                    startDate: "2021-01-10",
+                    endDate: "2021-01-13",
+                    eventTitle: '일정3',
+                    userId: 0,
+                },
+                {
+                    startDate: "2021-01-11",
+                    endDate: "2021-01-13",
+                    eventTitle: '일정4',
+                    userId: 2,
+                },
+                {
+                    startDate: "2021-01-13",
+                    endDate: "2021-01-16",
+                    eventTitle: '일정5',
+                    userId: 0,
+                },
+                {
+                    startDate: "2021-01-14",
+                    endDate: "2021-01-15",
+                    eventTitle: '일정6',
+                    userId: 2,
                 },
                 {
                     startDate: "2021-01-21",
-                    endDate: "2021-01-23",
-                    eventTitle: '일정12',
-                },
-                {
-                    startDate: "2021-01-21",
-                    endDate: "2021-01-23",
-                    eventTitle: '일정13',
-                },
-                {
-                    startDate: "2021-01-21",
-                    endDate: "2021-01-23",
-                    eventTitle: '일정14',
-                },
-                {
-                    startDate: "2021-01-21",
-                    endDate: "2021-01-23",
-                    eventTitle: '일정15',
-                },
-                {
-                    startDate: "2021-01-21",
-                    endDate: "2021-01-23",
-                    eventTitle: '일정16',
-                },
-                {
-                    startDate: "2021-01-21",
-                    endDate: "2021-01-23",
+                    endDate: "2021-01-21",
                     eventTitle: '일정17',
+                    userId: 0,
                 },
                 {
                     startDate: "2021-01-24",
                     endDate: "2021-01-26",
                     eventTitle: '일정18',
+                    userId: 1,
                 },
                 {
                     startDate: "2021-01-25",
                     endDate: "2021-01-27",
                     eventTitle: '일정19',
+                    userId: 0,
                 },
             ],
-        };
+            userList: [
+                {
+                    userId: 0,
+                    userName: '사용자1',
+                    userIcon: '/image/user_icon.png',
+                },
+                {
+                    userId: 1,
+                    userName: '사용자2',
+                    userIcon: '/image/user_icon.png',
+                },
+                {
+                    userId: 2,
+                    userName: '사용자3',
+                    userIcon: '/image/user_icon.png',
+                }
 
+            ]
+        };
     }
 
     componentDidMount() {
@@ -129,7 +106,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     componentDidUpdate() {
         let week = localStorage.getItem('currentWeek');
         if (!Utils.isEmpty(week)) {
-            this.handleTimeTable(Number(week));
+            this.handleDetailTable(Number(week));
         }
 
         window.onpopstate = () => {
@@ -143,7 +120,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     const queryString = require("query-string");
                     const parsed = queryString.parse(location.search);
                     let week = parsed.page ? Number(parsed.page) - 1 : "back";
-                    this.handleTimeTable(week);
+                    this.handleDetailTable(week);
                 })
             }
         };
@@ -202,7 +179,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                                 state: this.state,
                                 date: new Date(this.date.getFullYear(), this.date.getMonth(), 1)
                             },
-                        }} onClick={() => this.handleSetTimeTable(week)}>
+                        }} onClick={() => this.handleSetDetailTable(week)}>
                             <span className={'calendar-date'}>{this.date.getDate()}</span>
                             <div className='event-list'>{this.renderCalendarEvent()}</div>
                         </Link>
@@ -291,8 +268,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     }
                     html[position] =
                         <span key={idx} className={`${className} event${idx % 5} ${position >= 4 ? "hide" : ""}`}
-                              onMouseEnter={() => this.handleCalendarHover(`event${idx}`, true)}
-                              onMouseLeave={() => this.handleCalendarHover(`event${idx}`, false)}>{eventTitle}</span>;
+                              onMouseEnter={(e) => this.handleCalendarHover(e, event, true)}
+                              onMouseLeave={(e) => this.handleCalendarHover(e, event, false)}>{eventTitle}</span>;
                 } else if (event.endDate === date) {
                     className = 'end'
                     if (this.date.getDay() === 0) {
@@ -341,34 +318,47 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
             this.date = new Date(this.date.getFullYear(), this.date.getMonth() - 1, 1);
         } else if (type === "next") {
             this.date = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 1);
+        } else if (type === "today") {
+            localStorage.removeItem('currentWeek');
+            this.date = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
         } else return;
 
         this.setState({})
     }
 
-    handleCalendarHover = (className: string, flag: boolean) => {
-        let name = '.' + className;
-        const el = document.querySelectorAll<HTMLElement>(name);
+    handleCalendarHover = (e: any, event: any, flag: boolean) => {
+        const {userList, events} = this.state;
+        let userName = '';
+        let userIcon = '';
+        const tooltip = document.querySelector<HTMLElement>(".event-tooltip")
+        if (flag && e.target && tooltip !== null) {
+            tooltip.className = 'event-tooltip active';
+            tooltip.style.left = `${e.pageX + 30}px`;
+            tooltip.style.top = `${e.pageY}px`;
 
-        // if (flag) {
-        //     // let classColor = Number(className.split('event')[1]) % 5;
-        //     for (let i = 0; i < el.length; i++) {
-        //             el[i].style.opacity = '.8';
-        //     }
-        // } else {
-        //     for (let i = 0; i < el.length; i++) {
-        //         el[i].style.opacity = '1';
-        //     }
-        // }
+            for (let i = 0; i < userList.length; i++) {
+                if (Number(userList[i].userId) === event.userId) {
+                    userName = userList[i].userName;
+                    userIcon = userList[i].userIcon;
+                }
+            }
+            // tooltip.childNodes[0] = (<div> </div>); //user icon
+            tooltip.childNodes[1].textContent = `${userName}`
+            tooltip.childNodes[2].textContent = `${event.eventTitle}`
+            tooltip.childNodes[3].textContent = `${event.startDate} ~ ${event.endDate}`
+        } else if (!flag && e.target && tooltip !== null) {
+            tooltip.className = 'event-tooltip passive';
+        }
     }
 
-    handleSetTimeTable = (week: any) => {
+    handleSetDetailTable = (week: any) => {
         localStorage.setItem('currentWeek', week);
         localStorage.setItem('currentState', JSON.stringify(this.state));
         this.date = new Date(this.date.getFullYear(), this.date.getMonth(), 1);
+
     }
 
-    handleTimeTable = (week?: any) => {
+    handleDetailTable = (week?: any) => {
         const selectWeek = document.querySelectorAll<HTMLElement>('.calendar tbody tr'); // 달력 week
         this.date = new Date(this.date.getFullYear(), this.date.getMonth(), 1);
 
@@ -380,6 +370,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                 }
             }
             localStorage.removeItem('currentWeek');
+
         } else {
             for (let i = 0; i <= selectWeek.length; i++) {
                 if (!Utils.isEmpty(selectWeek[i])) {
@@ -393,22 +384,35 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         }
     }
 
+    handleGoToTimeTable = () => {
+        history.push({
+            pathname: "/table",
+            search: ``,
+        })
+    }
+
     render() {
         let tempDate = Utils.convertDateMonthToString(new Date());
         let preFlag = tempDate !== Utils.convertDateMonthToString(this.curDate);
 
         return (
             <div className="wrapper">
+                <SideBar />
                 <div className="date-wrap main">
                     <div className="select-date">
-                        <span className={"back"} onClick={() => Utils.handleHistoryBack()}>돌아가기</span>
-                        <span className={"pre " + (preFlag ? "" : "op")}
-                              onClick={() => this.handleCalendar(preFlag ? "pre" : "pre")}>이전{" "}</span>
                         <h2 className="date">
-                            {this.curDate === null ? "" : `${this.date.getFullYear()}.${this.date.getMonth() + 1}`}
+                            {this.curDate === null ? "" : `${this.date.getFullYear()}년 ${this.date.getMonth() + 1}월`}
                         </h2>
-                        <span className={"next "} onClick={() => this.handleCalendar("next")}>다음</span>
+                        {/*<span className={"back"} onClick={() => Utils.handleHistoryBack()}>돌아가기</span>*/}
+                        <span className={"pre " + (preFlag ? "" : "op")}
+                              onClick={() => this.handleCalendar(preFlag ? "pre" : "pre")}>&lt;</span>
+                        <span className={"current-month"} onClick={() => this.handleCalendar("today")}>오늘</span>
+
+                        <span className={"next "} onClick={() => this.handleCalendar("next")}>&gt;</span>
+                        <div className={"create-event-btn"} onClick={this.handleGoToTimeTable}>일정 생성</div>
                     </div>
+
+
                     <table className="calendar main">
                         <tbody>
                         <tr>
@@ -424,9 +428,16 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                         </tbody>
                     </table>
                 </div>
+                <div className={"event-tooltip"}>
+                    <img src={'/image/user_icon.png'}/>
+                    <span className={"event-user"}>이름</span>
+                    <span className={"event-title"}> 내용</span>
+                    <span className={"event-date"}>기간~기간</span>
+                </div>
             </div>
         );
     }
+
 }
 
 export default Calendar;
