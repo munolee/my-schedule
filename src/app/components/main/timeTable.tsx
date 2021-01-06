@@ -2,7 +2,7 @@ import React from "react";
 import history from "../../../app/containers/history";
 import * as Utils from "../../../app/containers/utils";
 import moment from "moment";
-import SideBar from "../main/sideBar";
+import Header from "../common/header";
 
 
 export interface TimeTableProps {
@@ -64,14 +64,15 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
         let theDate = currentDay.getDate();
         let theDayOfWeek = currentDay.getDay();
         let thisWeek = [];
-        const dayArr = ['일', '월', '화', '수', '목', '금', '토'];
         let firstDate = '';
         let lastDate = '';
+        const dayArr = ['일', '월', '화', '수', '목', '금', '토'];
 
         for (let i = 0; i < 7; i++) {
             let resultDay = new Date(theYear, theMonth, theDate + (i - theDayOfWeek));
             if (i === 0) firstDate = resultDay.getMonth() + 1 + '.' + resultDay.getDate();
             else if (i === 6) lastDate = resultDay.getMonth() + 1 + '.' + resultDay.getDate();
+            localStorage.setItem('yearMatch', (new Date).getFullYear() === this.date.getFullYear() ? "true" : "false");
             thisWeek[i] = resultDay.getMonth() + 1 + '월 ' + resultDay.getDate() + '일 (' + dayArr[resultDay.getDay()] + ')';
         }
         this.setState({
@@ -96,12 +97,12 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
     }
 
     handleCalendar = (type: string) => {
-        console.log(type)
         if (type === "pre") {
             this.date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() - 7);
         } else if (type === "next") {
             this.date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() + 7);
         } else if (type === "today") {
+            this.handleClickCell('init');
             this.date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
         } else return;
 
@@ -111,14 +112,18 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
 
     renderTimeTable = () => {
         const {weekDate} = this.state;
-        // let data = new Date(weekDate);
         let html: any[] = [];
+        let yearMatch = localStorage.getItem('yearMatch');
+        let today = `${(new Date).getMonth() + 1}월 ${(new Date).getDate()}일`;
         weekDate.map((date, idx) => {
                 //1월 4일 (화)
                 html.push(
-                    <tr className={`date${idx}`} key={idx} onClick={() => this.handleClickCell(idx)}>
-                        <td>{date}</td>
-                        <td> 오전 10:00 ~ 오후 06:00</td>
+                    <tr className={yearMatch === "true" && date.split(' (')[0] === today ? `date${idx} active` : `date${idx}`}
+                        key={idx} onClick={() => this.handleClickCell(idx)}>
+                        <td>{date}
+                            {yearMatch === "true" && date.split(' (')[0] === today &&
+                            <span className="today">오늘</span>}</td>
+                        <td>{this.renderTimeTableCell(idx)}</td>
                     </tr>
                 )
             }
@@ -127,6 +132,24 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
         return html;
     }
 
+    renderTimeTableCell = (index: number) => {
+        let html: any[] = [];
+        if (index !== 0 && index !== 6) {
+
+            html.push(
+                <span className="work-time" key={Math.random()}>
+                    <span className="working">근무</span>
+                    오전 10:00 ~ 오후 06:00 </span>
+            )
+        } else {
+            html.push(
+                <span className="work-time weekend" key={Math.random()}>주말</span>
+            )
+        }
+
+
+        return html;
+    }
 
     render() {
         let tempDate = Utils.convertDateMonthToString(new Date());
@@ -135,7 +158,7 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
 
         return (
             <div className="wrapper">
-                <SideBar/>
+                <Header/>
                 <div className="date-wrap time-table-wrap">
                     <div className="select-date">
                         <div className="date-label">

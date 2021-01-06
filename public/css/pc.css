@@ -26,10 +26,12 @@ body {
 
 .wrapper {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    margin: 0;
-    padding: 20px 25px 25px 0;
+    margin: 0 auto;
+    padding: 0;
     /*background: #f9f8f7;*/
-    height: 100%;
+    /*width: 1280px;*/
+    /*height: 100%;*/
+    text-align: center;
     -ms-user-select: none;
     -khtml-user-select: none;
     -webkit-user-select: none;
@@ -42,7 +44,7 @@ body {
 }
 
 .date-wrap {
-    width: 79%;
+    /*width: 79%;*/
     position: relative;
     display: inline-block;
 }
@@ -119,7 +121,7 @@ body {
 
 .select-date h2 {
     font-family: 'SCDream7';
-    font-size: 35px;
+    font-size: 30px;
     font-weight: 500;
     margin: 0 5px;
     position: absolute;
@@ -139,13 +141,22 @@ body {
     background: #fff;
 }
 
+.select-date span.pre {
+    border-radius: 5px 0 0 5px;
+}
+
+.select-date span.next {
+    border-radius: 0 5px 5px 0;
+}
+
 .select-date .back {
     left: 0;
     position: absolute;
 }
 
 .calendar {
-    width: 100%;
+    /*width: 100%;*/
+    width: 800px;
     height: 85vh;
     border-spacing: 0;
     border-radius: 5px;
@@ -209,8 +220,8 @@ body {
 
 .calendar tr:first-of-type th {
     /*border-top: solid 1px #555;*/
-    border-right: solid 1px #ddd;
-    border-bottom: solid 1px #ddd;
+    border-right: solid 1px #e9e9e9;
+    border-bottom: solid 1px #e9e9e9;
 }
 
 .calendar tr:last-of-type th {
@@ -233,8 +244,8 @@ body {
     font-size: 12px;
     color: #4f4f4f;
     font-weight: 500;
-    border-right: solid 1px #ddd;
-    border-bottom: solid 1px #ddd;
+    border-right: solid 1px #e9e9e9;
+    border-bottom: solid 1px #e9e9e9;
     width: 14.285%;
     height: 120px;
     /*transition: 1s all;*/
@@ -407,16 +418,16 @@ body {
     display: inline-block;
     position: absolute;
     top: 0;
-    right: 5%;
+    right: 0;
     font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 500;
-    font-size: 18px;
+    font-weight: 700;
+    font-size: 16px;
     text-align: center;
-    background: #666666;
+    background: #ff7272;
     color: #ffffff;
     margin: 0;
-    padding: 5px;
-    border-radius: 5px;
+    padding: 8px 12px 8px 12px;
+    border-radius: 30px;
 }
 
 .create-event-btn:hover {
@@ -476,14 +487,7 @@ body {
     background: #e9e9e9;
 }
 
-/* ************ 타임테이블 *********** */
-
-.time-table-wrap {
-    width: 79%;
-    border-radius: 5px;
-}
-
-.time-table-wrap .select-date .date-label {
+.select-date .date-label {
     position: absolute;
     font-family: 'SCDream7';
     font-size: 30px;
@@ -494,34 +498,47 @@ body {
     display: inline-block;
 }
 
-.time-table-wrap .select-date .date-label .date-main {
+.select-date .date-label .date-main {
     display: inline-block;
 }
 
-.time-table-wrap .select-date .date-label h2 {
+.select-date .date-label h2 {
     display: inline;
     position: relative;
 }
 
-.time-table-wrap .select-date .date-label .date-sub {
+.select-date .date-label .date-sub {
     display: inline-block;
 }
 
-.time-table-wrap .select-date .date-label h4 {
+.select-date .date-label .date-sub.year h4 {
+    font-size: 20px;
+}
+
+.select-date .date-label h4 {
     display: block;
     position: relative;
-    font-size: 13px;
+    font-size: 12px;
     margin: 0 5px;
     padding: 0 10px;
     border-left: 1px solid #ddd;
+    text-align: left;
 }
+
+/* ************ 타임테이블 *********** */
+
+/*.time-table-wrap {*/
+/*    width: 100%;*/
+/*    border-radius: 5px;*/
+/*}*/
 
 .time-table {
     font-family: 'SCDream7';
     font-size: 15px;
     font-weight: 500;
     background: #fff;
-    width: 100%;
+    width: 800px;
+    /*width: 100%;*/
     /*height: 70vh;*/
     border-spacing: 0;
     border-radius: 5px;
@@ -532,6 +549,9 @@ body {
     /*background: #e9e9e9;*/
 }
 
+/*.time-table tr:nth-child(2) {*/
+/*    background: #e9e9e9;*/
+/*}*/
 .time-table tr:first-of-type:hover {
     box-shadow: none;
 }
@@ -557,7 +577,7 @@ body {
 }
 
 .time-table tr td:first-of-type {
-    width: 14.285%;
+    width: 18%;
 }
 
 .time-table tr td {
@@ -569,13 +589,50 @@ body {
     border-bottom: solid 1px #e9e9e9;
 }
 
+.time-table tr td span.today {
+    font-size: 13px;
+    font-weight: 500;
+    color: #698bb8;
+    position: absolute;
+    margin-left: 5px;
+    border-radius: 5px;
+    background: #f0f3f7;
+    padding: 3px;
+}
+
+
+.time-table tr.active {
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+}
 
 .time-table tr.active td {
     color: #111;
     height: 200px;
 }
 
+.time-table tr td .work-time {
+    float: left;
+    margin-left: 150px;
+    color: #111;
+}
 
+.time-table tr td .work-time .working {
+    padding: 3px;
+    color: #f75f2a;
+    font-size: 12px;
+    background: #fef0ec;
+    border-radius: 5px;
+    margin-right: 15px;
+}
+
+.time-table tr td .work-time.weekend {
+    padding: 3px;
+    color: #72717b;
+    font-size: 12px;
+    background: #f0f0f1;
+    border-radius: 5px;
+    opacity: .8;
+}
 
 /* ************ 사이드바 *********** */
 
@@ -607,5 +664,41 @@ body {
 }
 
 .side-bar .side-bar-list .list-menu a:hover {
+    color: #999999;
+}
+
+/* ************ 헤더 *********** */
+
+.header {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 50px;
+    background: #ffffff;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+.header .header-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.header .header-list .list-menu {
+    padding: 10px;
+
+    display: inline;
+
+}
+
+.header .header-list .list-menu a {
+    font-family: 'SCDream7';
+    font-size: 17px;
+    font-weight: 500;
+    color: #666666;
+    text-decoration: none;
+}
+
+.header .header-list .list-menu a:hover {
     color: #999999;
 }

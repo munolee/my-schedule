@@ -88,7 +88,7 @@ export function iosDevice(functionName: string) {
  * @param value : Object Value
  */
 export function englishNumberCheck(value: string) {
-    let regExp =  /^[a-z0-9+]*$/;
+    let regExp = /^[a-z0-9+]*$/;
     return regExp.test(value);
 }
 
@@ -155,7 +155,7 @@ export function phoneCheck(value: string) {
  */
 export function isNumber(value: string) {
     let flag = false;
-    let regExp =  /^[0-9,]*$/;
+    let regExp = /^[0-9,]*$/;
     flag = regExp.test(value);
     if (regExp.test(value)) {
         flag = !value.includes(",")
@@ -171,7 +171,7 @@ export function isNumber(value: string) {
  * @param value : Object Value
  */
 export function isAmount(value: string) {
-    let regExp =  /^[0-9,]*$/;
+    let regExp = /^[0-9,]*$/;
     return regExp.test(value);
 }
 
@@ -253,7 +253,7 @@ export function phoneFormat(phone: string) {
     return phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
 }
 
-export function splitSpaceOrNewLine(text: string)  {
+export function splitSpaceOrNewLine(text: string) {
     return String(text).split(/[\0\s]+/g).filter(Boolean);
 }
 
@@ -325,7 +325,7 @@ export function handlePopup(i: any, data: any) {
         if (data.type === 'logout') { //# 로그아웃
             i.logoutApi();
         }
-        if (data.type ==='historyBack') {
+        if (data.type === 'historyBack') {
             handleHistoryBack();
         }
     }
@@ -453,6 +453,16 @@ export function weeks(year: number, month: number) {
 }
 
 /**
+ * Calendar Weeks length
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+export function lastWeek(date: any) {
+    let lastDate = new Date(date.getFullYear(), date.getMonth(), 0);
+
+    return Math.ceil(lastDate.getDate() / 7);
+}
+
+/**
  * Adjust Action Check
  * ---------------------------------------------------------------------------------------------------------------------
  */
@@ -465,30 +475,6 @@ export function adjustType(value: string) {
             value: value
         };
         const iosHandler = iosDevice('adjustType');
-        iosHandler.postMessage(iosData);
-    }
-}
-
-/**
- * Share CommunityContent
- * ---------------------------------------------------------------------------------------------------------------------
- */
-export function shareCommunityContent(selectPosition: number, id: number, category: string, title: string, tag: string) {
-    let content = '혹시 간병인이세요? 간병일을 하실 때 도움이 되는 간병 콘텐츠가 업로드되었습니다! 지금 바로 케어네이션 앱에서 확인하시고, 더 편하게 간병일하세요~!\n\n컨텐츠 URL :';
-
-    if (osCheck() === 'android') {
-        const androidHandler = androidDevice();
-        androidHandler.shareCommunity(selectPosition, id, category, title, tag, content);
-    } else if (osCheck() === 'ios') {
-        let iosData = {
-            selectPosition: selectPosition,
-            id: id,
-            category: category,
-            title: title,
-            tag: tag,
-            content: content
-        };
-        const iosHandler = iosDevice('shareCommunity');
         iosHandler.postMessage(iosData);
     }
 }

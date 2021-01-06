@@ -23,7 +23,7 @@ export class SideBar extends React.Component<SideBarProps, SideBarState> {
             <div className="side-bar">
                 <ul className="side-bar-list">
                     {/*<li className="list-menu"><Link to={'/'}>홈</Link></li>*/}
-                    <li className="list-menu"><Link to={'/calendar'}>일정확인</Link></li>
+                    <li className="list-menu"><Link to={'/calendar'}>일정 확인</Link></li>
                     <li className="list-menu"><Link to={'/table'}>근무&middot;휴가</Link></li>
                 </ul>
             </div>

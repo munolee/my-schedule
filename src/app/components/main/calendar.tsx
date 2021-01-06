@@ -4,7 +4,7 @@ import "moment/locale/ko";
 import {Link} from "react-router-dom";
 import history from "../../../app/containers/history";
 import * as Utils from "../../../app/containers/utils";
-import SideBar from "../main/sideBar";
+import Header from "../common/header";
 
 export interface CalendarProps {
 }
@@ -22,6 +22,44 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
     constructor(props?: any) {
         super(props);
+        const location: any = history.location;
+        const queryString = require("query-string");
+        const parsed = queryString.parse(location.search);
+
+        let currentYear = this.date.getFullYear();
+        let currentMonth: number | string = this.date.getMonth() + 1;
+        currentMonth = currentMonth >= 10 ? currentMonth : '0' + currentMonth;
+
+        if (!Utils.isEmpty(location.search)) {
+            if (!Utils.isEmpty(parsed.date) && Utils.isEmpty(parsed.week)) {
+                let year = parsed.date.slice(0, 4);
+                let month = parsed.date.slice(4, 7);
+                this.date = new Date(Number(year), Number(month) - 1, 1);
+            } else if (!Utils.isEmpty(parsed.date) && !Utils.isEmpty(parsed.week)) {
+                let year = parsed.date.slice(0, 4);
+                let month = parsed.date.slice(4, 7);
+                this.date = new Date(Number(year), Number(month) - 1, 1);
+                if (Number(Utils.lastWeek(this.date)) < Number(parsed.week)) {
+                    history.push({
+                        pathname: '/calendar',
+                        search: `date=${String(parsed.date)}`,
+                    })
+                } else {
+                    this.handleDetailTable(Number(parsed.week));
+                    history.push({
+                        pathname: '/calendar',
+                        search: `date=${String(parsed.date)}&week=${Number(parsed.week)}`,
+                    })
+                    localStorage.setItem('currentWeek', parsed.week);
+                }
+
+            } else if (Utils.isEmpty(parsed.date) && Utils.isEmpty(parsed.week)) {
+                history.push({
+                    pathname: '/calendar',
+                    search: `date=${String(currentYear) + String(currentMonth)}`,
+                })
+            }
+        }
         this.state = {
             events: [
                 {
@@ -96,16 +134,21 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     userIcon: '/image/user_icon.png',
                 }
 
-            ]
+            ],
         };
+
     }
 
     componentDidMount() {
     }
 
     componentDidUpdate() {
+        const location: any = history.location;
+        const queryString = require("query-string");
+        const parsed = queryString.parse(location.search);
+
         let week = localStorage.getItem('currentWeek');
-        if (!Utils.isEmpty(week)) {
+        if (!Utils.isEmpty(week) || !Utils.isEmpty(parsed.week)) {
             this.handleDetailTable(Number(week));
         }
 
@@ -123,8 +166,12 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     this.handleDetailTable(week);
                 })
             }
+            if (!Utils.isEmpty(parsed.week)) {
+                this.handleDetailTable(Number(parsed.week));
+            }
+
         };
-        // 새로고침시
+
     }
 
     renderCalendar = () => {
@@ -166,6 +213,13 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     </td>
                 );
             } else { // 1일부터 말일까지 그리기
+                const location: any = history.location;
+                const queryString = require("query-string");
+                const parsed = queryString.parse(location.search);
+                if (!Utils.isEmpty(location.search) && !Utils.isEmpty(parsed.date)) {
+                    year = parsed.date.slice(0, 4);
+                    month = parsed.date.slice(4, 6);
+                }
                 let date = Utils.convertDateToString(this.date);
                 if (date === Utils.convertDateToString(new Date())) {
                     className = 'today';
@@ -174,7 +228,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     <td key={Math.random()} className={className}>
                         <Link to={{
                             pathname: "/calendar",
-                            search: `page=${week + 1}`,
+                            search: `date=${String(year)}${String(month)}&week=${week}`,
                             state: {
                                 state: this.state,
                                 date: new Date(this.date.getFullYear(), this.date.getMonth(), 1)
@@ -314,15 +368,81 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     }
 
     handleCalendar = (type: string) => {
-        if (type === "pre") {
-            this.date = new Date(this.date.getFullYear(), this.date.getMonth() - 1, 1);
-        } else if (type === "next") {
-            this.date = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 1);
-        } else if (type === "today") {
-            localStorage.removeItem('currentWeek');
-            this.date = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-        } else return;
+        const location: any = history.location;
+        const queryString = require("query-string");
+        const parsed = queryString.parse(location.search);
 
+        if (Utils.isEmpty(parsed.week) && parsed.week === undefined) { // 메인 캘린더
+            if (type === "pre") {
+                this.date = new Date(this.date.getFullYear(), this.date.getMonth() - 1, 1);
+            } else if (type === "next") {
+                this.date = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 1);
+            } else if (type === "today") {
+                localStorage.removeItem('currentWeek');
+                this.date = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+            } else return;
+
+            let currentYear = this.date.getFullYear();
+            let currentMonth: number | string = this.date.getMonth() + 1;
+            currentMonth = currentMonth >= 10 ? currentMonth : '0' + currentMonth;
+            history.push({
+                pathname: '/calendar',
+                search: `date=${String(currentYear)}${String(currentMonth)}`
+            })
+        } else if (!Utils.isEmpty(parsed.week)) {
+            if (type === "pre") {
+                if (localStorage.getItem("currentWeek") === '0') {
+                    this.date = new Date(this.date.getFullYear(), this.date.getMonth(), 0);
+                    let currentYear = this.date.getFullYear();
+                    let currentMonth: number | string = this.date.getMonth() + 1;
+                    currentMonth = currentMonth >= 10 ? currentMonth : '0' + currentMonth;
+                    history.push({
+                        pathname: '/calendar',
+                        search: `date=${String(currentYear)}${String(currentMonth)}&week=${String(Utils.lastWeek(this.date))}`
+                    })
+                    localStorage.setItem('currentWeek', String(Number(Utils.lastWeek(this.date)) - 1));
+                } else {
+                    let currentYear = this.date.getFullYear();
+                    let currentMonth: number | string = this.date.getMonth() + 1;
+                    currentMonth = currentMonth >= 10 ? currentMonth : '0' + currentMonth;
+                    history.push({
+                        pathname: '/calendar',
+                        search: `date=${String(currentYear)}${String(currentMonth)}&week=${String(Number(parsed.week) - 1)}`
+                    })
+                    localStorage.setItem('currentWeek', String(Number(parsed.week) - 1));
+                }
+            } else if (type === "next") {
+                if (localStorage.getItem("currentWeek") === String(Number(Utils.lastWeek(this.date)) - 1)) {
+                    this.date = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 1);
+                    let currentYear = this.date.getFullYear();
+                    let currentMonth: number | string = this.date.getMonth() + 1;
+                    currentMonth = currentMonth >= 10 ? currentMonth : '0' + currentMonth;
+                    history.push({
+                        pathname: '/calendar',
+                        search: `date=${String(currentYear)}${String(currentMonth)}&week=${'0'}`
+                    })
+                    localStorage.setItem('currentWeek', '0');
+                } else {
+                    let currentYear = this.date.getFullYear();
+                    let currentMonth: number | string = this.date.getMonth() + 1;
+                    currentMonth = currentMonth >= 10 ? currentMonth : '0' + currentMonth;
+                    history.push({
+                        pathname: '/calendar',
+                        search: `date=${String(currentYear)}${String(currentMonth)}&week=${String(Number(parsed.week) + 1)}`
+                    })
+                    localStorage.setItem('currentWeek', String(Number(parsed.week) + 1));
+                }
+            } else if (type === "today") {
+                this.date = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+                let currentYear = this.date.getFullYear();
+                let currentMonth: number | string = this.date.getMonth() + 1;
+                currentMonth = currentMonth >= 10 ? currentMonth : '0' + currentMonth;
+                history.push({
+                    pathname: '/calendar',
+                    search: `date=${String(currentYear)}${String(currentMonth)}`
+                })
+            } else return;
+        }
         this.setState({})
     }
 
@@ -359,25 +479,30 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     }
 
     handleDetailTable = (week?: any) => {
+        const location: any = history.location;
+        const queryString = require("query-string");
+        const parsed = queryString.parse(location.search);
         const selectWeek = document.querySelectorAll<HTMLElement>('.calendar tbody tr'); // 달력 week
         this.date = new Date(this.date.getFullYear(), this.date.getMonth(), 1);
 
-        if (week === 'back') {
-            for (let i = 0; i <= selectWeek.length; i++) {
-                if (!Utils.isEmpty(selectWeek[i])) {
-                    selectWeek[i].classList.remove('passive');
-                    selectWeek[i].classList.remove('active');
+        if (!Utils.isEmpty(location.search) && !Utils.isEmpty(parsed.week)) {
+            if (week === 'back') {
+                for (let i = 0; i <= selectWeek.length; i++) {
+                    if (!Utils.isEmpty(selectWeek[i])) {
+                        selectWeek[i].classList.remove('passive');
+                        selectWeek[i].classList.remove('active');
+                    }
                 }
-            }
-            localStorage.removeItem('currentWeek');
+                localStorage.removeItem('currentWeek');
 
-        } else {
-            for (let i = 0; i <= selectWeek.length; i++) {
-                if (!Utils.isEmpty(selectWeek[i])) {
-                    if (week + 1 !== i && i !== 0) {
-                        selectWeek[i].className = 'passive';
-                    } else {
-                        selectWeek[week + 1].className = 'active';
+            } else {
+                for (let i = 0; i <= selectWeek.length; i++) {
+                    if (!Utils.isEmpty(selectWeek[i])) {
+                        if (week + 1 !== i && i !== 0) {
+                            selectWeek[i].className = 'passive';
+                        } else {
+                            selectWeek[week + 1].className = 'active';
+                        }
                     }
                 }
             }
@@ -394,22 +519,59 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     render() {
         let tempDate = Utils.convertDateMonthToString(new Date());
         let preFlag = tempDate !== Utils.convertDateMonthToString(this.curDate);
+        const location: any = history.location;
+        const queryString = require("query-string");
+        const parsed = queryString.parse(location.search);
 
         return (
             <div className="wrapper">
-                <SideBar />
+                <Header/>
                 <div className="date-wrap main">
                     <div className="select-date">
-                        <h2 className="date">
-                            {this.curDate === null ? "" : `${this.date.getFullYear()}년 ${this.date.getMonth() + 1}월`}
-                        </h2>
+                        <div className="date-label">
+                            {
+                                Utils.isEmpty(parsed.week) &&
+                                <>
+                                <span className="date-main">
+                            <h2>
+                                {this.curDate === null ? "" : `${this.date.getMonth() + 1}월`}
+                            </h2>
+                            </span>
+                                    <span className={"date-sub year"}>
+                                <h4>
+                            {this.curDate === null ? "" : `${this.date.getFullYear()}년`}
+                                </h4>
+                                </span>
+                                </>
+                            }
+
+                            {!Utils.isEmpty((parsed.week)) &&
+                            <>
+                                <span className="date-main">
+                            <h2>
+                                {this.curDate === null ? "" : `${this.date.getMonth() + 1}월`}
+                            </h2>
+                            </span>
+                                <span className={"date-sub"}>
+                                <h4>
+                            {this.curDate === null ? "" : `${this.date.getFullYear()}년`}
+                                </h4>
+                                <h4>
+                            {Number(localStorage.getItem("currentWeek")) + 1}주차
+                                </h4>
+                                </span>
+
+                            </>
+                            }
+                        </div>
+
                         {/*<span className={"back"} onClick={() => Utils.handleHistoryBack()}>돌아가기</span>*/}
                         <span className={"pre " + (preFlag ? "" : "op")}
                               onClick={() => this.handleCalendar(preFlag ? "pre" : "pre")}>&lt;</span>
                         <span className={"current-month"} onClick={() => this.handleCalendar("today")}>오늘</span>
 
                         <span className={"next "} onClick={() => this.handleCalendar("next")}>&gt;</span>
-                        <div className={"create-event-btn"} onClick={this.handleGoToTimeTable}>일정 생성</div>
+                        <div className={"create-event-btn"} onClick={this.handleGoToTimeTable}>내 일정</div>
                     </div>
 
 
