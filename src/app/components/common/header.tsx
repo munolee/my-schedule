@@ -8,7 +8,7 @@ export interface HeaderState {
 }
 
 export class Header extends React.Component<HeaderProps, HeaderState> {
-    private date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+    private currentDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
 
     constructor(props?: any) {
         super(props);
@@ -16,9 +16,11 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
     }
 
     render() {
-        let currentYear = this.date.getFullYear();
-        let currentMonth: number | string = this.date.getMonth() + 1;
-        currentMonth = currentMonth >= 10 ? currentMonth : '0' + currentMonth; // month 두자리로 저장
+        let currentYear = this.currentDate.getFullYear();
+        let currentMonth: number | string = this.currentDate.getMonth() + 1;
+        currentMonth = currentMonth >= 10 ? currentMonth : '0' + currentMonth;
+        let currentDate: number | string = new Date().getDate();
+        currentDate = currentDate >= 10 ? currentDate : '0' + currentDate;
 
         return (
             <div className="header">
@@ -26,14 +28,17 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
                     {/*<li className="list-menu"><Link to={'/'}>홈</Link></li>*/}
                     <li className="list-menu"><Link to={{
                         pathname: "/calendar",
-                        search: `date=${String(currentYear) + currentMonth}`,
+                        search: `date=${String(currentYear)}${String(currentMonth)}`,
                         state: {
                             state: this.state,
-                            date: new Date(this.date.getFullYear(), this.date.getMonth(), 1)
+                            date: new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1)
                         },
                     }}
                     >일정 확인</Link></li>
-                    <li className="list-menu"><Link to={'/table'}>근무&middot;휴가</Link></li>
+                    <li className="list-menu"><Link to={{
+                        pathname: '/table',
+                        search: `date=${String(currentYear)}${String(currentMonth)}${String(currentDate)}`
+                    }}>근무&middot;휴가</Link></li>
                 </ul>
             </div>
         );

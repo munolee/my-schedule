@@ -1,7 +1,6 @@
 import React from "react";
 import history from "../../../app/containers/history";
 import * as Utils from "../../../app/containers/utils";
-import moment from "moment";
 import Header from "../common/header";
 
 
@@ -17,18 +16,21 @@ export interface TimeTableState {
 }
 
 export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
-    private curDate: any = moment(new Date());
-    private date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()); // 로컬 스토리지
+    private currentDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()); // 로컬 스토리지
 
     constructor(props?: any) {
         super(props);
-        // const location: any = history.location;
-        // const queryString = require("query-string");
-        // const parsed = queryString.parse(location.search);
-        //
-        // if (!Utils.isEmpty(location)) {
-        // console.log(parsed.date);
-        // }
+        const location: any = history.location;
+        const queryString = require("query-string");
+        const parsed = queryString.parse(location.search);
+
+        if (!Utils.isEmpty(location.search) && !Utils.isEmpty(parsed.date)) {
+            let year = parsed.date.slice(0, 4);
+            let month = parsed.date.slice(4, 6);
+            let date = parsed.date.slice(6, 8);
+            this.currentDate = new Date(year, month - 1, date);
+            console.log(this.currentDate);
+        }
 
         this.state = {
             weekDate: [],
@@ -58,7 +60,7 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
     }
 
     handleSetTime = () => {
-        let currentDay = this.date;
+        let currentDay = this.currentDate;
         let theYear = currentDay.getFullYear();
         let theMonth = currentDay.getMonth();
         let theDate = currentDay.getDate();
@@ -72,7 +74,7 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
             let resultDay = new Date(theYear, theMonth, theDate + (i - theDayOfWeek));
             if (i === 0) firstDate = resultDay.getMonth() + 1 + '.' + resultDay.getDate();
             else if (i === 6) lastDate = resultDay.getMonth() + 1 + '.' + resultDay.getDate();
-            localStorage.setItem('yearMatch', (new Date).getFullYear() === this.date.getFullYear() ? "true" : "false");
+            localStorage.setItem('yearMatch', (new Date).getFullYear() === this.currentDate.getFullYear() ? "true" : "false");
             thisWeek[i] = resultDay.getMonth() + 1 + '월 ' + resultDay.getDate() + '일 (' + dayArr[resultDay.getDay()] + ')';
         }
         this.setState({
@@ -98,13 +100,23 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
 
     handleCalendar = (type: string) => {
         if (type === "pre") {
-            this.date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() - 7);
+            this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() - 7);
         } else if (type === "next") {
-            this.date = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() + 7);
+            this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() + 7);
         } else if (type === "today") {
             this.handleClickCell('init');
-            this.date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+            this.currentDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
         } else return;
+
+        let currentYear = this.currentDate.getFullYear();
+        let currentMonth: number | string = this.currentDate.getMonth() + 1;
+        currentMonth = currentMonth >= 10 ? currentMonth : '0' + currentMonth;
+        let currentDate: number | string = this.currentDate.getDate();
+        currentDate = currentDate >= 10 ? currentDate : '0' + currentDate;
+        history.push({
+            pathname: '/table',
+            search: `date=${currentYear}${currentMonth}${currentDate}`
+        })
 
         this.setState({})
         this.handleSetTime();
@@ -153,7 +165,7 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
 
     render() {
         let tempDate = Utils.convertDateMonthToString(new Date());
-        let preFlag = tempDate !== Utils.convertDateMonthToString(this.curDate);
+        let preFlag = tempDate !== Utils.convertDateMonthToString(this.currentDate);
         const {weekDate, firstDate, lastDate} = this.state;
 
         return (
@@ -164,12 +176,12 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
                         <div className="date-label">
                             <span className="date-main">
                             <h2>
-                                {this.curDate === null ? "" : `${this.date.getMonth() + 1}월`}
+                                {this.currentDate === null ? "" : `${this.currentDate.getMonth() + 1}월`}
                             </h2>
                             </span>
                             <span className={"date-sub"}>
                                  <h4>
-                                {this.curDate === null ? "" : `${this.date.getFullYear()}년`}
+                                {this.currentDate === null ? "" : `${this.currentDate.getFullYear()}년`}
                             </h4>
                             <h4>
                                 {weekDate === null ? "" : `${firstDate}  ~ ${lastDate}`}

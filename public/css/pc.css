@@ -169,9 +169,12 @@ body {
     height: 0;
     /*transition: .6s all;*/
 }
-
 .calendar tr.active {
     height: 450px;
+}
+
+.calendar tr.active span{
+    height: 30px !important;
 }
 
 .calendar tr.active span.hide {
@@ -182,9 +185,10 @@ body {
     display: none !important;
 }
 
-.calendar tr.active span.show-title {
-    color: #ffffff !important;
-    font-weight: 700;
+
+.calendar tr.active div.event-list{
+    position: absolute;
+    top: 50px;
 }
 
 .calendar tr.passive {
