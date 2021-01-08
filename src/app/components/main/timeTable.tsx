@@ -12,7 +12,6 @@ export interface TimeTableState {
     events: any[],
     firstDate: string,
     lastDate: string,
-
 }
 
 export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
@@ -29,7 +28,6 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
             let month = parsed.date.slice(4, 6);
             let date = parsed.date.slice(6, 8);
             this.currentDate = new Date(year, month - 1, date);
-            console.log(this.currentDate);
         }
 
         this.state = {
@@ -57,6 +55,21 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
     }
 
     componentDidUpdate() {
+        const location: any = history.location;
+        const queryString = require("query-string");
+        const parsed = queryString.parse(location.search);
+
+        window.onpopstate = () => {
+            localStorage.setItem('currentPage', 'table');
+
+            if (!Utils.isEmpty(location.search) && !Utils.isEmpty(parsed.date)) {
+                let year = parsed.date.slice(0, 4);
+                let month = parsed.date.slice(4, 6);
+                let date = parsed.date.slice(6, 8);
+                this.currentDate = new Date(year, month - 1, date);
+            }
+            this.handleSetTime();
+        }
     }
 
     handleSetTime = () => {
@@ -82,6 +95,7 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
             firstDate: firstDate,
             lastDate: lastDate,
         })
+        // localStorage.setItem('currentState', JSON.stringify(this.state));
     }
 
     handleClickCell = (cell: any) => {
@@ -117,7 +131,6 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
             pathname: '/table',
             search: `date=${currentYear}${currentMonth}${currentDate}`
         })
-
         this.setState({})
         this.handleSetTime();
     }

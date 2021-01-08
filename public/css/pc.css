@@ -13,11 +13,9 @@
 }
 
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
-
 .notosanskr * {
     font-family: 'Noto Sans KR', sans-serif;
 }
-
 
 body {
     background: #f9f8f7;
@@ -28,9 +26,6 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     margin: 0 auto;
     padding: 0;
-    /*background: #f9f8f7;*/
-    /*width: 1280px;*/
-    /*height: 100%;*/
     text-align: center;
     -ms-user-select: none;
     -khtml-user-select: none;
@@ -38,78 +33,82 @@ body {
     user-select: none;
 }
 
-.contents {
-    text-align: center;
-    padding: 30px;
+.event-wrap {
+    /*display: none;*/
+    display: inline-flex;
+    margin: 0;
+    padding: 0;
+}
+
+.event-wrap .event-list {
+    display: inline;
+}
+
+.event-wrap .event-list div {
+    width: 200px;
+    /*height: 200px;*/
+    padding: 20px 20px 25px 25px;
+    margin-bottom: 20px;
+    font-family: 'SCDream7';
+    font-size: 13px;
+    text-align: left;
+    background: #ffffff;
+    border-spacing: 0;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.event-wrap .event-list div ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.event-wrap .event-list div ul li {
+    margin-top: 10px;
+    vertical-align: middle;
+}
+
+.event-wrap .event-list div ul li .event-list-circle {
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+    padding: 0;
+    display: inline-block;
+    border-radius: 50px;
+    background: #ff7272;
+}
+
+.event-wrap .event-list div ul li.event0 .event-list-circle {
+    background: #cfdd8e;
+}
+
+.event-wrap .event-list div ul li.event1 .event-list-circle {
+    background: #eeb8b8;
+}
+
+.event-wrap .event-list div ul li.event2 .event-list-circle {
+    background: #6eceda;
+}
+
+.event-wrap .event-list div ul li.event3 .event-list-circle {
+    background: #b57fb3;
+}
+
+.event-wrap .event-list div ul li.event4 .event-list-circle {
+    background: #f5ddad;
 }
 
 .date-wrap {
-    /*width: 79%;*/
     position: relative;
     display: inline-block;
+    margin-left: 35px;
 }
 
 .date-wrap.main {
     margin-bottom: 0;
     position: relative;
-}
-
-.loading-wrap {
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.85);
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 9;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    display: none;
-}
-
-.loading-wrap.active {
-    display: flex;
-}
-
-.loading-wrap .calendar-loading {
-    width: 64px;
-    height: 64px;
-    background: #f1f1f1;
-    border-radius: 100px;
-    overflow: hidden;
-}
-
-.loading-wrap .calendar-loading img {
-    width: 100%;
-    animation-name: loading;
-    animation-duration: 2.5s;
-    animation-iteration-count: infinite;
-}
-
-@keyframes loading {
-    0% {
-        transform: rotate(0deg);
-    }
-    25% {
-        transform: rotate(90deg);
-    }
-    50% {
-        transform: rotate(180deg);
-    }
-    75% {
-        transform: rotate(270deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-.loading-wrap .loading-desc {
-    font-size: 14px;
-    font-weight: 500;
-    color: #333;
-    margin-top: 12px;
 }
 
 .select-date {
@@ -133,8 +132,8 @@ body {
 }
 
 .select-date span.pre, span.next, span.current-month {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 500;
+    font-family: 'SCDream7';
+    font-size: 15px;
     cursor: pointer;
     padding: 5px 10px;
     border: 1px solid #ddd;
@@ -155,12 +154,11 @@ body {
 }
 
 .calendar {
-    /*width: 100%;*/
-    width: 800px;
-    height: 85vh;
+    width: 600px;
+    height: 80vh;
     border-spacing: 0;
     border-radius: 5px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
     background-color: #f2f0f4;
     overflow: hidden;
 }
@@ -169,11 +167,12 @@ body {
     height: 0;
     /*transition: .6s all;*/
 }
+
 .calendar tr.active {
     height: 450px;
 }
 
-.calendar tr.active span{
+.calendar tr.active span {
     height: 30px !important;
 }
 
@@ -186,7 +185,7 @@ body {
 }
 
 
-.calendar tr.active div.event-list{
+.calendar tr.active div.event-list {
     position: absolute;
     top: 50px;
 }
@@ -295,6 +294,8 @@ body {
 .calendar tr td div span {
     width: 100%;
     height: 15px;
+    font-family: 'SCDream7';
+    font-size: 13px;
     border-radius: 100px;
     display: flex;
     justify-content: center;
@@ -423,9 +424,8 @@ body {
     position: absolute;
     top: 0;
     right: 0;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 700;
-    font-size: 16px;
+    font-family: 'SCDream7';
+    font-size: 15px;
     text-align: center;
     background: #ff7272;
     color: #ffffff;
@@ -677,7 +677,7 @@ body {
     position: relative;
     display: inline-block;
     width: 100%;
-    height: 50px;
+    height: 70px;
     background: #ffffff;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
     margin-bottom: 20px;
@@ -685,24 +685,39 @@ body {
 
 .header .header-list {
     list-style-type: none;
+    margin: 0;
     padding: 0;
 }
 
 .header .header-list .list-menu {
+    cursor: pointer;
     padding: 10px;
-
     display: inline;
-
-}
-
-.header .header-list .list-menu a {
     font-family: 'SCDream7';
-    font-size: 17px;
+    font-size: 13px;
     font-weight: 500;
     color: #666666;
-    text-decoration: none;
+    text-align: center;
+    display: inline-grid;
+    opacity: .7;
 }
 
-.header .header-list .list-menu a:hover {
-    color: #999999;
+.header .header-list .list-menu img {
+    width: 24px;
+    padding: 5px 20px;
+}
+
+.header .header-list .list-menu span {
+}
+
+.header .header-list .list-menu.active {
+    opacity: 1;
+}
+
+.header .header-list .list-menu.active:hover {
+    opacity: 1;
+}
+
+.header .header-list .list-menu:hover {
+    opacity: .8;
 }
