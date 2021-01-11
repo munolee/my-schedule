@@ -420,6 +420,24 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     }
 
     handleSetDetailTable = (week: any) => {
+        let year = new Date(this.currentDate).getFullYear();
+        let month = new Date(this.currentDate).getMonth();
+        const location: any = history.location;
+        const queryString = require("query-string");
+        const parsed = queryString.parse(location.search);
+        if (!Utils.isEmpty(location.search) && !Utils.isEmpty(parsed.date)) {
+            year = parsed.date.slice(0, 4);
+            month = parsed.date.slice(4, 6);
+        }
+
+        history.push({
+            pathname: "/calendar",
+            search: `date=${String(year)}${String(month)}&week=${week}`,
+            state: {
+                state: this.state,
+                date: new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1)
+            },
+        })
         localStorage.setItem('currentWeek', week);
         localStorage.setItem('currentState', JSON.stringify(this.state));
         this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
@@ -477,83 +495,52 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         let month = new Date(this.currentDate).getMonth();
         // 달의 첫 1일 요일
         let firstDay = new Date(year, month, 1).getDay();
-        // 달의 마지막 요일
-        let lastDayOfMonth = new Date(year, month + 1, 0).getDay();
         // 달의 마지막 일
         let lastDay = new Date(year, month + 1, 0).getDate();
         // 마지막 주
         let lastWeek = Math.ceil((firstDay + lastDay) / 7);
 
-        let lastDate = Utils.convertDateMonthToString(this.currentDate) + "-" + lastDay;
-        let tempLastDate = new Date(year, month + 1, lastDay);
-        tempLastDate.setDate(tempLastDate.getDate() + (6 - lastDayOfMonth));
-        lastDate = Utils.convertDateToString(tempLastDate);
+        let curDate = new Date(year, month, 1);
+
         this.currentDate.setDate(this.currentDate.getDate() - firstDay);
-        // todo 마지막날 계산
-        // console.log(Utils.convertDateToString(tempLastDate))
-        console.log(Utils.convertDateToString(this.currentDate))
 
         let html: any[] = [];
 
         for (let i = 0; i < lastWeek; i++) {
             html.push(
-                <tr key={Math.random()}>{this.renderCalendarDate(i, lastDate)}</tr>
+                <tr key={Math.random()}>{this.renderCalendarDate(i, Utils.convertDateMonthToString(curDate))}</tr>
             );
         }
-        // console.log(Utils.convertDateToString(this.currentDate))
-        this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
-        // console.log(Utils.convertDateToString(this.currentDate))
+        this.currentDate = new Date(year, month, 1);
         return html;
     }
 
     // 달력 일 단위 그리기
-    renderCalendarDate = (week: number, lastDate: string) => {
+    renderCalendarDate = (week: number, curDate: string) => {
         let html: any[] = [];
         let year = new Date(this.currentDate).getFullYear();
         let month = new Date(this.currentDate).getMonth();
-        let firstDay = new Date(year, month, 1).getDay();
+        let firstDay = new Date(year, month + 1, 1).getDay();
         let lastDay = new Date(year, month + 1, 0).getDate();
         let className = '';
+
         for (let i = 0; i < 7; i++) {
             className = '';
-            const location: any = history.location;
-            const queryString = require("query-string");
-            const parsed = queryString.parse(location.search);
-            if (!Utils.isEmpty(location.search) && !Utils.isEmpty(parsed.date)) {
-                year = parsed.date.slice(0, 4);
-                month = parsed.date.slice(4, 6);
-            }
-            //todo empty 처리
             let date = Utils.convertDateToString(this.currentDate);
             if (date === Utils.convertDateToString(new Date())) {
                 className = 'today';
-            } else if (week === 0 && i < firstDay) {
-                className = 'empty';
-            } else if (i >= lastDay) {
+            } else if (Utils.convertDateMonthToString(this.currentDate) !== curDate) {
                 className = 'empty';
             }
-            // todo Link->메소드
+
             html.push(
-                <td key={Math.random()} className={className}>
-                    <Link to={{
-                        pathname: "/calendar",
-                        search: `date=${String(year)}${String(month)}&week=${week}`,
-                        state: {
-                            state: this.state,
-                            date: new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1)
-                        },
-                    }} onClick={() => this.handleSetDetailTable(week)}>
-                        <span className={'calendar-date'}>{this.currentDate.getDate()}</span>
-                        <div className='event-list'>{this.renderCalendarEvent(week)}</div>
-                    </Link>
+                <td key={Math.random()} className={className}
+                    onClick={() => this.handleSetDetailTable(week)}>
+                    <span className={'calendar-date'}>{this.currentDate.getDate()}</span>
+                    <div className='event-list'>{this.renderCalendarEvent(week)}</div>
                 </td>
             )
-            // console.log(lastDate);
-            if (Utils.convertDateToString(this.currentDate) !== lastDate) { // 마지막 일 전까지 date + 1
-                this.currentDate.setDate(this.currentDate.getDate() + 1);
-            } else { // 마지막 일 break
-                break;
-            }
+            this.currentDate.setDate(this.currentDate.getDate() + 1);
         }
         return html;
     }
@@ -667,7 +654,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                               onMouseEnter={(e) => this.handleCalendarHover(e, event, true)}
                               onMouseLeave={(e) => this.handleCalendarHover(e, event, false)}>{week === 0 && this.currentDate.getDay() === 0 ? eventTitle : ""}</span>;
                 }
-                if (position === 5) {
+                if (position === 4) {
                     html.push(<span key={Math.random()} className={'more'}>. . .</span>)
                 }
                 return event;
@@ -681,8 +668,9 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     renderEventList = (type: string) => {
         const {events, userList, eventType} = this.state;
         let html: any[] = [];
-        let userName: '';
-        let eventName: '';
+        let userName = '';
+        let eventName = '';
+        let count = 0;
 
         events.map((event, idx) => {
             for (let i = 0; i < userList.length; i++) {
@@ -695,16 +683,29 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     eventName = eventType[i].name;
                 }
             }
-            if (type === eventName) { // todo date 분기/ week 화면 분기처리
-                html.push(
-                    <li key={Math.random()} className={`event${idx % 5}`}>
-                        <span className="event-list-circle"> </span>
-                        <span>{`${type === eventName ? event.eventTitle + ' (' + userName + ')' : userName}`}</span>
-                    </li>
-                )
+            if (type === eventName) { // todo  week 화면 분기처리
+                let currentStartDate = Utils.convertDateToString(this.currentDate);
+                let currentEndDate = Utils.convertDateToString(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0));
+                if ((event.startDate >= currentStartDate && event.startDate <= currentEndDate)
+                    || (event.endDate >= currentStartDate && event.endDate <= currentEndDate)
+                    || (event.startDate < currentStartDate && event.endDate > currentEndDate)
+                ) {
+                    html.push(
+                        <li key={Math.random()} className={`event${idx % 5}`}>
+                            <span className="event-list-circle"> </span>
+                            <span>{`${type === 'important' ? event.eventTitle + ' (' + userName + ')' : userName}`}</span>
+                        </li>
+                    )
+                    count++;
+                }
             }
 
         })
+        if (count === 0) {
+            html.push(
+                <li key={Math.random()}><span className="event-list-empty"> - </span></li>
+            )
+        }
         return html;
     }
 

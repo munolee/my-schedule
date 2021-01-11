@@ -60,8 +60,14 @@ body {
     overflow-y: auto;
 }
 
-.event-wrap .event-list div span.event-list-title{
+.event-wrap .event-list div span.event-list-title {
     font-size: 15px;
+}
+
+.event-wrap .event-list div span.event-list-empty {
+    color: #999999;
+    display: block;
+    text-align: center;
 }
 
 .event-wrap .event-list div ul {
@@ -71,13 +77,16 @@ body {
     padding: 0;
     overflow-y: auto;
 }
+
 .event-wrap .event-list div ul::-webkit-scrollbar {
     width: 8px;
 }
+
 .event-wrap .event-list div ul::-webkit-scrollbar-thumb {
     background-color: #c6c6c6;
     border-radius: 10px;
 }
+
 .event-wrap .event-list div ul::-webkit-scrollbar-track {
     background-color: #e9e9e9;
     border-radius: 10px;
@@ -280,9 +289,23 @@ body {
 }
 
 .calendar tr th:first-of-type,
-.calendar tr td:first-of-type a {
+.calendar tr td:first-of-type  {
     color: #ff7272;
 }
+
+.calendar tr th:last-of-type,
+.calendar tr td:last-of-type  {
+    color: #698bb8;
+}
+
+.calendar tr td.empty:first-of-type {
+    color: rgba(255, 0, 0, 0.3);
+}
+
+.calendar tr td.empty:last-of-type {
+    color: rgba(0, 0, 255, 0.3);
+}
+
 
 .calendar tr th:last-of-type {
     border-right: none;
@@ -333,6 +356,10 @@ body {
 
 .calendar .empty {
     background: #f2f0f4;
+}
+
+.calendar .empty {
+    color: rgba(0, 0, 0, 0.3);
 }
 
 .calendar .empty:hover {
@@ -450,7 +477,7 @@ body {
     color: #ffffff;
     margin: 0;
     padding: 8px 12px 8px 12px;
-    border-radius: 30px;
+    border-radius: 10px;
 }
 
 .create-event-btn:hover {
@@ -740,17 +767,19 @@ body {
 .header .header-list .list-menu.active:hover img {
     background: none;
 }
-.header .header-list .list-menu.active:hover span{
+
+.header .header-list .list-menu.active:hover span {
     background: none;
 }
+
 .header .header-list .list-menu:hover img {
     border-radius: 5px 5px 0 0;
-    background: rgba(0,0,0,0.05);
+    background: rgba(0, 0, 0, 0.05);
 }
 
 .header .header-list .list-menu:hover span {
     border-radius: 0 0 5px 5px;
-    background: rgba(0,0,0,0.05);
+    background: rgba(0, 0, 0, 0.05);
 }
 
 
