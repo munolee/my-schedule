@@ -457,8 +457,7 @@ export function weeks(year: number, month: number) {
  * ---------------------------------------------------------------------------------------------------------------------
  */
 export function lastWeek(date: any) {
-    let lastDate = new Date(date.getFullYear(), date.getMonth(), 0);
-
+    let lastDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     return Math.ceil(lastDate.getDate() / 7);
 }
 

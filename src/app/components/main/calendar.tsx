@@ -29,11 +29,11 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         let currentMonth: number | string = this.currentDate.getMonth() + 1;
         currentMonth = currentMonth >= 10 ? currentMonth : '0' + currentMonth;
         if (!Utils.isEmpty(location.search)) {
-            if (!Utils.isEmpty(parsed.date) && Utils.isEmpty(parsed.week)) {
+            if (!Utils.isEmpty(parsed.date) && Utils.isEmpty(parsed.week)) { // 캘린더 메인
                 let year = parsed.date.slice(0, 4);
                 let month = parsed.date.slice(4, 7);
                 this.currentDate = new Date(Number(year), Number(month) - 1, 1);
-            } else if (!Utils.isEmpty(parsed.date) && !Utils.isEmpty(parsed.week)) {
+            } else if (!Utils.isEmpty(parsed.date) && !Utils.isEmpty(parsed.week)) { // 캘린더 상세 (week)
                 let year = parsed.date.slice(0, 4);
                 let month = parsed.date.slice(4, 7);
                 this.currentDate = new Date(Number(year), Number(month) - 1, 1);
@@ -132,7 +132,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
     // 일정 Get API 호출 부분
     handleGetEvents = () => {
-        let tempList: any[] = [
+        let eventList: any[] = [
             {
                 startDate: "2021-01-04",
                 endDate: "2021-01-05",
@@ -141,8 +141,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                 typeId: 0,
             },
             {
-                startDate: "2021-01-05",
-                endDate: "2021-01-07",
+                startDate: "2021-02-05",
+                endDate: "2021-02-07",
                 eventTitle: '일정2',
                 userId: 1,
                 typeId: 1,
@@ -155,15 +155,15 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                 typeId: 1,
             },
             {
-                startDate: "2021-01-11",
-                endDate: "2021-01-13",
+                startDate: "2021-03-11",
+                endDate: "2021-03-13",
                 eventTitle: '일정4',
                 userId: 2,
                 typeId: 2,
             },
             {
-                startDate: "2021-01-13",
-                endDate: "2021-01-16",
+                startDate: "2021-02-13",
+                endDate: "2021-02-16",
                 eventTitle: '일정5',
                 userId: 0,
                 typeId: 1,
@@ -196,8 +196,6 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                 userId: 0,
                 typeId: 1,
             },
-        ]
-        let eventList: any[] = [
             {
                 startDate: "2020-08-16",
                 endDate: "2020-08-24",
@@ -205,13 +203,13 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                 userId: 0,
                 typeId: 1,
             },
-            // {
-            //     startDate: "2021-01-05",
-            //     endDate: "2021-01-07",
-            //     eventTitle: '일정2',
-            //     userId: 1,
-            // typeId: 1,
-            // },
+            {
+                startDate: "2021-01-05",
+                endDate: "2021-01-07",
+                eventTitle: '일정2',
+                userId: 1,
+                typeId: 1,
+            },
             {
                 startDate: "2021-03-10",
                 endDate: "2021-03-17",
@@ -240,20 +238,20 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                 userId: 2,
                 typeId: 2,
             },
-            // {
-            //     startDate: "2020-12-21",
-            //     endDate: "2020-12-21",
-            //     eventTitle: '일정17',
-            //     userId: 0,
-            // typeId: 1,
-            // },
-            // {
-            //     startDate: "2020-09-20",
-            //     endDate: "2020-11-21",
-            //     eventTitle: '일정20',
-            //     userId: 0,
-            // typeId: 1,
-            // },
+            {
+                startDate: "2020-12-21",
+                endDate: "2020-12-21",
+                eventTitle: '일정17',
+                userId: 0,
+                typeId: 1,
+            },
+            {
+                startDate: "2020-09-20",
+                endDate: "2020-11-21",
+                eventTitle: '일정20',
+                userId: 0,
+                typeId: 1,
+            },
             {
                 startDate: "2020-09-20",
                 endDate: "2020-10-13",
@@ -284,18 +282,18 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
             },
             {
                 startDate: "2020-09-20",
-                endDate: "2021-01-29",
+                endDate: "2020-10-29",
                 eventTitle: '일정19',
                 userId: 0,
                 typeId: 0,
             },
-            // {
-            //     startDate: "2020-12-24",
-            //     endDate: "2020-12-26",
-            //     eventTitle: '일정18',
-            //     userId: 1,
-            // typeId: 1,
-            // },
+            {
+                startDate: "2020-12-24",
+                endDate: "2020-12-26",
+                eventTitle: '일정18',
+                userId: 1,
+                typeId: 1,
+            },
         ]
 
         eventList.sort(function (prev, next) {
@@ -337,18 +335,18 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                 pathname: '/calendar',
                 search: `date=${String(currentYear)}${String(currentMonth)}`
             })
-        } else if (!Utils.isEmpty(parsed.week)) {
+        } else if (!Utils.isEmpty(parsed.week)) {  // 캘린더 상세 페이지
             if (type === "pre") {
                 if (localStorage.getItem("currentWeek") === '0') {
-                    this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 0);
+                    this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1, 1);
                     let currentYear = this.currentDate.getFullYear();
                     let currentMonth: number | string = this.currentDate.getMonth() + 1;
                     currentMonth = currentMonth >= 10 ? currentMonth : '0' + currentMonth;
                     history.push({
                         pathname: '/calendar',
-                        search: `date=${String(currentYear)}${String(currentMonth)}&week=${String(Utils.lastWeek(this.currentDate))}`
+                        search: `date=${String(currentYear)}${String(currentMonth)}&week=${String(Utils.weeks(this.currentDate.getFullYear(), this.currentDate.getMonth()) - 1)}`
                     })
-                    localStorage.setItem('currentWeek', String(Number(Utils.lastWeek(this.currentDate)) - 1));
+                    localStorage.setItem('currentWeek', String(Number(Utils.weeks(this.currentDate.getFullYear(), this.currentDate.getMonth()) - 1)));
                 } else {
                     let currentYear = this.currentDate.getFullYear();
                     let currentMonth: number | string = this.currentDate.getMonth() + 1;
@@ -359,8 +357,10 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     })
                     localStorage.setItem('currentWeek', String(Number(parsed.week) - 1));
                 }
+
+
             } else if (type === "next") {
-                if (localStorage.getItem("currentWeek") === String(Number(Utils.lastWeek(this.currentDate)) - 1)) {
+                if (Number(localStorage.getItem("currentWeek")) === (Number(Utils.weeks(this.currentDate.getFullYear(), this.currentDate.getMonth()) - 1))) {
                     this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 1);
                     let currentYear = this.currentDate.getFullYear();
                     let currentMonth: number | string = this.currentDate.getMonth() + 1;
@@ -371,6 +371,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     })
                     localStorage.setItem('currentWeek', '0');
                 } else {
+                    this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
                     let currentYear = this.currentDate.getFullYear();
                     let currentMonth: number | string = this.currentDate.getMonth() + 1;
                     currentMonth = currentMonth >= 10 ? currentMonth : '0' + currentMonth;
@@ -394,8 +395,9 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         this.setState({})
     }
 
+    // 일정 Hover 툴팁 띄우기
     handleCalendarHover = (e: any, event: any, flag: boolean) => {
-        const {userList, events} = this.state;
+        const {userList} = this.state;
         let userName = '';
         let userIcon = '';
         const tooltip = document.querySelector<HTMLElement>(".event-tooltip")
@@ -429,7 +431,6 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
             year = parsed.date.slice(0, 4);
             month = parsed.date.slice(4, 6);
         }
-
         history.push({
             pathname: "/calendar",
             search: `date=${String(year)}${String(month)}&week=${week}`,
@@ -464,7 +465,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     if (!Utils.isEmpty(selectWeek[i])) {
                         if (week + 1 !== i && i !== 0) {
                             selectWeek[i].className = 'passive';
-                        } else {
+                        } else if (selectWeek[week + 1] !== undefined) {
                             selectWeek[week + 1].className = 'active';
                         }
                     }
@@ -683,7 +684,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                     eventName = eventType[i].name;
                 }
             }
-            if (type === eventName) { // todo  week 화면 분기처리
+            if (type === eventName) {
                 let currentStartDate = Utils.convertDateToString(this.currentDate);
                 let currentEndDate = Utils.convertDateToString(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0));
                 if ((event.startDate >= currentStartDate && event.startDate <= currentEndDate)

@@ -118,8 +118,12 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
         } else if (type === "next") {
             this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() + 7);
         } else if (type === "today") {
-            this.handleClickCell('init');
-            this.currentDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+            let curDate = Utils.convertDateToString(this.currentDate);
+            let todayDate = Utils.convertDateToString(new Date());
+            if (curDate !== todayDate) {
+                this.handleClickCell('init');
+                this.currentDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+            }
         } else return;
 
         let currentYear = this.currentDate.getFullYear();

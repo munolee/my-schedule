@@ -168,6 +168,10 @@ body {
     background: #fff;
 }
 
+.select-date span.pre:hover, span.next:hover, span.current-month:hover {
+    background: rgba(0, 0, 0, 0.02);
+}
+
 .select-date span.pre {
     border-radius: 5px 0 0 5px;
 }
@@ -202,6 +206,7 @@ body {
 
 .calendar tr.active span {
     height: 30px !important;
+    font-size: 15px;
 }
 
 .calendar tr.active span.hide {
@@ -289,12 +294,12 @@ body {
 }
 
 .calendar tr th:first-of-type,
-.calendar tr td:first-of-type  {
+.calendar tr td:first-of-type {
     color: #ff7272;
 }
 
 .calendar tr th:last-of-type,
-.calendar tr td:last-of-type  {
+.calendar tr td:last-of-type {
     color: #698bb8;
 }
 
