@@ -416,7 +416,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
             tooltip.childNodes[1].textContent = `${userName}`
             tooltip.childNodes[2].textContent = `${event.eventTitle}`
             tooltip.childNodes[3].textContent = `${event.startDate} ~ ${event.endDate}`
-        } else if (!flag && e.target && tooltip !== null) {
+        } else if (!flag && tooltip !== null) {
             tooltip.className = 'event-tooltip passive';
         }
     }
@@ -431,14 +431,26 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
             year = parsed.date.slice(0, 4);
             month = parsed.date.slice(4, 6);
         }
-        history.push({
-            pathname: "/calendar",
-            search: `date=${String(year)}${String(month)}&week=${week}`,
-            state: {
-                state: this.state,
-                date: new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1)
-            },
-        })
+        if (parsed.week) {
+            history.push({
+                pathname: "/calendar",
+                search: `date=${String(year)}${String(month)}`,
+                state: {
+                    state: this.state,
+                    date: new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1)
+                },
+            })
+        } else {
+            history.push({
+                pathname: "/calendar",
+                search: `date=${String(year)}${String(month)}&week=${week}`,
+                state: {
+                    state: this.state,
+                    date: new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1)
+                },
+            })
+        }
+
         localStorage.setItem('currentWeek', week);
         localStorage.setItem('currentState', JSON.stringify(this.state));
         this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
@@ -451,6 +463,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         const selectWeek = document.querySelectorAll<HTMLElement>('.calendar tbody tr'); // 달력 week
         this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
 
+        this.handleCalendarHover('', '', false); // tooltip 초기화
         if (!Utils.isEmpty(location.search) && !Utils.isEmpty(parsed.week)) {
             if (week === 'back') {
                 // for (let i = 0; i <= selectWeek.length; i++) {
@@ -648,15 +661,14 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                         position = eventArray[idx];
                         this.array[idx] = position;
                     }
-
                     html[position] =
                         <span key={idx}
                               className={`${className} event${idx % 5}  ${position >= 4 ? "hide" : ""}`}
                               onMouseEnter={(e) => this.handleCalendarHover(e, event, true)}
                               onMouseLeave={(e) => this.handleCalendarHover(e, event, false)}>{week === 0 && this.currentDate.getDay() === 0 ? eventTitle : ""}</span>;
                 }
-                if (position === 4) {
-                    html.push(<span key={Math.random()} className={'more'}>. . .</span>)
+                if (position !== undefined && position === 4) {
+                    html[position] = <span key={Math.random()} className={'more'}>. . .</span>;
                 }
                 return event;
             }

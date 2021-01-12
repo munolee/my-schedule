@@ -1,38 +1,3 @@
-@font-face {
-    font-family: 'SCDream7';
-    src: url('../fonts/SCDream7.otf');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'paybooc-Bold';
-    src: url('../fonts/paybooc Bold.ttf');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
-.notosanskr * {
-    font-family: 'Noto Sans KR', sans-serif;
-}
-
-body {
-    background: #f9f8f7;
-    overflow: hidden;
-}
-
-.wrapper {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    margin: 0 auto;
-    padding: 0;
-    text-align: center;
-    -ms-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-}
-
 .event-wrap {
     display: inline-block;
     margin: 0;

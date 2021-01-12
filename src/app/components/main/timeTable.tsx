@@ -61,7 +61,7 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
 
         window.onpopstate = () => {
             localStorage.setItem('currentPage', 'table');
-
+            this.handleClickCell('init');
             if (!Utils.isEmpty(location.search) && !Utils.isEmpty(parsed.date)) {
                 let year = parsed.date.slice(0, 4);
                 let month = parsed.date.slice(4, 6);
@@ -100,6 +100,7 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
 
     handleClickCell = (cell: any) => {
         const selectCell = document.querySelectorAll<HTMLElement>('.time-table tr');
+        const todayCell = document.querySelectorAll<HTMLElement>('.time-table tr.today');
 
         if (selectCell !== null && !Utils.isEmpty(cell)) {
             for (let i = 0; i < selectCell.length; i++) {
@@ -109,13 +110,20 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
                     selectCell[i].classList.remove("active");
                 }
             }
+
+        }
+        if (cell === 'today' && !Utils.isEmpty(cell)) {
+            todayCell[0].className += " active";
         }
     }
 
-    handleCalendar = (type: string) => {
+    // 이전, 다음, 오늘 버튼 이벤트
+    handleTimeTable = (type: string) => {
         if (type === "pre") {
+            this.handleClickCell('init');
             this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() - 7);
         } else if (type === "next") {
+            this.handleClickCell('init');
             this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate() + 7);
         } else if (type === "today") {
             let curDate = Utils.convertDateToString(this.currentDate);
@@ -123,6 +131,8 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
             if (curDate !== todayDate) {
                 this.handleClickCell('init');
                 this.currentDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+            } else if (curDate === todayDate) {
+                this.handleClickCell('today');
             }
         } else return;
 
@@ -145,9 +155,8 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
         let yearMatch = localStorage.getItem('yearMatch');
         let today = `${(new Date).getMonth() + 1}월 ${(new Date).getDate()}일`;
         weekDate.map((date, idx) => {
-                //1월 4일 (화)
                 html.push(
-                    <tr className={yearMatch === "true" && date.split(' (')[0] === today ? `date${idx} active` : `date${idx}`}
+                    <tr className={yearMatch === "true" && date.split(' (')[0] === today ? `date${idx} today active` : `date${idx}`}
                         key={idx} onClick={() => this.handleClickCell(idx)}>
                         <td>{date}
                             {yearMatch === "true" && date.split(' (')[0] === today &&
@@ -209,10 +218,10 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
 
                         {/*<span className={"back"} onClick={() => Utils.handleHistoryBack()}>돌아가기</span>*/}
                         <span className={"pre " + (preFlag ? "" : "op")}
-                              onClick={() => this.handleCalendar(preFlag ? "pre" : "pre")}>&lt;</span>
-                        <span className={"current-month"} onClick={() => this.handleCalendar("today")}>오늘</span>
+                              onClick={() => this.handleTimeTable(preFlag ? "pre" : "pre")}>&lt;</span>
+                        <span className={"current-month"} onClick={() => this.handleTimeTable("today")}>오늘</span>
 
-                        <span className={"next "} onClick={() => this.handleCalendar("next")}>&gt;</span>
+                        <span className={"next "} onClick={() => this.handleTimeTable("next")}>&gt;</span>
                     </div>
                     <table className="time-table">
                         <tbody>
