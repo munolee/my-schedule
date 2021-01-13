@@ -58,11 +58,11 @@ export class Header extends React.Component<HeaderProps, HeaderState> {
                 <ul className="header-list">
                     <li className={`list-menu ${curPage === 'calendar' ? 'active' : ''}`}
                         onClick={() => this.handleRouteLocation('calendar')}>
-                        <img src={'/image/home.png'}/><span>일정 확인</span>
+                        <img src={'/image/home.png'}/><span>전체 일정</span>
                     </li>
                     <li className={`list-menu ${curPage === 'table' ? 'active' : ''}`}
                         onClick={() => this.handleRouteLocation('table')}>
-                        <img src={'/image/time.png'}/><span>근무&middot;휴가</span>
+                        <img src={'/image/time.png'}/><span>근무&middot;일정</span>
                     </li>
                 </ul>
             </div>

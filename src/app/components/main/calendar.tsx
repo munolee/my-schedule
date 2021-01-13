@@ -85,11 +85,11 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                 },
                 {
                     id: 1,
-                    name: 'annual',
+                    name: 'annualLeave',
                 },
                 {
                     id: 2,
-                    name: 'annual-half'
+                    name: 'halfDayLeave'
                 }
             ],
         };
@@ -744,10 +744,10 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
                             <ul>{this.renderEventList('important')}</ul>
                         </div>
                         <div className="event-annual"><span className="event-list-title">연차</span>
-                            <ul>{this.renderEventList('annual')}</ul>
+                            <ul>{this.renderEventList('annualLeave')}</ul>
                         </div>
                         <div className="event-annual-half"><span className="event-list-title">반차</span>
-                            <ul>{this.renderEventList('annual-half')}</ul>
+                            <ul>{this.renderEventList('halfDayLeave')}</ul>
                         </div>
                     </div>
                 </div>
