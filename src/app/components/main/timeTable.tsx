@@ -377,11 +377,21 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
     renderEventsProgress = () => {
         let html: any[] = [];
         let progressStyle = {
-            width: '100px',
+            width: '40%',
         }
 
         html.push(
             <div className="work-time-progress-box" key={Math.random()}>
+                <span className="progress-grid">6</span>
+                <span className="progress-grid">8</span>
+                <span className="progress-grid">10</span>
+                <span className="progress-grid">12</span>
+                <span className="progress-grid">14</span>
+                <span className="progress-grid">16</span>
+                <span className="progress-grid">18</span>
+                <span className="progress-grid">20</span>
+                <span className="progress-grid">22</span>
+                <span className="progress-grid last">00</span>
                 <span className="progress" style={progressStyle}></span>
             </div>
         )
