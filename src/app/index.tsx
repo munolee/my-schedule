@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  HashRouter,
-  BrowserRouter,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { HashRouter, Router, Route, Switch, Redirect } from "react-router-dom";
 
 import { Calendar, TimeTable } from "./containers";
 import history from "../app/containers/history";
@@ -14,15 +8,15 @@ import history from "../app/containers/history";
 
 // const rootStore = new RootStore();
 const Root: React.FC = () => (
-  <HashRouter basename="/management">
+  <Router history={history}>
     {/* <Switch> */}
     <Route exact path="/" component={Calendar} />
-    <Route path="/calendar" component={Calendar} />
-    <Route path="/table" component={TimeTable} />
+    <Route exact path="/calendar" component={Calendar} />
+    <Route exact path="/table" component={TimeTable} />
     {/* <Route path="/error" component={Error} />
       <Redirect path="*" to="/error" /> */}
     {/* </Switch> */}
-  </HashRouter>
+  </Router>
 );
 
 export default Root;

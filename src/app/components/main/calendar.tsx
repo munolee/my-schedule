@@ -118,6 +118,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       let data = localStorage.getItem("currentState");
       if (data != null) {
         let jsonDate = JSON.parse(data);
+        //TODO 예외처리
         let year = parsed.date.slice(0, 4);
         let month = parsed.date.slice(4, 7);
         this.currentDate = new Date(Number(year), Number(month) - 1, 1);
