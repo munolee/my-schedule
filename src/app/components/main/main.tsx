@@ -22,17 +22,17 @@ const Main = () => {
     {
       userId: 0,
       userName: "사용자1",
-      userIcon: "/image/user_icon.png",
+      userIcon: "./image/user_icon.png",
     },
     {
       userId: 1,
       userName: "사용자2",
-      userIcon: "/image/user_icon.png",
+      userIcon: "./image/user_icon.png",
     },
     {
       userId: 2,
       userName: "사용자3",
-      userIcon: "/image/user_icon.png",
+      userIcon: "./image/user_icon.png",
     },
   ]);
   const [eventType, setEventType] = useState<any>([

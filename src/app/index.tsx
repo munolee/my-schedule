@@ -14,10 +14,10 @@ import history from "../app/containers/history";
 
 // const rootStore = new RootStore();
 const Root: React.FC = () => (
-  <HashRouter basename={process.env.PUBLIC_URL}>
+  <HashRouter basename="/management">
     {/* <Switch> */}
-    <Route path="/" component={Calendar} />
-    <Route exact={true} path="/calendar" component={Calendar} />
+    <Route exact path="/" component={Calendar} />
+    <Route path="/calendar" component={Calendar} />
     <Route path="/table" component={TimeTable} />
     {/* <Route path="/error" component={Error} />
       <Redirect path="*" to="/error" /> */}

@@ -326,7 +326,7 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
         let currentDate: number | string = this.currentDate.getDate();
         currentDate = currentDate >= 10 ? currentDate : '0' + currentDate;
         history.push({
-            pathname: '/table',
+            pathname: process.env.PUBLIC_URL + '/table',
             search: `date=${currentYear}${currentMonth}${currentDate}`
         })
         this.setState({})
