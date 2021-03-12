@@ -100,7 +100,6 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
   componentDidMount() {
     this.handleGetEvents();
-    console.log(process.env.PUBLIC_URL);
   }
 
   componentDidUpdate() {
@@ -117,10 +116,15 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       localStorage.setItem("currentPage", "calendar");
       let data = localStorage.getItem("currentState");
       if (data != null) {
+        let year = "2021"; //default 변경 사항
+        let month = "03";
         let jsonDate = JSON.parse(data);
         //TODO 예외처리
-        let year = parsed.date.slice(0, 4);
-        let month = parsed.date.slice(4, 7);
+        if (parsed.date) {
+          year = parsed.date.slice(0, 4);
+          month = parsed.date.slice(4, 7);
+        }
+
         this.currentDate = new Date(Number(year), Number(month) - 1, 1);
         // this.handleGetEvents();
         this.setState({

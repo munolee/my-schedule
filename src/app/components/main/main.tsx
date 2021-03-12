@@ -18,7 +18,7 @@ const Main = () => {
   let weekData: any = {};
 
   const [events, setEvents] = useState<any>([]);
-  const [userList, setUserList] = useState<any>([
+  const [userList] = useState<any>([
     {
       userId: 0,
       userName: "사용자1",
