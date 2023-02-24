@@ -1,8 +1,10 @@
 import { FC, useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import * as Utils from '../utils';
+import styled from '@emotion/styled';
 import isEmpty from 'lodash/isEmpty';
 import queryString from 'query-string';
+import { weeks, lastWeek, convertDateMonthToString, convertDateToString } from '@utils/index';
+import ButtonBase from '@components/common/ButtonBase';
 
 const Calendar: FC = () => {
   const navigate = useNavigate();
@@ -62,7 +64,7 @@ const Calendar: FC = () => {
         let year = queryParams.date.slice(0, 4);
         let month = queryParams.date.slice(4, 7);
         currentDate = new Date(Number(year), Number(month) - 1, 1);
-        if (Number(Utils.lastWeek(currentDate)) < Number(queryParams.week)) {
+        if (Number(lastWeek(currentDate)) < Number(queryParams.week)) {
           navigate({
             pathname: '/calendar',
             search: `date=${String(queryParams.date)}`,
@@ -324,12 +326,12 @@ const Calendar: FC = () => {
           navigate({
             pathname: '/calendar',
             search: `date=${String(currentYear)}${String(currentMonth)}&week=${String(
-              Utils.weeks(currentDate.getFullYear(), currentDate.getMonth()) - 1
+              weeks(currentDate.getFullYear(), currentDate.getMonth()) - 1
             )}`,
           });
           localStorage.setItem(
             'currentWeek',
-            String(Number(Utils.weeks(currentDate.getFullYear(), currentDate.getMonth()) - 1))
+            String(Number(weeks(currentDate.getFullYear(), currentDate.getMonth()) - 1))
           );
         } else {
           let currentYear = currentDate.getFullYear();
@@ -344,7 +346,7 @@ const Calendar: FC = () => {
       } else if (type === 'next') {
         if (
           Number(localStorage.getItem('currentWeek')) ===
-          Number(Utils.weeks(currentDate.getFullYear(), currentDate.getMonth()) - 1)
+          Number(weeks(currentDate.getFullYear(), currentDate.getMonth()) - 1)
         ) {
           currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
           let currentYear = currentDate.getFullYear();
@@ -505,7 +507,7 @@ const Calendar: FC = () => {
     let html: any[] = [];
 
     for (let i = 0; i < lastWeek; i++) {
-      html.push(<tr key={Math.random()}>{renderCalendarDate(i, Utils.convertDateMonthToString(curDate))}</tr>);
+      html.push(<tr key={Math.random()}>{renderCalendarDate(i, convertDateMonthToString(curDate))}</tr>);
     }
     currentDate = new Date(year, month, 1);
     return html;
@@ -522,10 +524,10 @@ const Calendar: FC = () => {
 
     for (let i = 0; i < 7; i++) {
       className = '';
-      let date = Utils.convertDateToString(currentDate);
-      if (date === Utils.convertDateToString(new Date())) {
+      let date = convertDateToString(currentDate);
+      if (date === convertDateToString(new Date())) {
         className = 'today';
-      } else if (Utils.convertDateMonthToString(currentDate) !== curDate) {
+      } else if (convertDateMonthToString(currentDate) !== curDate) {
         className = 'empty';
       }
 
@@ -543,7 +545,7 @@ const Calendar: FC = () => {
   // 달력 일정(events) 그리기
   const renderCalendarEvent = (week: number) => {
     let html: any[] = [];
-    let date = Utils.convertDateToString(currentDate);
+    let date = convertDateToString(currentDate);
     let className = '';
     let eventTitle = '';
     let eventArray = array;
@@ -557,7 +559,7 @@ const Calendar: FC = () => {
       weekData = {};
       weekStartDate = date;
       currentDate.setDate(currentDate.getDate() + 6);
-      weekEndDate = Utils.convertDateToString(currentDate);
+      weekEndDate = convertDateToString(currentDate);
       currentDate.setDate(currentDate.getDate() - 6);
     }
 
@@ -704,10 +706,8 @@ const Calendar: FC = () => {
         }
       }
       if (type === eventName) {
-        let currentStartDate = Utils.convertDateToString(currentDate);
-        let currentEndDate = Utils.convertDateToString(
-          new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
-        );
+        let currentStartDate = convertDateToString(currentDate);
+        let currentEndDate = convertDateToString(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0));
         if (
           (event.startDate >= currentStartDate && event.startDate <= currentEndDate) ||
           (event.endDate >= currentStartDate && event.endDate <= currentEndDate) ||
@@ -780,11 +780,11 @@ const Calendar: FC = () => {
           {/*<span*/}
           {/*  className={*/}
           {/*    'pre ' +*/}
-          {/*    (Utils.convertDateMonthToString(new Date()) !== Utils.convertDateMonthToString(currentDate) ? '' : 'op')*/}
+          {/*    (convertDateMonthToString(new Date()) !== convertDateMonthToString(currentDate) ? '' : 'op')*/}
           {/*  }*/}
           {/*  onClick={() =>*/}
           {/*    handleCalendar(*/}
-          {/*      Utils.convertDateMonthToString(new Date()) !== Utils.convertDateMonthToString(currentDate)*/}
+          {/*      convertDateMonthToString(new Date()) !== convertDateMonthToString(currentDate)*/}
           {/*        ? 'pre'*/}
           {/*        : 'pre'*/}
           {/*    )*/}
@@ -798,9 +798,7 @@ const Calendar: FC = () => {
           <span className={'next '} onClick={() => handleCalendar('next')}>
             &gt;
           </span>
-          <div className={'create-event-btn'} onClick={handleGoToTimeTable}>
-            내 일정
-          </div>
+          <ButtonBase text="내 일정" onClick={handleGoToTimeTable} />
         </div>
         <table className="calendar main">
           <tbody>

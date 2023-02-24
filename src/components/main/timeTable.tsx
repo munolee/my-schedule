@@ -1,6 +1,5 @@
 import React from 'react';
 import * as Utils from '../../utils';
-import Header from '../common/header';
 import isEmpty from 'lodash/isEmpty';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -417,7 +416,6 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
 
     return (
       <div className="wrapper">
-        <Header />
         <div className="date-wrap time-table-wrap">
           <div className="select-date">
             <div className="date-label">

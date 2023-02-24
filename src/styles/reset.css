@@ -64,3 +64,9 @@ textarea,
 select {
     font: inherit;
 }
+
+/* remove buttons outline */
+button {
+    border: none;
+    outline: none;
+}
