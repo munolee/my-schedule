@@ -1,10 +1,11 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import isEmpty from 'lodash/isEmpty';
 import queryString from 'query-string';
 import { weeks, lastWeek, convertDateMonthToString, convertDateToString } from '@utils/index';
 import ButtonBase from '@components/common/ButtonBase';
+import { schedule, userList } from '../api/mock';
 
 const Calendar: FC = () => {
   const navigate = useNavigate();
@@ -14,39 +15,6 @@ const Calendar: FC = () => {
   let currentDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
   let array: any = {};
   let weekData: any = {};
-
-  const [events, setEvents] = useState<any>([]);
-  const [userList] = useState<any>([
-    {
-      userId: 0,
-      userName: '사용자1',
-      userIcon: './image/user_icon.png',
-    },
-    {
-      userId: 1,
-      userName: '사용자2',
-      userIcon: './image/user_icon.png',
-    },
-    {
-      userId: 2,
-      userName: '사용자3',
-      userIcon: './image/user_icon.png',
-    },
-  ]);
-  const [eventType, setEventType] = useState<any>([
-    {
-      id: 0,
-      name: 'important',
-    },
-    {
-      id: 1,
-      name: 'annualLeave',
-    },
-    {
-      id: 2,
-      name: 'halfDayLeave',
-    },
-  ]);
 
   useEffect(() => {
     let currentYear = currentDate.getFullYear();
@@ -84,210 +52,44 @@ const Calendar: FC = () => {
         });
       }
     }
-    handleGetEvents();
+    // handleGetEvents();
   }, []);
 
-  useEffect(() => {
-    let week = localStorage.getItem('currentWeek');
-    if (!isEmpty(week) || !isEmpty(queryParams.week)) {
-      handleDetailTable(Number(week));
-    }
+  // useEffect(() => {
+  //   let week = localStorage.getItem('currentWeek');
+  //   if (!isEmpty(week) || !isEmpty(queryParams.week)) {
+  //     handleDetailTable(Number(week));
+  //   }
+  //
+  //   window.onpopstate = () => {
+  //     localStorage.setItem('currentPage', 'calendar');
+  //     let data = localStorage.getItem('currentState');
+  //     if (data != null) {
+  //       let jsonDate = JSON.parse(data);
+  //       let year = queryParams.date.slice(0, 4);
+  //       let month = queryParams.date.slice(4, 7);
+  //       currentDate = new Date(Number(year), Number(month) - 1, 1);
+  //       // this.setState({
+  //       //     ...jsonDate
+  //       // })
+  //     }
+  //     if (!isEmpty(queryParams.week)) {
+  //       handleDetailTable(Number(queryParams.week));
+  //     }
+  //   };
+  // });
 
-    window.onpopstate = () => {
-      localStorage.setItem('currentPage', 'calendar');
-      let data = localStorage.getItem('currentState');
-      if (data != null) {
-        let jsonDate = JSON.parse(data);
-        let year = queryParams.date.slice(0, 4);
-        let month = queryParams.date.slice(4, 7);
-        currentDate = new Date(Number(year), Number(month) - 1, 1);
-        // this.setState({
-        //     ...jsonDate
-        // })
-      }
-      if (!isEmpty(queryParams.week)) {
-        handleDetailTable(Number(queryParams.week));
-      }
-    };
-  });
-
-  // 일정 Get API 호출 부분
-  const handleGetEvents = () => {
-    let eventList: any[] = [
-      {
-        startDate: '2021-01-04',
-        endDate: '2021-01-05',
-        eventTitle: '일정1',
-        userId: 0,
-        typeId: 0,
-      },
-      {
-        startDate: '2021-02-05',
-        endDate: '2021-02-07',
-        eventTitle: '일정2',
-        userId: 1,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-01-10',
-        endDate: '2021-01-13',
-        eventTitle: '일정3',
-        userId: 0,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-03-11',
-        endDate: '2021-03-13',
-        eventTitle: '일정4',
-        userId: 2,
-        typeId: 2,
-      },
-      {
-        startDate: '2021-02-13',
-        endDate: '2021-02-16',
-        eventTitle: '일정5',
-        userId: 0,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-01-14',
-        endDate: '2021-01-15',
-        eventTitle: '일정6',
-        userId: 2,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-01-21',
-        endDate: '2021-01-21',
-        eventTitle: '일정17',
-        userId: 0,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-01-24',
-        endDate: '2021-01-26',
-        eventTitle: '일정18',
-        userId: 1,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-01-25',
-        endDate: '2021-01-27',
-        eventTitle: '일정19',
-        userId: 0,
-        typeId: 1,
-      },
-      {
-        startDate: '2020-08-16',
-        endDate: '2020-08-24',
-        eventTitle: '일정1',
-        userId: 0,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-01-05',
-        endDate: '2021-01-07',
-        eventTitle: '일정2',
-        userId: 1,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-03-10',
-        endDate: '2021-03-17',
-        eventTitle: '일정3',
-        userId: 0,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-04-11',
-        endDate: '2021-04-13',
-        eventTitle: '일정4',
-        userId: 2,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-03-10',
-        endDate: '2021-03-16',
-        eventTitle: '일정5',
-        userId: 0,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-02-14',
-        endDate: '2021-02-15',
-        eventTitle: '일정6',
-        userId: 2,
-        typeId: 2,
-      },
-      {
-        startDate: '2020-12-21',
-        endDate: '2020-12-21',
-        eventTitle: '일정17',
-        userId: 0,
-        typeId: 1,
-      },
-      {
-        startDate: '2020-09-20',
-        endDate: '2020-11-21',
-        eventTitle: '일정20',
-        userId: 0,
-        typeId: 1,
-      },
-      {
-        startDate: '2020-09-20',
-        endDate: '2020-10-13',
-        eventTitle: '일정21',
-        userId: 1,
-        typeId: 1,
-      },
-      {
-        startDate: '2020-09-20',
-        endDate: '2020-10-10',
-        eventTitle: '일정22',
-        userId: 0,
-        typeId: 2,
-      },
-      {
-        startDate: '2020-07-20',
-        endDate: '2020-10-10',
-        eventTitle: '일정23',
-        userId: 2,
-        typeId: 1,
-      },
-      {
-        startDate: '2020-06-20',
-        endDate: '2020-10-10',
-        eventTitle: '일정24',
-        userId: 2,
-        typeId: 0,
-      },
-      {
-        startDate: '2020-09-20',
-        endDate: '2020-10-29',
-        eventTitle: '일정19',
-        userId: 0,
-        typeId: 0,
-      },
-      {
-        startDate: '2020-12-24',
-        endDate: '2020-12-26',
-        eventTitle: '일정18',
-        userId: 1,
-        typeId: 1,
-      },
-    ];
-
-    eventList.sort(function (prev, next) {
-      if (prev.startDate < next.startDate) {
-        return -1;
-      } else if (prev.startDate === next.startDate && prev.endDate < next.endDate) {
-        return -1;
-      }
-      return 0;
-    });
-
-    setEvents(eventList);
-  };
+  // // 일정 Get API 호출 부분
+  // const handleGetEvents = () => {
+  //   schedule.sort(function (prev, next) {
+  //     if (prev.startDate < next.startDate) {
+  //       return -1;
+  //     } else if (prev.startDate === next.startDate && prev.endDate < next.endDate) {
+  //       return -1;
+  //     }
+  //     return 0;
+  //   });
+  // };
 
   // 이전, 다음, 오늘 버튼 이벤트
   const handleCalendar = (type: string) => {
@@ -564,17 +366,17 @@ const Calendar: FC = () => {
     }
 
     let cnt = 0;
-    for (let i = 0; i < events.length; i++) {
-      if (events[i].startDate === date) {
+    for (let i = 0; i < schedule.length; i++) {
+      if (schedule[i].startDate === date) {
         array[i] = i;
-      } else if (events[i].startDate <= date && events[i].endDate >= date) {
+      } else if (schedule[i].startDate <= date && schedule[i].endDate >= date) {
         tempData[i] = i;
       }
       if (
-        (events[i].startDate >= weekStartDate && events[i].startDate <= weekEndDate) ||
-        (events[i].endDate >= weekStartDate && events[i].endDate <= weekEndDate)
+        (schedule[i].startDate >= weekStartDate && schedule[i].startDate <= weekEndDate) ||
+        (schedule[i].endDate >= weekStartDate && schedule[i].endDate <= weekEndDate)
       ) {
-        weekData[i] = events[i];
+        weekData[i] = schedule[i];
       }
       if (!isEmpty(weekData[i])) {
         html.push(
@@ -586,7 +388,7 @@ const Calendar: FC = () => {
       }
     }
 
-    events.map((event: any, idx: number) => {
+    schedule.map((event: any, idx: number) => {
       eventTitle = event.eventTitle;
       let position = array[idx];
       if (event.startDate === date) {
@@ -687,72 +489,10 @@ const Calendar: FC = () => {
     return html;
   };
 
-  // 일정 목록 그리기
-  const renderEventList = (type: string) => {
-    let html: any[] = [];
-    let userName = '';
-    let eventName = '';
-    let count = 0;
-
-    events.map((event: any, idx: number) => {
-      for (let i = 0; i < userList.length; i++) {
-        if (Number(userList[i].userId) === event.userId) {
-          userName = userList[i].userName;
-        }
-      }
-      for (let i = 0; i < eventType.length; i++) {
-        if (Number(eventType[i].id) === event.typeId) {
-          eventName = eventType[i].name;
-        }
-      }
-      if (type === eventName) {
-        let currentStartDate = convertDateToString(currentDate);
-        let currentEndDate = convertDateToString(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0));
-        if (
-          (event.startDate >= currentStartDate && event.startDate <= currentEndDate) ||
-          (event.endDate >= currentStartDate && event.endDate <= currentEndDate) ||
-          (event.startDate < currentStartDate && event.endDate > currentEndDate)
-        ) {
-          html.push(
-            <li key={Math.random()} className={`event${idx % 5}`}>
-              <span className="event-list-circle"> </span>
-              <span>{`${type === 'important' ? event.eventTitle + ' (' + userName + ')' : userName}`}</span>
-            </li>
-          );
-          count++;
-        }
-      }
-    });
-    if (count === 0) {
-      html.push(
-        <li key={Math.random()}>
-          <span className="event-list-empty"> - </span>
-        </li>
-      );
-    }
-    return html;
-  };
-
   return (
-    <div className="wrapper">
-      <div className="event-wrap">
-        <div className="event-list">
-          <div className="event-important">
-            <span className="event-list-title">주요 일정</span>
-            <ul>{renderEventList('important')}</ul>
-          </div>
-          <div className="event-annual">
-            <span className="event-list-title">연차</span>
-            <ul>{renderEventList('annualLeave')}</ul>
-          </div>
-          <div className="event-annual-half">
-            <span className="event-list-title">반차</span>
-            <ul>{renderEventList('halfDayLeave')}</ul>
-          </div>
-        </div>
-      </div>
-      <div className="date-wrap main">
-        <div className="select-date">
+    <>
+      <StyledCalendar>
+        <CalendarTopBar>
           {/*<div className="date-label">*/}
           {/*  {isEmpty(queryParams.week) && (*/}
           {/*    <>*/}
@@ -799,9 +539,9 @@ const Calendar: FC = () => {
             &gt;
           </span>
           <ButtonBase text="내 일정" onClick={handleGoToTimeTable} />
-        </div>
-        <table className="calendar main">
-          <tbody>
+        </CalendarTopBar>
+        <CalendarTable>
+          <thead>
             <tr>
               <th>일</th>
               <th>월</th>
@@ -811,18 +551,34 @@ const Calendar: FC = () => {
               <th>금</th>
               <th>토</th>
             </tr>
-            {renderCalendar()}
-          </tbody>
-        </table>
-      </div>
-      <div className={'event-tooltip'}>
-        {/*<img src={'../image/user_icon.png'} />*/}
-        <span className={'event-user'}>이름</span>
-        <span className={'event-title'}> 내용</span>
-        <span className={'event-date'}>기간~기간</span>
-      </div>
-    </div>
+          </thead>
+          <tbody>{renderCalendar()}</tbody>
+        </CalendarTable>
+      </StyledCalendar>
+    </>
   );
 };
 
 export default Calendar;
+
+const StyledCalendar = styled.div`
+  position: relative;
+  //display: inline-block;
+`;
+
+const CalendarTopBar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+`;
+
+const CalendarTable = styled.table`
+  width: 600px;
+  height: 80vh;
+  border-spacing: 0;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+  background-color: #f2f0f4;
+  overflow: hidden;
+`;

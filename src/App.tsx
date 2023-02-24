@@ -17,7 +17,6 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-family: 'SCDream7',sans-serif;
     background: #f9f8f7;
-    overflow: hidden;
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
