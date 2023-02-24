@@ -5,55 +5,58 @@ import isEmpty from 'lodash/isEmpty';
 import queryString from 'query-string';
 import { weeks, lastWeek, convertDateMonthToString, convertDateToString } from '@utils/index';
 import ButtonBase from '@components/common/ButtonBase';
-import { schedule, userList } from '../api/mock';
+import { schedule } from '../api/mock';
+import useCalendar from '@hooks/useCalendar';
 
 const Calendar: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const {} = useCalendar();
+
   const queryParams: any = queryString.parse(location.search);
 
   let currentDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
   let array: any = {};
   let weekData: any = {};
 
-  useEffect(() => {
-    let currentYear = currentDate.getFullYear();
-    let currentMonth: number | string = currentDate.getMonth() + 1;
-    currentMonth = currentMonth >= 10 ? currentMonth : '0' + currentMonth;
-
-    if (!isEmpty(location.search)) {
-      if (!isEmpty(queryParams.date) && isEmpty(queryParams.week)) {
-        // 캘린더 메인
-        let year = queryParams.date.slice(0, 4);
-        let month = queryParams.date.slice(4, 7);
-        currentDate = new Date(Number(year), Number(month) - 1, 1);
-      } else if (!isEmpty(queryParams.date) && !isEmpty(queryParams.week)) {
-        // 캘린더 상세 (week)
-        let year = queryParams.date.slice(0, 4);
-        let month = queryParams.date.slice(4, 7);
-        currentDate = new Date(Number(year), Number(month) - 1, 1);
-        if (Number(lastWeek(currentDate)) < Number(queryParams.week)) {
-          navigate({
-            pathname: '/calendar',
-            search: `date=${String(queryParams.date)}`,
-          });
-        } else {
-          // handleDetailTable(Number(queryParams.week));
-          navigate({
-            pathname: '/calendar',
-            search: `date=${String(queryParams.date)}&week=${Number(queryParams.week)}`,
-          });
-          localStorage.setItem('currentWeek', queryParams.week);
-        }
-      } else if (isEmpty(queryParams.date) && isEmpty(queryParams.week)) {
-        navigate({
-          pathname: '/calendar',
-          search: `date=${String(currentYear) + String(currentMonth)}`,
-        });
-      }
-    }
-    // handleGetEvents();
-  }, []);
+  // useEffect(() => {
+  //   let currentYear = currentDate.getFullYear();
+  //   let currentMonth: number | string = currentDate.getMonth() + 1;
+  //   currentMonth = currentMonth >= 10 ? currentMonth : '0' + currentMonth;
+  //
+  //   if (!isEmpty(location.search)) {
+  //     if (!isEmpty(queryParams.date) && isEmpty(queryParams.week)) {
+  //       // 캘린더 메인
+  //       let year = queryParams.date.slice(0, 4);
+  //       let month = queryParams.date.slice(4, 7);
+  //       currentDate = new Date(Number(year), Number(month) - 1, 1);
+  //     } else if (!isEmpty(queryParams.date) && !isEmpty(queryParams.week)) {
+  //       // 캘린더 상세 (week)
+  //       let year = queryParams.date.slice(0, 4);
+  //       let month = queryParams.date.slice(4, 7);
+  //       currentDate = new Date(Number(year), Number(month) - 1, 1);
+  //       if (Number(lastWeek(currentDate)) < Number(queryParams.week)) {
+  //         navigate({
+  //           pathname: '/calendar',
+  //           search: `date=${String(queryParams.date)}`,
+  //         });
+  //       } else {
+  //         // handleDetailTable(Number(queryParams.week));
+  //         navigate({
+  //           pathname: '/calendar',
+  //           search: `date=${String(queryParams.date)}&week=${Number(queryParams.week)}`,
+  //         });
+  //         localStorage.setItem('currentWeek', queryParams.week);
+  //       }
+  //     } else if (isEmpty(queryParams.date) && isEmpty(queryParams.week)) {
+  //       navigate({
+  //         pathname: '/calendar',
+  //         search: `date=${String(currentYear) + String(currentMonth)}`,
+  //       });
+  //     }
+  //   }
+  //   // handleGetEvents();
+  // }, []);
 
   // useEffect(() => {
   //   let week = localStorage.getItem('currentWeek');
@@ -194,12 +197,12 @@ const Calendar: FC = () => {
       tooltip.style.left = `${e.pageX + 30}px`;
       tooltip.style.top = `${e.pageY}px`;
 
-      for (let i = 0; i < userList.length; i++) {
-        if (Number(userList[i].userId) === event.userId) {
-          userName = userList[i].userName;
-          userIcon = userList[i].userIcon;
-        }
-      }
+      // for (let i = 0; i < userList.length; i++) {
+      //   if (Number(userList[i].userId) === event.userId) {
+      //     userName = userList[i].userName;
+      //     userIcon = userList[i].userIcon;
+      //   }
+      // }
       // tooltip.childNodes[0] = (<div> </div>); //user icon
       tooltip.childNodes[1].textContent = `${userName}`;
       tooltip.childNodes[2].textContent = `${event.eventTitle}`;
