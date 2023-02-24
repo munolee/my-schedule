@@ -1,12 +1,9 @@
 import { FC } from 'react';
 import styled from '@emotion/styled';
-import { convertDateToString } from '@utils/index';
-import { eventType, schedule, userList } from '../api/mock';
+import useEventSchedule from '@hooks/useEventSchedule';
 
-type EventBoardProps = {};
-
-const EventBoard: FC<EventBoardProps> = ({}) => {
-  const currentDate = new Date(); // TODO 임시 데이트 객체
+const EventBoard: FC = () => {
+  const { eventSchedule, isCurrentMonthDate } = useEventSchedule();
 
   return (
     <StyledEventBoard>
@@ -14,28 +11,15 @@ const EventBoard: FC<EventBoardProps> = ({}) => {
         <BoardItem>
           <span>주요 일정</span>
           <BoardScheduleList>
-            {schedule.map((event, index) => {
-              const { userId, typeId } = event;
-              const curUser = userList.find((user) => user.userId === userId);
-              const curEvent = eventType.find((event) => event.id === typeId);
-              const userName = curUser?.userName || '';
-              const eventName = curEvent?.type || '';
-
-              // TODO 현재 달인지 구분 하는 소스, 수정 사항
-              let currentStartDate = convertDateToString(currentDate);
-              let currentEndDate = convertDateToString(
-                new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
-              );
-              if (
-                (event.startDate >= currentStartDate && event.startDate <= currentEndDate) ||
-                (event.endDate >= currentStartDate && event.endDate <= currentEndDate) ||
-                (event.startDate < currentStartDate && event.endDate > currentEndDate)
-              ) {
+            {eventSchedule.map((event, index) => {
+              const { startDate, endDate, eventTitle } = event;
+              if (!isCurrentMonthDate(startDate, endDate)) {
+                return null;
               }
               return (
                 <BoardScheduleItem key={index} className={`event${index % 5}`}>
                   <ScheduleEventCircle />
-                  <span>{userName}</span>
+                  <span>{eventTitle}</span>
                 </BoardScheduleItem>
               );
             })}
