@@ -2,12 +2,12 @@ import React from 'react';
 import * as Utils from '../../utils';
 import isEmpty from 'lodash/isEmpty';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { schedule } from '../../api/mock';
 
 export interface TimeTableProps {}
 
 export interface TimeTableState {
   weekDate: any[];
-  events: any[];
   firstDate: string;
   lastDate: string;
 }
@@ -32,18 +32,6 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
 
     this.state = {
       weekDate: [],
-      events: [
-        {
-          startDate: '2020-12-14',
-          endDate: '2020-12-18',
-          eventTitle: '일정1',
-        },
-        {
-          startDate: '2020-12-05',
-          endDate: '2020-12-06',
-          eventTitle: '휴가1',
-        },
-      ],
       firstDate: '',
       lastDate: '',
     };
@@ -75,181 +63,13 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
 
   // 일정 Get API 호출 부분
   handleGetEvents = () => {
-    let eventList: any[] = [
-      {
-        startDate: '2021-01-04',
-        endDate: '2021-01-05',
-        eventTitle: '일정1',
-        userId: 0,
-        typeId: 0,
-      },
-      {
-        startDate: '2021-02-05',
-        endDate: '2021-02-07',
-        eventTitle: '일정2',
-        userId: 1,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-01-10',
-        endDate: '2021-01-13',
-        eventTitle: '일정3',
-        userId: 0,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-03-11',
-        endDate: '2021-03-13',
-        eventTitle: '일정4',
-        userId: 2,
-        typeId: 2,
-      },
-      {
-        startDate: '2021-02-13',
-        endDate: '2021-02-16',
-        eventTitle: '일정5',
-        userId: 0,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-01-14',
-        endDate: '2021-01-15',
-        eventTitle: '일정6',
-        userId: 2,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-01-21',
-        endDate: '2021-01-21',
-        eventTitle: '일정17',
-        userId: 0,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-01-24',
-        endDate: '2021-01-26',
-        eventTitle: '일정18',
-        userId: 1,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-01-25',
-        endDate: '2021-01-27',
-        eventTitle: '일정19',
-        userId: 0,
-        typeId: 1,
-      },
-      {
-        startDate: '2020-08-16',
-        endDate: '2020-08-24',
-        eventTitle: '일정1',
-        userId: 0,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-01-05',
-        endDate: '2021-01-07',
-        eventTitle: '일정2',
-        userId: 1,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-03-10',
-        endDate: '2021-03-17',
-        eventTitle: '일정3',
-        userId: 0,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-04-11',
-        endDate: '2021-04-13',
-        eventTitle: '일정4',
-        userId: 2,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-03-10',
-        endDate: '2021-03-16',
-        eventTitle: '일정5',
-        userId: 0,
-        typeId: 1,
-      },
-      {
-        startDate: '2021-02-14',
-        endDate: '2021-02-15',
-        eventTitle: '일정6',
-        userId: 2,
-        typeId: 2,
-      },
-      {
-        startDate: '2020-12-21',
-        endDate: '2020-12-21',
-        eventTitle: '일정17',
-        userId: 0,
-        typeId: 1,
-      },
-      {
-        startDate: '2020-09-20',
-        endDate: '2020-11-21',
-        eventTitle: '일정20',
-        userId: 0,
-        typeId: 1,
-      },
-      {
-        startDate: '2020-09-20',
-        endDate: '2020-10-13',
-        eventTitle: '일정21',
-        userId: 1,
-        typeId: 1,
-      },
-      {
-        startDate: '2020-09-20',
-        endDate: '2020-10-10',
-        eventTitle: '일정22',
-        userId: 0,
-        typeId: 2,
-      },
-      {
-        startDate: '2020-07-20',
-        endDate: '2020-10-10',
-        eventTitle: '일정23',
-        userId: 2,
-        typeId: 1,
-      },
-      {
-        startDate: '2020-06-20',
-        endDate: '2020-10-10',
-        eventTitle: '일정24',
-        userId: 2,
-        typeId: 0,
-      },
-      {
-        startDate: '2020-09-20',
-        endDate: '2020-10-29',
-        eventTitle: '일정19',
-        userId: 0,
-        typeId: 0,
-      },
-      {
-        startDate: '2020-12-24',
-        endDate: '2020-12-26',
-        eventTitle: '일정18',
-        userId: 1,
-        typeId: 1,
-      },
-    ];
-
-    eventList.sort(function (prev, next) {
+    schedule.sort(function (prev, next) {
       if (prev.startDate < next.startDate) {
         return -1;
       } else if (prev.startDate === next.startDate && prev.endDate < next.endDate) {
         return -1;
       }
       return 0;
-    });
-
-    this.setState({
-      events: eventList,
     });
   };
 
@@ -415,7 +235,7 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
     const { weekDate, firstDate, lastDate } = this.state;
 
     return (
-      <div className="wrapper">
+      <>
         <div className="date-wrap time-table-wrap">
           <div className="select-date">
             <div className="date-label">
@@ -456,7 +276,7 @@ export class TimeTable extends React.Component<TimeTableProps, TimeTableState> {
             </tbody>
           </table>
         </div>
-      </div>
+      </>
     );
   }
 }

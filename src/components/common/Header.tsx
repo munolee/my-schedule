@@ -39,11 +39,11 @@ const Header: FC = () => {
     <StyledHeader>
       <HeaderList>
         <HeaderMenuItem isActive={currentPage === 'calendar'} onClick={() => handleLocation('calendar')}>
-          <img src={'/image/home.png'} alt="" />
+          <img src={'/image/home.png'} alt="home_btn_image" />
           <MenuTitle>전체 일정</MenuTitle>
         </HeaderMenuItem>
         <HeaderMenuItem isActive={currentPage === 'table'} onClick={() => handleLocation('table')}>
-          <img src={'/image/time.png'} alt="" />
+          <img src={'/image/time.png'} alt="time_table_btn_image" />
           <MenuTitle>근무&middot;일정</MenuTitle>
         </HeaderMenuItem>
       </HeaderList>
