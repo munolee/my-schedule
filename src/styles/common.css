@@ -1,13 +1,13 @@
 @font-face {
     font-family: 'SCDream7';
-    src: url('../fonts/SCDream7.otf');
+    src: url('../assets/fonts/SCDream7.otf');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'paybooc-Bold';
-    src: url('../fonts/paybooc Bold.ttf');
+    src: url('../assets/fonts/paybooc Bold.ttf');
     font-weight: normal;
     font-style: normal;
 }
