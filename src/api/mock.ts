@@ -69,12 +69,6 @@ export const schedule = [
     typeId: 1,
   },
   {
-    startDate: '2020-08-16',
-    endDate: '2020-08-24',
-    eventTitle: '일정1',
-    typeId: 1,
-  },
-  {
     startDate: '2023-01-05',
     endDate: '2023-01-07',
     eventTitle: '일정2',
