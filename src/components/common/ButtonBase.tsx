@@ -1,34 +1,59 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import styled from '@emotion/styled';
 
 type ButtonBaseProps = {
   text: string;
   onClick: () => void;
+  width?: number;
+  height?: number;
+  textColor?: string;
+  backgroundColor?: string;
+  borderColor?: string;
 };
 
-const ButtonBase: FC<ButtonBaseProps> = ({ text, onClick }) => {
-  return <StyledButton onClick={onClick}>{text}</StyledButton>;
+const ButtonBase: FC<ButtonBaseProps> = ({
+  text,
+  onClick,
+  width,
+  height,
+  textColor = '#ffffff',
+  backgroundColor = '#ffffff',
+  borderColor = '#ffffff',
+}) => {
+  return (
+    <StyledButton
+      onClick={onClick}
+      width={width}
+      height={height}
+      textColor={textColor}
+      backgroundColor={backgroundColor}
+      borderColor={borderColor}
+    >
+      {text}
+    </StyledButton>
+  );
 };
 
 export default ButtonBase;
 
-const StyledButton = styled.button`
-  position: absolute;
-  margin: 0;
-  padding: 8px 12px 8px 12px;
-  width: auto;
-  display: inline-block;
-  text-align: center;
-  top: 0;
-  right: 0;
-  font-size: 15px;
-  background-color: #ff7272;
-  color: #ffffff;
-  border: 1px solid #ffffff;
+const StyledButton = styled.button<{
+  width?: number;
+  height?: number;
+  textColor?: string;
+  backgroundColor?: string;
+  borderColor?: string;
+}>`
+  padding: 8px 12px;
+  width: ${({ width }) => (width ? width : 'auto')};
+  height: ${({ height }) => (height ? height : 'auto')};
+  font-size: 16px;
+  color: ${({ textColor }) => textColor};
+  background-color: ${({ backgroundColor }) => backgroundColor};
+  border: 1px solid ${({ borderColor }) => borderColor};
   border-radius: 10px;
   cursor: pointer;
 
-  &:hover {
+  :hover {
     opacity: 0.8;
   }
 `;
