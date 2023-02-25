@@ -1,105 +1,25 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
+import moment from 'moment';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import isEmpty from 'lodash/isEmpty';
 import queryString from 'query-string';
-import { weeks, lastWeek, convertDateMonthToString, convertDateToString } from '@utils/index';
+import { weeks } from '@utils/index';
 import ButtonBase from '@components/common/ButtonBase';
-import { schedule } from '../api/mock';
 import useCalendar from '@hooks/useCalendar';
+import CalendarEventDate from '@components/CalendarEventDate';
 
 const Calendar: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const {} = useCalendar();
 
-  const queryParams: any = queryString.parse(location.search);
+  const { dayOfWeek, currentMonthWeeks } = useCalendar();
 
-  let currentDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-  let array: any = {};
-  let weekData: any = {};
-
-  // useEffect(() => {
-  //   let currentYear = currentDate.getFullYear();
-  //   let currentMonth: number | string = currentDate.getMonth() + 1;
-  //   currentMonth = currentMonth >= 10 ? currentMonth : '0' + currentMonth;
-  //
-  //   if (!isEmpty(location.search)) {
-  //     if (!isEmpty(queryParams.date) && isEmpty(queryParams.week)) {
-  //       // 캘린더 메인
-  //       let year = queryParams.date.slice(0, 4);
-  //       let month = queryParams.date.slice(4, 7);
-  //       currentDate = new Date(Number(year), Number(month) - 1, 1);
-  //     } else if (!isEmpty(queryParams.date) && !isEmpty(queryParams.week)) {
-  //       // 캘린더 상세 (week)
-  //       let year = queryParams.date.slice(0, 4);
-  //       let month = queryParams.date.slice(4, 7);
-  //       currentDate = new Date(Number(year), Number(month) - 1, 1);
-  //       if (Number(lastWeek(currentDate)) < Number(queryParams.week)) {
-  //         navigate({
-  //           pathname: '/calendar',
-  //           search: `date=${String(queryParams.date)}`,
-  //         });
-  //       } else {
-  //         // handleDetailTable(Number(queryParams.week));
-  //         navigate({
-  //           pathname: '/calendar',
-  //           search: `date=${String(queryParams.date)}&week=${Number(queryParams.week)}`,
-  //         });
-  //         localStorage.setItem('currentWeek', queryParams.week);
-  //       }
-  //     } else if (isEmpty(queryParams.date) && isEmpty(queryParams.week)) {
-  //       navigate({
-  //         pathname: '/calendar',
-  //         search: `date=${String(currentYear) + String(currentMonth)}`,
-  //       });
-  //     }
-  //   }
-  //   // handleGetEvents();
-  // }, []);
-
-  // useEffect(() => {
-  //   let week = localStorage.getItem('currentWeek');
-  //   if (!isEmpty(week) || !isEmpty(queryParams.week)) {
-  //     handleDetailTable(Number(week));
-  //   }
-  //
-  //   window.onpopstate = () => {
-  //     localStorage.setItem('currentPage', 'calendar');
-  //     let data = localStorage.getItem('currentState');
-  //     if (data != null) {
-  //       let jsonDate = JSON.parse(data);
-  //       let year = queryParams.date.slice(0, 4);
-  //       let month = queryParams.date.slice(4, 7);
-  //       currentDate = new Date(Number(year), Number(month) - 1, 1);
-  //       // this.setState({
-  //       //     ...jsonDate
-  //       // })
-  //     }
-  //     if (!isEmpty(queryParams.week)) {
-  //       handleDetailTable(Number(queryParams.week));
-  //     }
-  //   };
-  // });
-
-  // // 일정 Get API 호출 부분
-  // const handleGetEvents = () => {
-  //   schedule.sort(function (prev, next) {
-  //     if (prev.startDate < next.startDate) {
-  //       return -1;
-  //     } else if (prev.startDate === next.startDate && prev.endDate < next.endDate) {
-  //       return -1;
-  //     }
-  //     return 0;
-  //   });
-  // };
+  const queryParams: any = queryString.parse(location.search); // TODO 삭제 사항
+  let currentDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1); // TODO 삭제 사항
 
   // 이전, 다음, 오늘 버튼 이벤트
   const handleCalendar = (type: string) => {
-    // const location: any = history.location;
-    // const queryString = require('query-string');
-    // const queryParams = queryString.parse(location.search);
-
     if (isEmpty(queryParams.week) && queryParams.week === undefined) {
       // 메인 캘린더
       if (type === 'pre') {
@@ -111,8 +31,6 @@ const Calendar: FC = () => {
         currentDate = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
       } else return;
 
-      //TODO
-      //   localStorage.setItem("currentState", JSON.stringify(this.state));
       let currentYear = currentDate.getFullYear();
       let currentMonth: number | string = currentDate.getMonth() + 1;
       currentMonth = currentMonth >= 10 ? currentMonth : '0' + currentMonth;
@@ -212,6 +130,7 @@ const Calendar: FC = () => {
     }
   };
 
+  // TODO 메서드 수정 사항
   const handleSetDetailTable = (week: any) => {
     let year = new Date(currentDate).getFullYear();
     let month = new Date(currentDate).getMonth();
@@ -243,39 +162,7 @@ const Calendar: FC = () => {
     }
 
     localStorage.setItem('currentWeek', week);
-    // localStorage.setItem("currentState", JSON.stringify(state));
     currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-  };
-
-  const handleDetailTable = (week?: any) => {
-    // const location: any = history.location;
-    // const queryString = require('query-string');
-    // const queryParams = queryString.parse(location.search);
-    const selectWeek = document.querySelectorAll<HTMLElement>('.calendar tbody tr'); // 달력 week
-    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-
-    handleCalendarHover('', '', false); // tooltip 초기화
-    if (!isEmpty(location.search) && !isEmpty(queryParams.week)) {
-      if (week === 'back') {
-        // for (let i = 0; i <= selectWeek.length; i++) {
-        //     if (!isEmpty(selectWeek[i])) {
-        //         selectWeek[i].classList.remove('passive');
-        //         selectWeek[i].classList.remove('active');
-        //     }
-        // }
-        localStorage.removeItem('currentWeek');
-      } else {
-        for (let i = 0; i <= selectWeek.length; i++) {
-          if (!isEmpty(selectWeek[i])) {
-            if (week + 1 !== i && i !== 0) {
-              selectWeek[i].className = 'passive';
-            } else if (selectWeek[week + 1] !== undefined) {
-              selectWeek[week + 1].className = 'active';
-            }
-          }
-        }
-      }
-    }
   };
 
   // 내 일정 Route
@@ -290,206 +177,6 @@ const Calendar: FC = () => {
       pathname: '/table',
       search: `date=${String(currentYear)}${String(currentMonth)}${String(tempDate)}`,
     });
-  };
-
-  // 달력 주 단위 그리기
-  const renderCalendar = () => {
-    // 년도
-    let year = new Date(currentDate).getFullYear();
-    // 월  - 1월 : 0 부터 시작
-    let month = new Date(currentDate).getMonth();
-    // 달의 첫 1일 요일
-    let firstDay = new Date(year, month, 1).getDay();
-    // 달의 마지막 일
-    let lastDay = new Date(year, month + 1, 0).getDate();
-    // 마지막 주
-    let lastWeek = Math.ceil((firstDay + lastDay) / 7);
-
-    let curDate = new Date(year, month, 1);
-
-    currentDate.setDate(currentDate.getDate() - firstDay);
-
-    let html: any[] = [];
-
-    for (let i = 0; i < lastWeek; i++) {
-      html.push(<tr key={Math.random()}>{renderCalendarDate(i, convertDateMonthToString(curDate))}</tr>);
-    }
-    currentDate = new Date(year, month, 1);
-    return html;
-  };
-
-  // 달력 일 단위 그리기
-  const renderCalendarDate = (week: number, curDate: string) => {
-    let html: any[] = [];
-    let year = new Date(currentDate).getFullYear();
-    let month = new Date(currentDate).getMonth();
-    let firstDay = new Date(year, month + 1, 1).getDay();
-    let lastDay = new Date(year, month + 1, 0).getDate();
-    let className = '';
-
-    for (let i = 0; i < 7; i++) {
-      className = '';
-      let date = convertDateToString(currentDate);
-      if (date === convertDateToString(new Date())) {
-        className = 'today';
-      } else if (convertDateMonthToString(currentDate) !== curDate) {
-        className = 'empty';
-      }
-
-      html.push(
-        <td key={Math.random()} className={className} onClick={() => handleSetDetailTable(week)}>
-          <span className={'calendar-date'}>{currentDate.getDate()}</span>
-          <div className="event-list">{renderCalendarEvent(week)}</div>
-        </td>
-      );
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-    return html;
-  };
-
-  // 달력 일정(events) 그리기
-  const renderCalendarEvent = (week: number) => {
-    let html: any[] = [];
-    let date = convertDateToString(currentDate);
-    let className = '';
-    let eventTitle = '';
-    let eventArray = array;
-    array = {};
-    let tempData: any = {};
-    let weekStartDate = date;
-    let weekEndDate = date;
-
-    if (currentDate.getDay() === 0) {
-      // 일요일일때 초기화
-      weekData = {};
-      weekStartDate = date;
-      currentDate.setDate(currentDate.getDate() + 6);
-      weekEndDate = convertDateToString(currentDate);
-      currentDate.setDate(currentDate.getDate() - 6);
-    }
-
-    let cnt = 0;
-    for (let i = 0; i < schedule.length; i++) {
-      if (schedule[i].startDate === date) {
-        array[i] = i;
-      } else if (schedule[i].startDate <= date && schedule[i].endDate >= date) {
-        tempData[i] = i;
-      }
-      if (
-        (schedule[i].startDate >= weekStartDate && schedule[i].startDate <= weekEndDate) ||
-        (schedule[i].endDate >= weekStartDate && schedule[i].endDate <= weekEndDate)
-      ) {
-        weekData[i] = schedule[i];
-      }
-      if (!isEmpty(weekData[i])) {
-        html.push(
-          <span key={Math.random()} className={`empty ${cnt >= 4 ? 'hide' : ''}`}>
-            {' '}
-          </span>
-        );
-        cnt++;
-      }
-    }
-
-    schedule.map((event: any, idx: number) => {
-      eventTitle = event.eventTitle;
-      let position = array[idx];
-      if (event.startDate === date) {
-        // 일정 시작
-        // 일정이 하루일 때
-        if (idx !== 0 && event.startDate === event.endDate) {
-          className = 'start one-day';
-        } else {
-          className = 'start';
-        }
-
-        position = Object.keys(array).indexOf(String(idx));
-        array[idx] = position;
-
-        if (currentDate.getDay() === 0) {
-          let i = 0;
-          for (let key in array) {
-            if (Number(key) === idx) {
-              position = i;
-              array[key] = i;
-            }
-            i++;
-          }
-        }
-        html[position] = (
-          <span
-            key={idx}
-            className={`${className} event${idx % 5} ${position >= 4 ? 'hide' : ''}`}
-            onMouseEnter={(e) => handleCalendarHover(e, event, true)}
-            onMouseLeave={(e) => handleCalendarHover(e, event, false)}
-          >
-            {eventTitle}
-          </span>
-        );
-      } else if (event.endDate === date) {
-        // 일정 끝
-        className = 'end';
-        if (currentDate.getDay() === 0) {
-          let i = 0;
-          for (let key in tempData) {
-            if (Number(key) === idx) {
-              position = i;
-              array[key] = i;
-            }
-            i++;
-          }
-        } else {
-          position = eventArray[idx];
-          array[idx] = position;
-        }
-        html[position] = (
-          <span
-            key={idx}
-            className={`${className} event${idx % 5} ${position >= 4 ? 'hide' : ''}`}
-            onMouseEnter={(e) => handleCalendarHover(e, event, true)}
-            onMouseLeave={(e) => handleCalendarHover(e, event, false)}
-          >
-            {week === 0 && currentDate.getDay() === 0 ? eventTitle : ''}
-          </span>
-        );
-      } else if (event.startDate < date && event.endDate > date) {
-        // 일정 진행중
-        className = 'ing';
-        if (currentDate.getDay() === 0) {
-          let i = 0;
-          for (let key in tempData) {
-            if (Number(key) === idx) {
-              position = i;
-              array[key] = i;
-            }
-            i++;
-          }
-        } else {
-          position = eventArray[idx];
-          array[idx] = position;
-        }
-        html[position] = (
-          <span
-            key={idx}
-            className={`${className} event${idx % 5}  ${position >= 4 ? 'hide' : ''}`}
-            onMouseEnter={(e) => handleCalendarHover(e, event, true)}
-            onMouseLeave={(e) => handleCalendarHover(e, event, false)}
-          >
-            {week === 0 && currentDate.getDay() === 0 ? eventTitle : ''}
-          </span>
-        );
-      }
-      if (position !== undefined && position === 4) {
-        html[position] = (
-          <span key={Math.random()} className={'more'}>
-            . . .
-          </span>
-        );
-      }
-      return event;
-    });
-
-    return html;
   };
 
   return (
@@ -507,7 +194,6 @@ const Calendar: FC = () => {
           {/*      </span>*/}
           {/*    </>*/}
           {/*  )}*/}
-
           {/*  {!isEmpty(queryParams.week) && (*/}
           {/*    <>*/}
           {/*      <span className="date-main">*/}
@@ -546,16 +232,33 @@ const Calendar: FC = () => {
         <CalendarTable>
           <thead>
             <tr>
-              <th>일</th>
-              <th>월</th>
-              <th>화</th>
-              <th>수</th>
-              <th>목</th>
-              <th>금</th>
-              <th>토</th>
+              {dayOfWeek.map((day) => (
+                <th key={day}>{day}</th>
+              ))}
             </tr>
           </thead>
-          <tbody>{renderCalendar()}</tbody>
+          <tbody>
+            {currentMonthWeeks.map((week, i) => (
+              <tr key={i}>
+                {week.map((day, j) => {
+                  const isSameDate = day.format('D') === moment().format('D');
+                  const isSameMonth = day.format('MM') === moment().format('MM');
+                  let className = '';
+                  if (isSameDate) {
+                    className = 'today';
+                  } else if (!isSameMonth) {
+                    className = 'empty';
+                  }
+                  return (
+                    <td key={j} className={className} onClick={() => handleSetDetailTable(week)}>
+                      <span className={'calendar-date'}>{day.format('D')}</span>
+                      <CalendarEventDate CalendarDate={day.format('YYYY-MM-DD')} />
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
         </CalendarTable>
       </StyledCalendar>
     </>
@@ -566,14 +269,13 @@ export default Calendar;
 
 const StyledCalendar = styled.div`
   position: relative;
-  //display: inline-block;
 `;
 
 const CalendarTopBar = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 `;
 
 const CalendarTable = styled.table`
@@ -584,4 +286,123 @@ const CalendarTable = styled.table`
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
   background-color: #f2f0f4;
   overflow: hidden;
+
+  tr {
+    height: 0;
+    /*transition: .6s all;*/
+
+    &.active {
+      height: 450px;
+      span {
+        height: 30px !important;
+        font-size: 15px;
+
+        &.hide {
+          display: flex !important;
+        }
+        &.more {
+          display: none !important;
+        }
+      }
+    }
+
+    &.passive {
+      opacity: 0;
+      td {
+        height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border-bottom: none !important;
+
+        div {
+          min-height: inherit;
+          height: 0 !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+      }
+
+      span {
+        height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+    }
+
+    :first-of-type {
+      border-bottom: solid 1px #f1f1f1;
+      background-color: #ffffff;
+      th {
+        border-right: solid 1px #e9e9e9;
+        border-bottom: solid 1px #e9e9e9;
+      }
+      :last-of-type {
+        th {
+          border-right: none;
+        }
+      }
+    }
+  }
+
+  tr th:first-of-type,
+  tr td:first-of-type {
+    color: #ff7272;
+  }
+
+  tr th:last-of-type,
+  tr td:last-of-type {
+    color: #698bb8;
+  }
+
+  tr th {
+    padding: 10px 0;
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  td {
+    width: 14.285%;
+    height: 120px;
+    position: relative;
+    font-size: 12px;
+    color: #4f4f4f;
+    font-weight: 500;
+    text-align: right;
+    vertical-align: middle;
+    border-right: solid 1px #e9e9e9;
+    border-bottom: solid 1px #e9e9e9;
+    background-color: #ffffff;
+    /*transition: 1s all;*/
+
+    :hover {
+      background-color: #e9e9e9;
+    }
+
+    &.today {
+      background-color: #cfe8e8;
+
+      :hover {
+        background-color: #cfe8df;
+      }
+    }
+    &.empty {
+      color: rgba(0, 0, 0, 0.3);
+      background-color: #f2f0f4;
+
+      :hover {
+        background-color: #e9e9e9;
+      }
+    }
+  }
+
+  .calendar-date {
+    padding: 5px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
 `;

@@ -1,3 +1,98 @@
+.event-wrap {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    margin-top: 48px;
+}
+
+.event-wrap .event-list {
+    display: inline;
+}
+
+.event-wrap .event-list div {
+    width: 200px;
+    max-height: 205px;
+    padding: 20px 20px 25px 25px;
+    margin-bottom: 20px;
+    font-family: 'SCDream7';
+    font-size: 13px;
+    text-align: left;
+    background: #ffffff;
+    border-spacing: 0;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
+    overflow-y: auto;
+}
+
+.event-wrap .event-list div span.event-list-title {
+    font-size: 15px;
+}
+
+.event-wrap .event-list div span.event-list-empty {
+    color: #999999;
+    display: block;
+    text-align: center;
+}
+
+.event-wrap .event-list div ul {
+    list-style-type: none;
+    max-height: 180px;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+}
+
+.event-wrap .event-list div ul::-webkit-scrollbar {
+    width: 8px;
+}
+
+.event-wrap .event-list div ul::-webkit-scrollbar-thumb {
+    background-color: #c6c6c6;
+    border-radius: 10px;
+}
+
+.event-wrap .event-list div ul::-webkit-scrollbar-track {
+    background-color: #e9e9e9;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
+}
+
+.event-wrap .event-list div ul li {
+    margin-top: 10px;
+    vertical-align: middle;
+}
+
+.event-wrap .event-list div ul li .event-list-circle {
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+    padding: 0;
+    display: inline-block;
+    border-radius: 50px;
+    background: #ff7272;
+}
+
+.event-wrap .event-list div ul li.event0 .event-list-circle {
+    background: #cfdd8e;
+}
+
+.event-wrap .event-list div ul li.event1 .event-list-circle {
+    background: #eeb8b8;
+}
+
+.event-wrap .event-list div ul li.event2 .event-list-circle {
+    background: #6eceda;
+}
+
+.event-wrap .event-list div ul li.event3 .event-list-circle {
+    background: #b57fb3;
+}
+
+.event-wrap .event-list div ul li.event4 .event-list-circle {
+    background: #f5ddad;
+}
+
 .date-wrap {
     position: relative;
     display: inline-block;
@@ -55,108 +150,6 @@
     position: absolute;
 }
 
-.calendar {
-    width: 600px;
-    height: 80vh;
-    border-spacing: 0;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
-    background-color: #f2f0f4;
-    overflow: hidden;
-}
-
-.calendar tr {
-    height: 0;
-    /*transition: .6s all;*/
-}
-
-.calendar tr.active {
-    height: 450px;
-}
-
-.calendar tr.active span {
-    height: 30px !important;
-    font-size: 15px;
-}
-
-.calendar tr.active span.hide {
-    display: flex !important;
-}
-
-.calendar tr.active span.more {
-    display: none !important;
-}
-
-
-.calendar tr.active div.event-list {
-    position: absolute;
-    top: 50px;
-}
-
-.calendar tr.passive {
-    opacity: 0;
-}
-
-.calendar tr.passive td {
-    height: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    border-bottom: none !important;
-}
-
-.calendar tr.passive td div {
-    min-height: inherit;
-    height: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-.calendar tr.passive span {
-    height: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-
-}
-
-
-.calendar tr:first-of-type {
-    border-bottom: solid 1px #f1f1f1;
-    background: #ffffff;
-}
-
-.calendar tr:first-of-type th {
-    /*border-top: solid 1px #555;*/
-    border-right: solid 1px #e9e9e9;
-    border-bottom: solid 1px #e9e9e9;
-}
-
-.calendar tr:last-of-type th {
-    border-right: none;
-}
-
-.calendar tr th {
-    padding: 10px 0;
-    font-size: 14px;
-    color: #555;
-    font-weight: 500;
-    text-align: center;
-}
-
-.calendar tr td {
-    background-color: #fff;
-    text-align: right;
-    vertical-align: middle;
-    position: relative;
-    font-size: 12px;
-    color: #4f4f4f;
-    font-weight: 500;
-    border-right: solid 1px #e9e9e9;
-    border-bottom: solid 1px #e9e9e9;
-    width: 14.285%;
-    height: 120px;
-    /*transition: 1s all;*/
-}
-
 .calendar tr th,
 .calendar tr td a {
     color: #111111;
@@ -194,157 +187,12 @@
     border-right: 1px solid #ddd;
 }
 
-.calendar tr td div {
-    width: 100%;
-    min-height: 80px;
-}
-
-.calendar tr td span.calendar-date {
-    padding: 5px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.calendar tr td div span {
-    width: 100%;
-    height: 15px;
-    font-family: 'SCDream7';
-    font-size: 13px;
-    border-radius: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    /*margin-top: 7px;*/
-    font-size: 12px;
-    float: right;
-    padding: 5px;
-    cursor: default;
-}
-
-.calendar .empty {
-    background: #f2f0f4;
-}
-
-.calendar .empty {
-    color: rgba(0, 0, 0, 0.3);
-}
-
-.calendar .empty:hover {
-    background: #e9e9e9;
-}
-
-.calendar tr td:hover {
-    background: #cfe8df;
-}
-
-.calendar tr td.today {
-    background: #cfe8e8;
-}
-
-.calendar.main tr td p {
-    font-size: 10px;
-    margin-top: 5px;
-    font-weight: 500;
-}
-
-
-.calendar.main tr td div span {
-    color: #111111;
-}
-
-.calendar.main tr td div span.start {
-    /*color: #fff;*/
-    font-weight: 700;
-    border-radius: 100px 0 0 100px;
-    width: 100%;
-    height: 8px;
-    background: rgba(0, 183, 74, 1);
-    position: relative;
-    float: left;
-}
-
-.calendar.main tr td div span.one-day {
-    border-radius: 100px;
-    padding: 5px 0;
-}
-
-.calendar.main tr td div span.end {
-    border-radius: 0 100px 100px 0;
-    width: 100%;
-    height: 8px;
-    background: rgba(0, 183, 74, 1);
-    position: relative;
-    color: transparent;
-}
-
-.calendar.main tr td div span.ing {
-    border-radius: 0;
-    width: 100%;
-    height: 8px;
-    background: rgba(0, 183, 74, 1);
-    position: relative;
-}
-
-.calendar.main tr td div span.empty {
-    border-radius: 0;
-    width: 100%;
-    height: 8px;
-    background: rgba(0, 0, 0, 0);
-    position: relative;
-}
-
-.calendar.main tr td div span.more {
-    position: relative;
-    padding: 0;
-    margin: 0;
-    height: 5px;
-}
-
-.calendar.main tr td div span.hide {
-    display: none;
-}
-
-
-.calendar.main tr td div span.event0 {
-    background: #cfdd8e;
-}
-
-.calendar.main tr td div span.event1 {
-    background: #eeb8b8;
-}
-
-.calendar.main tr td div span.event2 {
-    background: #6eceda;
-}
-
-.calendar.main tr td div span.event3 {
-    background: #b57fb3;
-}
-
-.calendar.main tr td div span.event4 {
-    background: #f5ddad;
-}
-
-
-.calendar.main tr td div span.event1:hover ~ .event1 {
-    opacity: .8;
-}
-
 .select-date .date-label {
     position: absolute;
     font-family: 'SCDream7';
     font-size: 30px;
     font-weight: 500;
     margin: 0 5px;
-    position: absolute;
     left: 0;
     display: inline-block;
 }
