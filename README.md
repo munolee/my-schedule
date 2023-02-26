@@ -1,5 +1,5 @@
-# React TypeScript Project
-> This is a simple React TypeScript project created for demonstration purposes.
+# My-Schedule Project
+> This is a simple Next.js, TypeScript project created for demonstration purposes.
 
 ## Getting started guide
 
@@ -23,7 +23,7 @@ yarn install
 To run the project, you can use the following command in the project directory:
 
 ```sh
-yarn start
+yarn dev
 ```
 This will start a local development server and open the application in your default web browser.
 
