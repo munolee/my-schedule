@@ -1,9 +1,7 @@
 import { FC, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 
 const Header: FC = () => {
-  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState<string>('calendar');
 
   const handleLocation = (location: string) => {
