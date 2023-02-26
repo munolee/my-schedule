@@ -7,40 +7,19 @@ type CalendarEventDateProps = {
 };
 
 const CalendarEventDate: FC<CalendarEventDateProps> = ({ calendarDate }) => {
-  const { eventSchedule, isCurrentMonthEvent } = useEventSchedule();
+  const { currentMonthEvent, getEventPaintType } = useEventSchedule();
 
   return (
     <StyledEventList>
-      {eventSchedule.map((event, index) => {
-        const { eventTitle, startDate, endDate } = event;
-        if (!isCurrentMonthEvent(startDate, endDate)) {
-          return null;
-        }
-
-        let className = 'hide';
-        if (calendarDate === startDate) {
-          if (startDate === endDate) {
-            className = 'start one-day';
-          } else {
-            className = 'start';
-          }
-        } else if (calendarDate === endDate) {
-          className = 'end';
-        }
-        if (startDate < calendarDate && endDate > calendarDate) {
-          className = 'ing';
-        }
-
-        return (
-          <EventDateBar
-            key={index}
-            className={`${className} event${index % 5}`}
-            // className={`${className} event${index % 5} ${index >= 4 ? 'hide' : ''}`}
-          >
-            {calendarDate === startDate ? eventTitle : ''}
-          </EventDateBar>
-        );
-      })}
+      {currentMonthEvent.map((event, index) => (
+        <EventDateBar
+          key={index}
+          className={`${getEventPaintType(event, calendarDate)} event${index % 5}`}
+          // className={`${className} event${index % 5} ${index >= 4 ? 'hide' : ''}`}
+        >
+          {calendarDate === event.startDate ? event.eventTitle : ''}
+        </EventDateBar>
+      ))}
     </StyledEventList>
   );
 };
@@ -74,7 +53,6 @@ const EventDateBar = styled.span`
   }
   &.one-day {
     border-radius: 100px;
-    padding: 5px 0;
   }
   &.end {
     border-radius: 0 100px 100px 0;
@@ -91,7 +69,7 @@ const EventDateBar = styled.span`
   //  margin: 0;
   //  height: 5px;
   //}
-  &.hide {
+  &.empty {
     display: none;
   }
   &.event0 {
