@@ -7,31 +7,6 @@ const Header: FC = () => {
   const [currentPage, setCurrentPage] = useState<string>('calendar');
 
   const handleLocation = (location: string) => {
-    const now = new Date();
-    const currentYear = now.getFullYear();
-    let currentMonth = now.getMonth() + 1;
-    // currentMonth = currentMonth >= 10 ? currentMonth : '0' + currentMonth;
-    // let currentDate = new Date().getDate();
-    // currentDate = currentDate >= 10 ? currentDate : '0' + currentDate;
-
-    // if (location === 'calendar' && currentPage !== 'calendar') {
-    //   navigate(
-    //     {
-    //       pathname: '/calendar',
-    //       search: `date=${String(currentYear)}${String(currentMonth)}`,
-    //     },
-    //     {
-    //       state: {
-    //         date: new Date(now.getFullYear(), currentDate.getMonth(), 1),
-    //       },
-    //     }
-    //   );
-    // } else if (location === 'table' && currentPage !== 'table') {
-    //   navigate({
-    //     pathname: '/table',
-    //     search: `date=${String(currentYear)}${String(currentMonth)}${String(currentDate)}`,
-    //   });
-    // }
     setCurrentPage(location);
   };
 
