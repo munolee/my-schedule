@@ -4,6 +4,7 @@ const Document = () => {
   return (
     <Html lang="ko">
       <Head />
+      <title>My Schedule</title>
       <body>
         <Main />
         <NextScript />

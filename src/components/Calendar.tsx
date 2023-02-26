@@ -4,6 +4,8 @@ import { DATE_FORMAT } from '@constants/format';
 import useCalendar from '@hooks/useCalendar';
 import CalendarEventDate from '@components/CalendarEventDate';
 import ButtonBase from '@components/common/ButtonBase';
+import useToolTip from '@hooks/useToolTip';
+import ToolTipBase from '@components/common/ToolTipBase';
 
 const Calendar: FC = () => {
   const {
@@ -16,6 +18,8 @@ const Calendar: FC = () => {
     isSameDate,
     isSameMonth,
   } = useCalendar();
+  const { showToolTip, hideToolTip } = useToolTip();
+
   return (
     <StyledCalendar>
       <CalendarTopBar>
@@ -29,7 +33,7 @@ const Calendar: FC = () => {
           <div className={'btn-current'} onClick={handleTodayMonth}>
             오늘
           </div>
-          <div className={'btn-next '} onClick={handleNextMonth}>
+          <div className={'btn-next'} onClick={handleNextMonth}>
             &gt;
           </div>
         </MonthButtonGroup>
@@ -46,23 +50,26 @@ const Calendar: FC = () => {
         <tbody>
           {currentMonthWeeks.map((week, i) => (
             <tr key={i}>
-              {week.map((date, j) => {
-                return (
-                  <CalendarDate
-                    key={j}
-                    isToday={isSameDate(date)}
-                    isEmpty={!isSameMonth(date)}
-                    onClick={() => console.log('set')}
-                  >
-                    <DateText className={'calendar-date'}>{date.format('D')}</DateText>
-                    <CalendarEventDate CalendarDate={date.format(DATE_FORMAT.BASIC_FORMAT)} />
-                  </CalendarDate>
-                );
-              })}
+              {week.map((date, j) => (
+                <CalendarDate
+                  key={j}
+                  isToday={isSameDate(date)}
+                  isEmpty={!isSameMonth(date)}
+                  onClick={() => console.log('set')}
+                  onMouseMove={(e) => {
+                    showToolTip({ positionX: e.clientX, positionY: e.clientY });
+                  }}
+                  onMouseLeave={hideToolTip}
+                >
+                  <DateText>{date.date()}</DateText>
+                  <CalendarEventDate calendarDate={date.format(DATE_FORMAT.BASIC_FORMAT)} />
+                </CalendarDate>
+              ))}
             </tr>
           ))}
         </tbody>
       </CalendarTable>
+      <ToolTipBase />
     </StyledCalendar>
   );
 };
@@ -125,91 +132,48 @@ const CalendarTable = styled.table`
   background-color: #f2f0f4;
   overflow: hidden;
 
-  tr {
-    height: 0;
-    &.active {
-      height: 450px;
-      span {
-        height: 30px !important;
-        font-size: 15px;
-
-        &.hide {
-          display: flex !important;
-        }
-        &.more {
-          display: none !important;
-        }
-      }
-    }
-
-    &.passive {
-      opacity: 0;
-      td {
-        height: 0 !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        border-bottom: none !important;
-
-        div {
-          min-height: inherit;
-          height: 0 !important;
-          padding: 0 !important;
-          margin: 0 !important;
-        }
-      }
-
-      span {
-        height: 0 !important;
-        padding: 0 !important;
-        margin: 0 !important;
-      }
-    }
-
-    :first-of-type {
-      border-bottom: solid 1px #f1f1f1;
-      background-color: #ffffff;
-      th {
-        border-right: solid 1px #e9e9e9;
-        border-bottom: solid 1px #e9e9e9;
-      }
-      :last-of-type {
-        th {
-          border-right: none;
-        }
-      }
+  &:first-of-type {
+    border-bottom: solid 1px #f1f1f1;
+    background-color: #ffffff;
+    th {
+      border-right: solid 1px #e9e9e9;
+      border-bottom: solid 1px #e9e9e9;
     }
   }
 
-  tr th:first-of-type,
-  tr td:first-of-type {
-    color: #ff7272;
+  &:last-of-type {
+    th {
+      border-right: none;
+    }
   }
 
-  tr th:last-of-type,
-  tr td:last-of-type {
-    color: #698bb8;
-  }
-
-  tr th {
+  th {
     padding: 10px 0;
     font-size: 14px;
     color: #555;
     font-weight: 500;
     text-align: center;
   }
+
+  th:first-of-type,
+  td:first-of-type {
+    color: #ff7272;
+  }
+
+  th:last-of-type,
+  td:last-of-type {
+    color: #698bb8;
+  }
 `;
 
 const CalendarDate = styled.td<{ isToday: boolean; isEmpty: boolean }>`
+  position: relative;
   width: 14.285%;
   height: 120px;
-  position: relative;
   font-size: 12px;
-  color: ${({ isEmpty }) => (isEmpty ? 'rgba(0, 0, 0, 0.3)' : '#4f4f4f')};
   font-weight: 500;
+  color: ${({ isEmpty }) => (isEmpty ? 'rgba(0, 0, 0, 0.3)' : '#4f4f4f')};
   text-align: right;
-  vertical-align: middle;
-  border-right: solid 1px #e9e9e9;
-  border-bottom: solid 1px #e9e9e9;
   background-color: ${({ isToday, isEmpty }) => {
     if (isToday) {
       return '#cfe8e8';
@@ -218,6 +182,12 @@ const CalendarDate = styled.td<{ isToday: boolean; isEmpty: boolean }>`
     }
     return '#ffffff';
   }};
+  border-right: solid 1px #e9e9e9;
+  border-bottom: solid 1px #e9e9e9;
+
+  &:last-of-type {
+    border-right: none;
+  }
 
   &:hover {
     background-color: ${({ isToday }) => {
