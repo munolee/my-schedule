@@ -7,7 +7,13 @@
     "build": "next build",
     "start": "next start",
     "ts-check": "tsc --noEmit",
-    "prettify": "prettier --write \"./**/*.{ts,tsx}\""
+    "prettify": "prettier --write \"./**/*.{ts,tsx}\"",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "npx prettier --write"
+    ]
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -29,6 +35,8 @@
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@types/recoil": "^0.0.9",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.2",
     "babel-loader": "^8.2.2",
     "prettier": "^2.8.4",
     "typescript": "^4.9.5"
