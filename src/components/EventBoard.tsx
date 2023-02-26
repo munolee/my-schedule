@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import useEventSchedule from '@hooks/useEventSchedule';
 
 const EventBoard: FC = () => {
-  const { eventSchedule, isCurrentMonthDate } = useEventSchedule();
+  const { eventSchedule, isCurrentMonthEvent } = useEventSchedule();
 
   return (
     <StyledEventBoard>
@@ -13,7 +13,7 @@ const EventBoard: FC = () => {
           <BoardScheduleList>
             {eventSchedule.map((event, index) => {
               const { eventTitle, startDate, endDate } = event;
-              if (!isCurrentMonthDate(startDate, endDate)) {
+              if (!isCurrentMonthEvent(startDate, endDate)) {
                 return null;
               }
               return (

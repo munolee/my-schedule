@@ -14,10 +14,10 @@ export const GlobalStyle = css`
   }
 
   body {
-    /*font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";*/
+    font-family: 'SCDream7', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+      'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     margin: 0 auto;
     padding: 0;
-    font-family: 'SCDream7', sans-serif;
     background: #f9f8f7;
     user-select: none;
     -webkit-user-select: none;

@@ -11,7 +11,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       <Global styles={ResetStyle} />
       <Global styles={GlobalStyle} />
       <Header />
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </RecoilRoot>
   );
 };
