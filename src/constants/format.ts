@@ -1,0 +1,5 @@
+export const DATE_FORMAT = {
+  BASIC_FORMAT: 'YYYY-MM-DD',
+  TITLE_FORMAT: 'YYYY년 MM월',
+  YEAR_MONTH_FORMAT: 'YYYY-MM',
+};

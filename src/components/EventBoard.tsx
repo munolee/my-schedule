@@ -12,7 +12,7 @@ const EventBoard: FC = () => {
           <span>주요 일정</span>
           <BoardScheduleList>
             {eventSchedule.map((event, index) => {
-              const { startDate, endDate, eventTitle } = event;
+              const { eventTitle, startDate, endDate } = event;
               if (!isCurrentMonthDate(startDate, endDate)) {
                 return null;
               }
@@ -25,14 +25,6 @@ const EventBoard: FC = () => {
             })}
           </BoardScheduleList>
         </BoardItem>
-        {/*<BoardItem>*/}
-        {/*  <span className="event-list-title">연차</span>*/}
-        {/*  <BoardScheduleList>{renderEventList('annualLeave')}</BoardScheduleList>*/}
-        {/*</BoardItem>*/}
-        {/*<BoardItem>*/}
-        {/*  <span className="event-list-title">반차</span>*/}
-        {/*  <BoardScheduleList>{renderEventList('halfDayLeave')}</BoardScheduleList>*/}
-        {/*</BoardItem>*/}
       </EventBoardList>
     </StyledEventBoard>
   );

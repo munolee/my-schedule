@@ -1,31 +1,39 @@
 import { FC } from 'react';
-import moment from 'moment';
 import styled from '@emotion/styled';
+import { DATE_FORMAT } from '@constants/format';
 import useCalendar from '@hooks/useCalendar';
 import CalendarEventDate from '@components/CalendarEventDate';
 import ButtonBase from '@components/common/ButtonBase';
 
 const Calendar: FC = () => {
-  const { dayOfWeek, dateLabel, currentMonthWeeks, handleNextMonth } = useCalendar();
-
+  const {
+    dayOfWeek,
+    calendarTitleDate,
+    currentMonthWeeks,
+    handlePrevMonth,
+    handleNextMonth,
+    handleTodayMonth,
+    isSameDate,
+    isSameMonth,
+  } = useCalendar();
   return (
     <StyledCalendar>
       <CalendarTopBar>
         <DateLabel>
-          <h2>{dateLabel}</h2>
+          <h2>{calendarTitleDate}</h2>
         </DateLabel>
         <MonthButtonGroup>
-          <div className={'btn-pre'} onClick={handleNextMonth}>
+          <div className={'btn-pre'} onClick={handlePrevMonth}>
             &lt;
           </div>
-          <div className={'btn-current'} onClick={handleNextMonth}>
+          <div className={'btn-current'} onClick={handleTodayMonth}>
             오늘
           </div>
           <div className={'btn-next '} onClick={handleNextMonth}>
             &gt;
           </div>
         </MonthButtonGroup>
-        <ButtonBase text="내 일정" textColor={'#ffffff'} backgroundColor={'#ff7272'} onClick={handleNextMonth} />
+        <ButtonBase text="새 일정" textColor={'#ffffff'} backgroundColor={'#ff7272'} onClick={handleNextMonth} />
       </CalendarTopBar>
       <CalendarTable>
         <thead>
@@ -38,20 +46,17 @@ const Calendar: FC = () => {
         <tbody>
           {currentMonthWeeks.map((week, i) => (
             <tr key={i}>
-              {week.map((day, j) => {
-                const isSameDate = day.format('D') === moment().format('D');
-                const isSameMonth = day.format('MM') === moment().format('MM');
-                let className = '';
-                if (isSameDate) {
-                  className = 'today';
-                } else if (!isSameMonth) {
-                  className = 'empty';
-                }
+              {week.map((date, j) => {
                 return (
-                  <td key={j} className={className} onClick={() => console.log('set')}>
-                    <span className={'calendar-date'}>{day.format('D')}</span>
-                    <CalendarEventDate CalendarDate={day.format('YYYY-MM-DD')} />
-                  </td>
+                  <CalendarDate
+                    key={j}
+                    isToday={isSameDate(date)}
+                    isEmpty={!isSameMonth(date)}
+                    onClick={() => console.log('set')}
+                  >
+                    <DateText className={'calendar-date'}>{date.format('D')}</DateText>
+                    <CalendarEventDate CalendarDate={date.format(DATE_FORMAT.BASIC_FORMAT)} />
+                  </CalendarDate>
                 );
               })}
             </tr>
@@ -122,8 +127,6 @@ const CalendarTable = styled.table`
 
   tr {
     height: 0;
-    /*transition: .6s all;*/
-
     &.active {
       height: 450px;
       span {
@@ -194,48 +197,43 @@ const CalendarTable = styled.table`
     font-weight: 500;
     text-align: center;
   }
+`;
 
-  td {
-    width: 14.285%;
-    height: 120px;
-    position: relative;
-    font-size: 12px;
-    color: #4f4f4f;
-    font-weight: 500;
-    text-align: right;
-    vertical-align: middle;
-    border-right: solid 1px #e9e9e9;
-    border-bottom: solid 1px #e9e9e9;
-    background-color: #ffffff;
-    /*transition: 1s all;*/
-
-    :hover {
-      background-color: #e9e9e9;
+const CalendarDate = styled.td<{ isToday: boolean; isEmpty: boolean }>`
+  width: 14.285%;
+  height: 120px;
+  position: relative;
+  font-size: 12px;
+  color: ${({ isEmpty }) => (isEmpty ? 'rgba(0, 0, 0, 0.3)' : '#4f4f4f')};
+  font-weight: 500;
+  text-align: right;
+  vertical-align: middle;
+  border-right: solid 1px #e9e9e9;
+  border-bottom: solid 1px #e9e9e9;
+  background-color: ${({ isToday, isEmpty }) => {
+    if (isToday) {
+      return '#cfe8e8';
+    } else if (isEmpty) {
+      return '#f2f0f4';
     }
+    return '#ffffff';
+  }};
 
-    &.today {
-      background-color: #cfe8e8;
-
-      :hover {
-        background-color: #cfe8df;
+  &:hover {
+    background-color: ${({ isToday }) => {
+      if (isToday) {
+        return '#cfe8df';
       }
-    }
-    &.empty {
-      color: rgba(0, 0, 0, 0.3);
-      background-color: #f2f0f4;
-
-      :hover {
-        background-color: #e9e9e9;
-      }
-    }
+      return '#e9e9e9';
+    }};
   }
+`;
 
-  .calendar-date {
-    padding: 5px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-  }
+const DateText = styled.span`
+  padding: 5px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
 `;
