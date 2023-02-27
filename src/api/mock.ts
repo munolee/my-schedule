@@ -15,6 +15,12 @@ export const eventType = [
 
 export const schedule = [
   {
+    startDate: '2023-02-26',
+    endDate: '2023-02-26',
+    eventTitle: '오늘 일정',
+    typeId: 0,
+  },
+  {
     startDate: '2023-01-04',
     endDate: '2023-01-05',
     eventTitle: '일정1',

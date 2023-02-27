@@ -3,26 +3,20 @@ import styled from '@emotion/styled';
 import useEventSchedule from '@hooks/useEventSchedule';
 
 const EventBoard: FC = () => {
-  const { eventSchedule, isCurrentMonthEvent } = useEventSchedule();
+  const { currentMonthEvent } = useEventSchedule();
 
   return (
     <StyledEventBoard>
       <EventBoardList>
         <BoardItem>
-          <span>주요 일정</span>
+          <div>주요 일정</div>
           <BoardScheduleList>
-            {eventSchedule.map((event, index) => {
-              const { eventTitle, startDate, endDate } = event;
-              if (!isCurrentMonthEvent(startDate, endDate)) {
-                return null;
-              }
-              return (
-                <BoardScheduleItem key={index} className={`event${index % 5}`}>
-                  <ScheduleEventCircle />
-                  <span>{eventTitle}</span>
-                </BoardScheduleItem>
-              );
-            })}
+            {currentMonthEvent.map((event, index) => (
+              <BoardScheduleItem key={index} className={`event${index % 5}`}>
+                <ScheduleEventCircle />
+                <span>{event.eventTitle}</span>
+              </BoardScheduleItem>
+            ))}
           </BoardScheduleList>
         </BoardItem>
       </EventBoardList>
@@ -46,7 +40,7 @@ const EventBoardList = styled.div`
 const BoardItem = styled.div`
   padding: 20px 20px 25px 25px;
   width: 200px;
-  max-height: 205px;
+  max-height: 400px;
   margin-bottom: 20px;
   text-align: left;
   background-color: #ffffff;

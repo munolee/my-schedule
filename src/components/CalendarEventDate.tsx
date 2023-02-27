@@ -1,43 +1,29 @@
 import { FC } from 'react';
 import styled from '@emotion/styled';
-import useEventSchedule from '@hooks/useEventSchedule';
+import useEventSchedule, { EventPaintEnum } from '@hooks/useEventSchedule';
 
 type CalendarEventDateProps = {
   calendarDate: string;
 };
 
 const CalendarEventDate: FC<CalendarEventDateProps> = ({ calendarDate }) => {
-  const { eventSchedule, isCurrentMonthEvent } = useEventSchedule();
+  const { currentMonthEvent, getEventPaintType } = useEventSchedule();
 
   return (
     <StyledEventList>
-      {eventSchedule.map((event, index) => {
-        const { eventTitle, startDate, endDate } = event;
-        if (!isCurrentMonthEvent(startDate, endDate)) {
-          return null;
+      {currentMonthEvent.map((event, index) => {
+        const paintType = getEventPaintType(event, calendarDate);
+        if (paintType === EventPaintEnum.Empty) {
+          return;
         }
-
-        let className = 'hide';
-        if (calendarDate === startDate) {
-          if (startDate === endDate) {
-            className = 'start one-day';
-          } else {
-            className = 'start';
-          }
-        } else if (calendarDate === endDate) {
-          className = 'end';
-        }
-        if (startDate < calendarDate && endDate > calendarDate) {
-          className = 'ing';
-        }
-
         return (
           <EventDateBar
             key={index}
-            className={`${className} event${index % 5}`}
+            paintType={paintType}
+            className={`${getEventPaintType(event, calendarDate)} event${index % 5}`}
             // className={`${className} event${index % 5} ${index >= 4 ? 'hide' : ''}`}
           >
-            {calendarDate === startDate ? eventTitle : ''}
+            {calendarDate === event.startDate ? event.eventTitle : ''}
           </EventDateBar>
         );
       })}
@@ -54,7 +40,7 @@ const StyledEventList = styled.div`
   min-height: 80px;
 `;
 
-const EventDateBar = styled.span`
+const EventDateBar = styled.span<{ paintType: EventPaintEnum }>`
   position: relative;
   width: 100%;
   height: 16px;
@@ -64,35 +50,24 @@ const EventDateBar = styled.span`
   font-size: 12px;
   font-weight: 700;
   color: #000000;
-  border-radius: 100%;
+  border-radius: ${({ paintType }) => {
+    if (paintType === EventPaintEnum.StartDate) {
+      return '100px 0 0 100px';
+    }
+    if (paintType === EventPaintEnum.OneDay) {
+      return '100px';
+    }
+    if (paintType === EventPaintEnum.EndDate) {
+      return '0 100px 100px 0';
+    }
+    if (paintType === EventPaintEnum.Ing) {
+      return '0';
+    }
+    return '0';
+  }};
 
   &:hover {
     opacity: 0.8;
-  }
-  &.start {
-    border-radius: 100px 0 0 100px;
-  }
-  &.one-day {
-    border-radius: 100px;
-    padding: 5px 0;
-  }
-  &.end {
-    border-radius: 0 100px 100px 0;
-  }
-  &.ing {
-    border-radius: 0;
-  }
-  //&.empty {
-  //  background-color: rgba(0, 0, 0, 0);
-  //  border-radius: 0;
-  //}
-  //&.more {
-  //  padding: 0;
-  //  margin: 0;
-  //  height: 5px;
-  //}
-  &.hide {
-    display: none;
   }
   &.event0 {
     background: #cfdd8e;
