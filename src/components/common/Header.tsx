@@ -27,8 +27,8 @@ const Header: FC = () => {
 export default Header;
 
 const StyledHeader = styled.div`
-  position: sticky;
-  top: 0;
+  //position: sticky;
+  //top: 0;
   width: 100%;
   height: 80px;
   display: flex;
