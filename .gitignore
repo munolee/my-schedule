@@ -1,16 +1,10 @@
 .idea
 .DS_Store
-
+/node_modules
+.husky
 .next
 .vercel
 .env
-.husky
-
-/node_modules
-/coverage
-
-yarn.lock
-package-lock.json
 
 npm-debug.log*
 yarn-debug.log*
