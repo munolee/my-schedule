@@ -24,7 +24,7 @@ const StyledToolTip = styled.div<{ visible: boolean; positionX: number; position
   left: 0;
   display: ${({ visible }) => (visible ? 'block' : 'none')};
   color: #ffffff;
-  background: #333333;
+  background-color: #333333;
   border-radius: 10px;
   font-size: 16px;
   z-index: 10;
@@ -41,7 +41,7 @@ const StyledToolTip = styled.div<{ visible: boolean; positionX: number; position
     width: 30px;
     border: 3px solid #e9e9e9;
     border-radius: 30px;
-    background: #e9e9e9;
+    background-color: #e9e9e9;
   }
 
   &:after {

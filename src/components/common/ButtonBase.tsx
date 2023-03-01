@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import styled from '@emotion/styled';
+import styled, { CSSObject } from '@emotion/styled';
+import { css } from '@emotion/react';
 
 type ButtonBaseProps = {
   text: string;
@@ -9,6 +10,7 @@ type ButtonBaseProps = {
   textColor?: string;
   backgroundColor?: string;
   borderColor?: string;
+  buttonStyle?: CSSObject;
 };
 
 const ButtonBase: FC<ButtonBaseProps> = ({
@@ -19,6 +21,7 @@ const ButtonBase: FC<ButtonBaseProps> = ({
   textColor = '#ffffff',
   backgroundColor = '#ffffff',
   borderColor = '#ffffff',
+  buttonStyle,
 }) => {
   return (
     <StyledButton
@@ -28,6 +31,7 @@ const ButtonBase: FC<ButtonBaseProps> = ({
       textColor={textColor}
       backgroundColor={backgroundColor}
       borderColor={borderColor}
+      buttonStyle={buttonStyle}
     >
       {text}
     </StyledButton>
@@ -42,6 +46,7 @@ const StyledButton = styled.button<{
   textColor?: string;
   backgroundColor?: string;
   borderColor?: string;
+  buttonStyle?: CSSObject;
 }>`
   padding: 8px 12px;
   width: ${({ width }) => (width ? width : 'auto')};
@@ -52,6 +57,10 @@ const StyledButton = styled.button<{
   border: 1px solid ${({ borderColor }) => borderColor};
   border-radius: 10px;
   cursor: pointer;
+  ${({ buttonStyle }) =>
+    css`
+      ${buttonStyle}
+    `};
 
   :hover {
     opacity: 0.8;

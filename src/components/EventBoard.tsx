@@ -74,9 +74,9 @@ const ScheduleEventCircle = styled.div`
   display: inline-block;
   border-radius: 50px;
   background-color: #ff7272;
-  //background: #cfdd8e;
-  //background: #eeb8b8;
-  //background: #6eceda;
-  //background: #b57fb3;
-  //background: #f5ddad;
+  //background-color: #cfdd8e;
+  //background-color: #eeb8b8;
+  //background-color: #6eceda;
+  //background-color: #b57fb3;
+  //background-color: #f5ddad;
 `;

@@ -37,6 +37,7 @@ const useEventSchedule = (): UseEventScheduleType => {
   }, [eventSchedule, currentTime]);
 
   const getEventPaintType = (event: eventScheduleType, date: string) => {
+    console.log(date);
     const { startDate, endDate } = event;
     if (date === startDate) {
       if (startDate === endDate) {

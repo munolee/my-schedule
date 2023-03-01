@@ -34,7 +34,7 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #ffffff;
+  background-color: #ffffff;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 `;
 
@@ -54,7 +54,7 @@ const HeaderMenuItem = styled.li<{ isActive: boolean }>`
   border-radius: 10px;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.05);
   }
 
   img {

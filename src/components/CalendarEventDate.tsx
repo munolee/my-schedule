@@ -11,22 +11,11 @@ const CalendarEventDate: FC<CalendarEventDateProps> = ({ calendarDate }) => {
 
   return (
     <StyledEventList>
-      {currentMonthEvent.map((event, index) => {
-        const paintType = getEventPaintType(event, calendarDate);
-        if (paintType === EventPaintEnum.Empty) {
-          return;
-        }
-        return (
-          <EventDateBar
-            key={index}
-            paintType={paintType}
-            className={`${getEventPaintType(event, calendarDate)} event${index % 5}`}
-            // className={`${className} event${index % 5} ${index >= 4 ? 'hide' : ''}`}
-          >
-            {calendarDate === event.startDate ? event.eventTitle : ''}
-          </EventDateBar>
-        );
-      })}
+      {currentMonthEvent.map((event, index) => (
+        <EventDateBar key={index} paintType={getEventPaintType(event, calendarDate)} className={`event${index % 5}`}>
+          {calendarDate === event.startDate ? event.eventTitle : ''}
+        </EventDateBar>
+      ))}
     </StyledEventList>
   );
 };
@@ -41,15 +30,17 @@ const StyledEventList = styled.div`
 `;
 
 const EventDateBar = styled.span<{ paintType: EventPaintEnum }>`
+  margin-left: -1px;
   position: relative;
-  width: 100%;
-  height: 16px;
+  width: calc(100% + 1px);
+  height: ${({ paintType }) => (paintType === EventPaintEnum.Empty ? '0' : '16')}px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 12px;
   font-weight: 700;
   color: #000000;
+
   border-radius: ${({ paintType }) => {
     if (paintType === EventPaintEnum.StartDate) {
       return '100px 0 0 100px';
@@ -70,18 +61,18 @@ const EventDateBar = styled.span<{ paintType: EventPaintEnum }>`
     opacity: 0.8;
   }
   &.event0 {
-    background: #cfdd8e;
+    background-color: #cfdd8e;
   }
   &.event1 {
-    background: #eeb8b8;
+    background-color: #eeb8b8;
   }
   &.event2 {
-    background: #6eceda;
+    background-color: #6eceda;
   }
   &.event3 {
-    background: #b57fb3;
+    background-color: #b57fb3;
   }
   &.event4 {
-    background: #f5ddad;
+    background-color: #f5ddad;
   }
 `;

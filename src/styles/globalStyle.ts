@@ -18,7 +18,7 @@ export const GlobalStyle = css`
       'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     margin: 0 auto;
     padding: 0;
-    background: #f9f8f7;
+    background-color: #f9f8f7;
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
