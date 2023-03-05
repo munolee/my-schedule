@@ -1,43 +1,36 @@
 import { useRecoilValue } from 'recoil';
-import { useMemo } from 'react';
-import { currentTimeAtom } from '@store/currentTime';
-import { eventScheduleAtom } from '@store/eventSchedule';
+import { currentMonthEventSelector } from '@store/eventSchedule';
 
 export enum EventPaintEnum {
-  StartDate = 'start',
-  EndDate = 'end',
+  StartDate = 'startDate',
+  EndDate = 'endDate',
   Ing = 'ing',
-  OneDay = 'one-day',
+  OneDay = 'oneDay',
   Empty = 'empty',
 }
 
-export type eventScheduleType = {
+type TopPosition = {
+  position: number;
+};
+
+export type EventScheduleType = {
   startDate: string;
   endDate: string;
   eventTitle: string;
   typeId: number;
 };
 
+export type currentMonthEventType = EventScheduleType & TopPosition;
+
 type UseEventScheduleType = {
-  eventSchedule: eventScheduleType[];
-  currentMonthEvent: eventScheduleType[];
-  getEventPaintType: (event: eventScheduleType, date: string) => EventPaintEnum;
+  currentMonthEvent: currentMonthEventType[];
+  getEventPaintType: (event: EventScheduleType, date: string) => EventPaintEnum;
 };
 
 const useEventSchedule = (): UseEventScheduleType => {
-  const eventSchedule = useRecoilValue(eventScheduleAtom);
-  const currentTime = useRecoilValue(currentTimeAtom);
+  const currentMonthEvent = useRecoilValue(currentMonthEventSelector);
 
-  const isCurrentMonth = (date: string) => {
-    return currentTime.isSame(date, 'month');
-  };
-
-  const currentMonthEvent = useMemo(() => {
-    return eventSchedule.filter((event) => isCurrentMonth(event.startDate) || isCurrentMonth(event.endDate));
-  }, [eventSchedule, currentTime]);
-
-  const getEventPaintType = (event: eventScheduleType, date: string) => {
-    console.log(date);
+  const getEventPaintType = (event: EventScheduleType, date: string) => {
     const { startDate, endDate } = event;
     if (date === startDate) {
       if (startDate === endDate) {
@@ -53,7 +46,6 @@ const useEventSchedule = (): UseEventScheduleType => {
   };
 
   return {
-    eventSchedule,
     currentMonthEvent,
     getEventPaintType,
   };

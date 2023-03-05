@@ -11,11 +11,17 @@ const CalendarEventDate: FC<CalendarEventDateProps> = ({ calendarDate }) => {
 
   return (
     <StyledEventList>
-      {currentMonthEvent.map((event, index) => (
-        <EventDateBar key={index} paintType={getEventPaintType(event, calendarDate)} className={`event${index % 5}`}>
-          {calendarDate === event.startDate ? event.eventTitle : ''}
-        </EventDateBar>
-      ))}
+      {currentMonthEvent.map((event, index) => {
+        const paintType = getEventPaintType(event, calendarDate);
+        if (paintType === EventPaintEnum.Empty) {
+          return;
+        }
+        return (
+          <EventDateBar key={index} paintType={paintType} topPosition={event.position} className={`event${index % 5}`}>
+            {calendarDate === event.startDate ? event.eventTitle : ''}
+          </EventDateBar>
+        );
+      })}
     </StyledEventList>
   );
 };
@@ -24,16 +30,17 @@ export default CalendarEventDate;
 
 const StyledEventList = styled.div`
   position: absolute;
-  top: 50px;
+  top: 24px;
   width: 100%;
   min-height: 80px;
 `;
 
-const EventDateBar = styled.span<{ paintType: EventPaintEnum }>`
+const EventDateBar = styled.span<{ paintType: EventPaintEnum; topPosition: number }>`
   margin-left: -1px;
-  position: relative;
+  position: absolute;
   width: calc(100% + 1px);
-  height: ${({ paintType }) => (paintType === EventPaintEnum.Empty ? '0' : '16')}px;
+  top: ${({ topPosition }) => topPosition * 16}px;
+  height: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
