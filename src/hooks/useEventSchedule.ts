@@ -18,6 +18,7 @@ export type EventScheduleType = {
   endDate: string;
   eventTitle: string;
   typeId: number;
+  bgColor: string;
 };
 
 export type currentMonthEventType = EventScheduleType & TopPosition;

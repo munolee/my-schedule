@@ -13,7 +13,7 @@ const EventBoard: FC = () => {
           <BoardScheduleList>
             {currentMonthEvent.map((event, index) => (
               <BoardScheduleItem key={index} className={`event${index % 5}`}>
-                <ScheduleEventCircle />
+                <ScheduleEventCircle bgColor={event.bgColor} />
                 <span>{event.eventTitle}</span>
               </BoardScheduleItem>
             ))}
@@ -66,17 +66,12 @@ const BoardScheduleItem = styled.li`
   vertical-align: middle;
 `;
 
-const ScheduleEventCircle = styled.div`
+const ScheduleEventCircle = styled.div<{ bgColor: string }>`
   width: 12px;
   height: 12px;
   margin-right: 5px;
   padding: 0;
   display: inline-block;
   border-radius: 50px;
-  background-color: #ff7272;
-  //background-color: #cfdd8e;
-  //background-color: #eeb8b8;
-  //background-color: #6eceda;
-  //background-color: #b57fb3;
-  //background-color: #f5ddad;
+  background-color: ${({ bgColor }) => bgColor};
 `;
