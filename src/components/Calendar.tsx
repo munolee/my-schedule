@@ -2,9 +2,8 @@ import { FC } from 'react';
 import styled from '@emotion/styled';
 import { DATE_FORMAT } from '@constants/format';
 import useCalendar from '@hooks/useCalendar';
-import CalendarEventDate from '@components/CalendarEventDate';
-import ButtonBase from '@components/common/ButtonBase';
 import useToolTip from '@hooks/useToolTip';
+import CalendarEventDate from '@components/CalendarEventDate';
 import ToolTipBase from '@components/common/ToolTipBase';
 
 const Calendar: FC = () => {
@@ -37,7 +36,6 @@ const Calendar: FC = () => {
             &gt;
           </div>
         </MonthButtonGroup>
-        <ButtonBase text="새 일정" textColor={'#ffffff'} backgroundColor={'#ff7272'} onClick={handleNextMonth} />
       </CalendarTopBar>
       <CalendarTable>
         <thead>
@@ -56,10 +54,10 @@ const Calendar: FC = () => {
                   isToday={isSameDate(date)}
                   isEmpty={!isSameMonth(date)}
                   onClick={() => console.log('set')}
-                  onMouseMove={(e) => {
-                    showToolTip({ positionX: e.clientX, positionY: e.clientY });
-                  }}
-                  onMouseLeave={hideToolTip}
+                  // onMouseMove={(e) => {
+                  //   showToolTip({ positionX: e.clientX, positionY: e.clientY });
+                  // }}
+                  // onMouseLeave={hideToolTip}
                 >
                   <DateText>{date.date()}</DateText>
                   <CalendarEventDate calendarDate={date.format(DATE_FORMAT.BASIC_FORMAT)} />
@@ -69,7 +67,7 @@ const Calendar: FC = () => {
           ))}
         </tbody>
       </CalendarTable>
-      <ToolTipBase />
+      {/*<ToolTipBase />*/}
     </StyledCalendar>
   );
 };
@@ -85,11 +83,6 @@ const CalendarTopBar = styled.div`
   align-items: flex-end;
   justify-content: space-between;
   margin-bottom: 16px;
-
-  :first-child,
-  :last-child {
-    flex: 1;
-  }
 `;
 
 const DateLabel = styled.div`
@@ -99,7 +92,7 @@ const DateLabel = styled.div`
 `;
 
 const MonthButtonGroup = styled.div`
-  margin: auto;
+  margin-right: 8px;
   display: flex;
   align-items: center;
 
@@ -107,11 +100,11 @@ const MonthButtonGroup = styled.div`
     font-size: 15px;
     cursor: pointer;
     padding: 5px 10px;
-    border: 1px solid #ddd;
-    background: #fff;
+    border: 1px solid #dddddd;
+    background-color: #ffffff;
 
     :hover {
-      background: rgba(0, 0, 0, 0.02);
+      background-color: rgba(0, 0, 0, 0.02);
     }
   }
 
@@ -199,11 +192,8 @@ const CalendarDate = styled.td<{ isToday: boolean; isEmpty: boolean }>`
   }
 `;
 
-const DateText = styled.span`
-  padding: 5px;
+const DateText = styled.div`
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
+  top: 4px;
+  right: 4px;
 `;
