@@ -12,13 +12,14 @@ const CalendarEventDate: FC<CalendarEventDateProps> = ({ calendarDate }) => {
   return (
     <StyledEventList>
       {currentMonthEvent.map((event, index) => {
+        const { startDate, eventTitle, position, bgColor } = event;
         const paintType = getEventPaintType(event, calendarDate);
         if (paintType === EventPaintEnum.Empty) {
           return;
         }
         return (
-          <EventDateBar key={index} paintType={paintType} topPosition={event.position} className={`event${index % 5}`}>
-            {calendarDate === event.startDate ? event.eventTitle : ''}
+          <EventDateBar key={index} paintType={paintType} topPosition={position} bgColor={bgColor}>
+            {calendarDate === startDate ? eventTitle : ''}
           </EventDateBar>
         );
       })}
@@ -35,7 +36,7 @@ const StyledEventList = styled.div`
   min-height: 80px;
 `;
 
-const EventDateBar = styled.span<{ paintType: EventPaintEnum; topPosition: number }>`
+const EventDateBar = styled.span<{ paintType: EventPaintEnum; topPosition: number; bgColor: string }>`
   margin-left: -1px;
   position: absolute;
   width: calc(100% + 1px);
@@ -47,7 +48,7 @@ const EventDateBar = styled.span<{ paintType: EventPaintEnum; topPosition: numbe
   font-size: 12px;
   font-weight: 700;
   color: #000000;
-
+  background-color: ${({ bgColor }) => bgColor};
   border-radius: ${({ paintType }) => {
     if (paintType === EventPaintEnum.StartDate) {
       return '100px 0 0 100px';
@@ -66,20 +67,5 @@ const EventDateBar = styled.span<{ paintType: EventPaintEnum; topPosition: numbe
 
   &:hover {
     opacity: 0.8;
-  }
-  &.event0 {
-    background-color: #cfdd8e;
-  }
-  &.event1 {
-    background-color: #eeb8b8;
-  }
-  &.event2 {
-    background-color: #6eceda;
-  }
-  &.event3 {
-    background-color: #b57fb3;
-  }
-  &.event4 {
-    background-color: #f5ddad;
   }
 `;
