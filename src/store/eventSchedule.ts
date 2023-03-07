@@ -1,25 +1,20 @@
 import { atom, selector } from 'recoil';
-import { schedule } from '../api/mock';
-import { currentMonthEventType, EventScheduleType } from '@hooks/useEventSchedule';
+import { CurrentMonthEventType, EventScheduleType } from '@hooks/useEventSchedule';
 import { currentTimeAtom } from '@store/currentTime';
 
 export const eventScheduleAtom = atom<EventScheduleType[]>({
   key: 'eventScheduleState',
-  default: schedule, //TODO 스케쥴 수정 사항
+  default: [],
 });
 
-export const currentMonthEventSelector = selector<currentMonthEventType[]>({
+export const currentMonthEventSelector = selector<CurrentMonthEventType[]>({
   key: 'currentMonthEventState',
   get: ({ get }) => {
     const eventSchedule = get(eventScheduleAtom);
     const currentTime = get(currentTimeAtom);
-    const sortCurrentMonthEvent = eventSchedule
-      .filter((event) => currentTime.isSame(event.startDate, 'month') || currentTime.isSame(event.endDate, 'month'))
-      .sort((a, b) => {
-        if (a.startDate >= b.startDate) return 1;
-        if (a.endDate >= b.endDate) return -1;
-        return -1;
-      });
+    const sortCurrentMonthEvent = eventSchedule.filter(
+      (event) => currentTime.isSame(event.startDate, 'month') || currentTime.isSame(event.endDate, 'month')
+    );
 
     let position = 0;
     return sortCurrentMonthEvent.map((event, index) => {

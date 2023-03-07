@@ -2,9 +2,10 @@ import { FC } from 'react';
 import styled from '@emotion/styled';
 import { DATE_FORMAT } from '@constants/format';
 import useCalendar from '@hooks/useCalendar';
+import useEventSchedule, { EventPaintEnum } from '@hooks/useEventSchedule';
 import useToolTip from '@hooks/useToolTip';
-import CalendarEventDate from '@components/CalendarEventDate';
 import ToolTipBase from '@components/common/ToolTipBase';
+import Spinner from '@components/common/Spinner';
 
 const Calendar: FC = () => {
   const {
@@ -17,6 +18,7 @@ const Calendar: FC = () => {
     isSameDate,
     isSameMonth,
   } = useCalendar();
+  const { isLoading, currentMonthEvent, getEventPaintType } = useEventSchedule();
   const { showToolTip, hideToolTip } = useToolTip();
 
   return (
@@ -60,7 +62,21 @@ const Calendar: FC = () => {
                   // onMouseLeave={hideToolTip}
                 >
                   <DateText>{date.date()}</DateText>
-                  <CalendarEventDate calendarDate={date.format(DATE_FORMAT.BASIC_FORMAT)} />
+                  <StyledEventList>
+                    {currentMonthEvent.map((event, index) => {
+                      const { startDate, eventTitle, position, bgColor } = event;
+                      const calendarDate = date.format(DATE_FORMAT.BASIC_FORMAT);
+                      const paintType = getEventPaintType(event, calendarDate);
+                      if (paintType === EventPaintEnum.Empty) {
+                        return;
+                      }
+                      return (
+                        <EventDateBar key={index} paintType={paintType} topPosition={position} bgColor={bgColor}>
+                          {calendarDate === startDate ? eventTitle : ''}
+                        </EventDateBar>
+                      );
+                    })}
+                  </StyledEventList>
                 </CalendarDate>
               ))}
             </tr>
@@ -68,6 +84,7 @@ const Calendar: FC = () => {
         </tbody>
       </CalendarTable>
       {/*<ToolTipBase />*/}
+      {isLoading && <Spinner />}
     </StyledCalendar>
   );
 };
@@ -196,4 +213,45 @@ const DateText = styled.div`
   position: absolute;
   top: 4px;
   right: 4px;
+`;
+
+const StyledEventList = styled.div`
+  position: absolute;
+  top: 24px;
+  width: 100%;
+  min-height: 80px;
+`;
+
+const EventDateBar = styled.span<{ paintType: EventPaintEnum; topPosition: number; bgColor: string }>`
+  margin-left: -1px;
+  position: absolute;
+  width: calc(100% + 1px);
+  top: ${({ topPosition }) => topPosition * 16}px;
+  height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #000000;
+  background-color: ${({ bgColor }) => bgColor};
+  border-radius: ${({ paintType }) => {
+    if (paintType === EventPaintEnum.StartDate) {
+      return '100px 0 0 100px';
+    }
+    if (paintType === EventPaintEnum.OneDay) {
+      return '100px';
+    }
+    if (paintType === EventPaintEnum.EndDate) {
+      return '0 100px 100px 0';
+    }
+    if (paintType === EventPaintEnum.Ing) {
+      return '0';
+    }
+    return '0';
+  }};
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
