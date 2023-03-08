@@ -1,5 +1,5 @@
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useQuery } from 'react-query';
+import { useQuery, useMutation, UseMutationResult } from 'react-query';
 import { currentMonthEventSelector, eventScheduleAtom } from '@store/eventSchedule';
 import { ScheduleApi } from '@api/schedule';
 import { currentTimeAtom } from '@store/currentTime';
@@ -30,6 +30,7 @@ type UseEventScheduleType = {
   isLoading: boolean;
   currentMonthEvent: CurrentMonthEventType[];
   getEventPaintType: (event: EventScheduleType, date: string) => EventPaintEnum;
+  createSchedule: () => UseMutationResult<EventScheduleType, unknown, EventScheduleType, unknown>;
 };
 
 const useEventSchedule = (): UseEventScheduleType => {
@@ -53,6 +54,13 @@ const useEventSchedule = (): UseEventScheduleType => {
     }
   );
 
+  const createSchedule = () => {
+    return useMutation(async (params: EventScheduleType) => {
+      const result = await ScheduleApi.createSchedule(params);
+      return result;
+    });
+  };
+
   const getEventPaintType = (event: EventScheduleType, date: string) => {
     const { startDate, endDate } = event;
     if (date === startDate) {
@@ -72,6 +80,7 @@ const useEventSchedule = (): UseEventScheduleType => {
     isLoading,
     currentMonthEvent,
     getEventPaintType,
+    createSchedule,
   };
 };
 

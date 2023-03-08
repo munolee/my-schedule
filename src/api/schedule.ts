@@ -1,16 +1,14 @@
 import { axios } from './axios';
-
-export type ScheduleResponse = {
-  startDate: string;
-  endDate: string;
-  eventTitle: string;
-  typeId: number;
-  bgColor: string;
-};
+import { EventScheduleType } from '@hooks/useEventSchedule';
 
 export const ScheduleApi = {
   getScheduleList: async (params: string) => {
-    const response = await axios.get<ScheduleResponse[]>(`/api/schedule?${params}`);
+    const response = await axios.get<EventScheduleType[]>(`/api/schedule?${params}`);
+    return response.data;
+  },
+
+  createSchedule: async (params: EventScheduleType) => {
+    const response = await axios.post<EventScheduleType>(`api/schedule`, params);
     return response.data;
   },
 };

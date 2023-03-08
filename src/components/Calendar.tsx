@@ -18,8 +18,10 @@ const Calendar: FC = () => {
     isSameDate,
     isSameMonth,
   } = useCalendar();
-  const { isLoading, currentMonthEvent, getEventPaintType } = useEventSchedule();
+  const { isLoading, currentMonthEvent, getEventPaintType, createSchedule } = useEventSchedule();
   const { showToolTip, hideToolTip } = useToolTip();
+
+  const { mutateAsync } = createSchedule();
 
   return (
     <StyledCalendar>
@@ -32,6 +34,18 @@ const Calendar: FC = () => {
             &lt;
           </div>
           <div className={'btn-current'} onClick={handleTodayMonth}>
+            {/*<div*/}
+            {/*  className={'btn-current'}*/}
+            {/*  onClick={() =>*/}
+            {/*    mutateAsync({*/}
+            {/*      startDate: '2023-03-08',*/}
+            {/*      endDate: '2023-03-10',*/}
+            {/*      eventTitle: '테스트 일정',*/}
+            {/*      typeId: 1,*/}
+            {/*      bgColor: '#cfdd8e',*/}
+            {/*    })*/}
+            {/*  }*/}
+            {/*>*/}
             오늘
           </div>
           <div className={'btn-next'} onClick={handleNextMonth}>
