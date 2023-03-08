@@ -1,10 +1,10 @@
-import { FC } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import styled, { CSSObject } from '@emotion/styled';
 import { css } from '@emotion/react';
 
 type ButtonBaseProps = {
-  text: string;
   onClick: () => void;
+  text?: string;
   width?: number;
   height?: number;
   textColor?: string;
@@ -13,14 +13,15 @@ type ButtonBaseProps = {
   buttonStyle?: CSSObject;
 };
 
-const ButtonBase: FC<ButtonBaseProps> = ({
+const ButtonBase: FC<PropsWithChildren<ButtonBaseProps>> = ({
+  children,
   text,
   onClick,
   width,
   height,
   textColor = '#ffffff',
   backgroundColor = '#ffffff',
-  borderColor = '#ffffff',
+  borderColor,
   buttonStyle,
 }) => {
   return (
@@ -33,7 +34,7 @@ const ButtonBase: FC<ButtonBaseProps> = ({
       borderColor={borderColor}
       buttonStyle={buttonStyle}
     >
-      {text}
+      {children ? children : text}
     </StyledButton>
   );
 };
@@ -48,13 +49,15 @@ const StyledButton = styled.button<{
   borderColor?: string;
   buttonStyle?: CSSObject;
 }>`
-  padding: 8px 12px;
-  width: ${({ width }) => (width ? width : 'auto')};
-  height: ${({ height }) => (height ? height : 'auto')};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: ${({ width }) => (width ? width + 'px' : 'auto')};
+  height: ${({ height }) => (height ? height + 'px' : 'auto')};
   font-size: 16px;
   color: ${({ textColor }) => textColor};
   background-color: ${({ backgroundColor }) => backgroundColor};
-  border: 1px solid ${({ borderColor }) => borderColor};
+  border: 1px solid ${({ borderColor }) => (borderColor ? borderColor : 'none')};
   border-radius: 10px;
   cursor: pointer;
   ${({ buttonStyle }) =>

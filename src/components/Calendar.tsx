@@ -4,8 +4,11 @@ import { DATE_FORMAT } from '@constants/format';
 import useCalendar from '@hooks/useCalendar';
 import useEventSchedule, { EventPaintEnum } from '@hooks/useEventSchedule';
 import useToolTip from '@hooks/useToolTip';
-import ToolTipBase from '@components/common/ToolTipBase';
 import Spinner from '@components/common/Spinner';
+import ButtonBase from '@components/common/ButtonBase';
+import PlusSvg from '@assets/PlusSvg';
+import NightSvg from '@assets/NightSvg';
+import ToolTipBase from '@components/common/ToolTipBase';
 
 const Calendar: FC = () => {
   const {
@@ -98,6 +101,27 @@ const Calendar: FC = () => {
         </tbody>
       </CalendarTable>
       {/*<ToolTipBase />*/}
+      <ButtonGroup>
+        <ButtonBase
+          width={48}
+          height={48}
+          backgroundColor="#FF7272"
+          buttonStyle={{ borderRadius: '50%', boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)' }}
+          onClick={() => console.log('new')}
+        >
+          <PlusSvg width={48} height={48} />
+        </ButtonBase>
+        <ButtonBase
+          width={48}
+          height={48}
+          backgroundColor="#FFFFFF"
+          buttonStyle={{ borderRadius: '50%', boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)' }}
+          onClick={() => console.log('new')}
+        >
+          <NightSvg width={34} height={34} bgColor="#111111" />
+        </ButtonBase>
+      </ButtonGroup>
+
       {isLoading && <Spinner />}
     </StyledCalendar>
   );
@@ -268,4 +292,14 @@ const EventDateBar = styled.span<{ paintType: EventPaintEnum; topPosition: numbe
   &:hover {
     opacity: 0.8;
   }
+`;
+
+const ButtonGroup = styled.div`
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  align-items: flex-end;
 `;
