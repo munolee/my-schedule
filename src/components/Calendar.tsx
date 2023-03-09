@@ -3,7 +3,9 @@ import styled from '@emotion/styled';
 import { DATE_FORMAT } from '@constants/format';
 import useCalendar from '@hooks/useCalendar';
 import useEventSchedule, { EventPaintEnum } from '@hooks/useEventSchedule';
+import useModal from '@hooks/useModal';
 import useToolTip from '@hooks/useToolTip';
+import CreateModal from '@components/common/CreateModal';
 import Spinner from '@components/common/Spinner';
 import ButtonBase from '@components/common/ButtonBase';
 import PlusSvg from '@assets/PlusSvg';
@@ -22,108 +24,111 @@ const Calendar: FC = () => {
     isSameMonth,
   } = useCalendar();
   const { isLoading, currentMonthEvent, getEventPaintType, createSchedule } = useEventSchedule();
+  const createScheduleModal = useModal();
   const { showToolTip, hideToolTip } = useToolTip();
 
   const { mutateAsync } = createSchedule();
 
   return (
-    <StyledCalendar>
-      <CalendarTopBar>
-        <DateLabel>
-          <h2>{calendarTitleDate}</h2>
-        </DateLabel>
-        <MonthButtonGroup>
-          <div className={'btn-pre'} onClick={handlePrevMonth}>
-            &lt;
-          </div>
-          <div className={'btn-current'} onClick={handleTodayMonth}>
-            {/*<div*/}
-            {/*  className={'btn-current'}*/}
-            {/*  onClick={() =>*/}
-            {/*    mutateAsync({*/}
-            {/*      startDate: '2023-03-08',*/}
-            {/*      endDate: '2023-03-10',*/}
-            {/*      eventTitle: '테스트 일정',*/}
-            {/*      typeId: 1,*/}
-            {/*      bgColor: '#cfdd8e',*/}
-            {/*    })*/}
-            {/*  }*/}
-            {/*>*/}
-            오늘
-          </div>
-          <div className={'btn-next'} onClick={handleNextMonth}>
-            &gt;
-          </div>
-        </MonthButtonGroup>
-      </CalendarTopBar>
-      <CalendarTable>
-        <thead>
-          <tr>
-            {dayOfWeek.map((day) => (
-              <th key={day}>{day}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {currentMonthWeeks.map((week, i) => (
-            <tr key={i}>
-              {week.map((date, j) => (
-                <CalendarDate
-                  key={j}
-                  isToday={isSameDate(date)}
-                  isEmpty={!isSameMonth(date)}
-                  onClick={() => console.log('set')}
-                  // onMouseMove={(e) => {
-                  //   showToolTip({ positionX: e.clientX, positionY: e.clientY });
-                  // }}
-                  // onMouseLeave={hideToolTip}
-                >
-                  <DateText>{date.date()}</DateText>
-                  <StyledEventList>
-                    {currentMonthEvent.map((event, index) => {
-                      const { startDate, eventTitle, position, bgColor } = event;
-                      const calendarDate = date.format(DATE_FORMAT.BASIC_FORMAT);
-                      const paintType = getEventPaintType(event, calendarDate);
-                      if (paintType === EventPaintEnum.Empty) {
-                        return;
-                      }
-                      return (
-                        <EventDateBar key={index} paintType={paintType} topPosition={position} bgColor={bgColor}>
-                          {calendarDate === startDate ? eventTitle : ''}
-                        </EventDateBar>
-                      );
-                    })}
-                  </StyledEventList>
-                </CalendarDate>
+    <>
+      <StyledCalendar>
+        <CalendarTopBar>
+          <DateLabel>
+            <h2>{calendarTitleDate}</h2>
+          </DateLabel>
+          <MonthButtonGroup>
+            <div className={'btn-pre'} onClick={handlePrevMonth}>
+              &lt;
+            </div>
+            <div className={'btn-current'} onClick={handleTodayMonth}>
+              {/*<div*/}
+              {/*  className={'btn-current'}*/}
+              {/*  onClick={() =>*/}
+              {/*    mutateAsync({*/}
+              {/*      startDate: '2023-03-08',*/}
+              {/*      endDate: '2023-03-10',*/}
+              {/*      eventTitle: '테스트 일정',*/}
+              {/*      typeId: 1,*/}
+              {/*      bgColor: '#cfdd8e',*/}
+              {/*    })*/}
+              {/*  }*/}
+              {/*>*/}
+              오늘
+            </div>
+            <div className={'btn-next'} onClick={handleNextMonth}>
+              &gt;
+            </div>
+          </MonthButtonGroup>
+        </CalendarTopBar>
+        <CalendarTable>
+          <thead>
+            <tr>
+              {dayOfWeek.map((day) => (
+                <th key={day}>{day}</th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </CalendarTable>
-      {/*<ToolTipBase />*/}
-      <ButtonGroup>
-        <ButtonBase
-          width={48}
-          height={48}
-          backgroundColor="#FF7272"
-          buttonStyle={{ borderRadius: '50%', boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)' }}
-          onClick={() => console.log('new')}
-        >
-          <PlusSvg width={48} height={48} />
-        </ButtonBase>
-        <ButtonBase
-          width={48}
-          height={48}
-          backgroundColor="#FFFFFF"
-          buttonStyle={{ borderRadius: '50%', boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)' }}
-          onClick={() => console.log('new')}
-        >
-          <NightSvg width={34} height={34} bgColor="#111111" />
-        </ButtonBase>
-      </ButtonGroup>
-
-      {isLoading && <Spinner />}
-    </StyledCalendar>
+          </thead>
+          <tbody>
+            {currentMonthWeeks.map((week, i) => (
+              <tr key={i}>
+                {week.map((date, j) => (
+                  <CalendarDate
+                    key={j}
+                    isToday={isSameDate(date)}
+                    isEmpty={!isSameMonth(date)}
+                    onClick={() => console.log('set')}
+                    // onMouseMove={(e) => {
+                    //   showToolTip({ positionX: e.clientX, positionY: e.clientY });
+                    // }}
+                    // onMouseLeave={hideToolTip}
+                  >
+                    <DateText>{date.date()}</DateText>
+                    <StyledEventList>
+                      {currentMonthEvent.map((event, index) => {
+                        const { startDate, eventTitle, position, bgColor } = event;
+                        const calendarDate = date.format(DATE_FORMAT.BASIC_FORMAT);
+                        const paintType = getEventPaintType(event, calendarDate);
+                        if (paintType === EventPaintEnum.Empty) {
+                          return;
+                        }
+                        return (
+                          <EventDateBar key={index} paintType={paintType} topPosition={position} bgColor={bgColor}>
+                            {calendarDate === startDate ? eventTitle : ''}
+                          </EventDateBar>
+                        );
+                      })}
+                    </StyledEventList>
+                  </CalendarDate>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </CalendarTable>
+        {/*<ToolTipBase />*/}
+        <ButtonGroup>
+          <ButtonBase
+            width={48}
+            height={48}
+            backgroundColor="#FF7272"
+            buttonStyle={{ borderRadius: '50%', boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)' }}
+            onClick={() => createScheduleModal.showModal()}
+          >
+            <PlusSvg width={48} height={48} />
+          </ButtonBase>
+          <ButtonBase
+            width={48}
+            height={48}
+            backgroundColor="#FFFFFF"
+            buttonStyle={{ borderRadius: '50%', boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)' }}
+            onClick={() => console.log('new')}
+          >
+            <NightSvg width={34} height={34} bgColor="#111111" />
+          </ButtonBase>
+        </ButtonGroup>
+        {isLoading && <Spinner />}
+      </StyledCalendar>
+      <CreateModal modalProps={createScheduleModal} />
+    </>
   );
 };
 
