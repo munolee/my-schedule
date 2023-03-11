@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { CSSTransition } from 'react-transition-group';
 import { ModalPropsType } from '@hooks/useModal';
@@ -9,9 +9,19 @@ type ModalBaseType = {
 
 const ModalBase: FC<PropsWithChildren<ModalBaseType>> = ({ modalProps, children }) => {
   const { isShow, hideModal } = modalProps;
+
+  useEffect(() => {
+    if (isShow) {
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      document.body.style.removeProperty('overflow');
+    };
+  }, [isShow]);
+
   return (
     <>
-      <ModalContainer isShow={isShow} onClick={(e) => hideModal(e)}>
+      <ModalContainer isShow={isShow} onClick={hideModal}>
         <CSSTransition in={isShow} mountOnEnter unmountOnExit timeout={700} classNames={'modal'}>
           {children && children}
         </CSSTransition>
@@ -27,8 +37,11 @@ const ModalContainer = styled.div<{ isShow: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   visibility: ${({ isShow }) => (isShow ? 'visible' : 'hidden')};
   background-color: ${({ isShow }) => (isShow ? 'rgba(0, 0, 0, 0.4)' : 'none')};
 

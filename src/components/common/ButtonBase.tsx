@@ -1,10 +1,13 @@
-import { FC, PropsWithChildren } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import styled, { CSSObject } from '@emotion/styled';
 import { css } from '@emotion/react';
 
+type ButtonType = 'button' | 'submit' | 'reset' | undefined;
+
 type ButtonBaseProps = {
-  onClick: () => void;
   text?: string;
+  type?: ButtonType;
+  onClick?: (e: React.MouseEvent) => void;
   width?: number;
   height?: number;
   textColor?: string;
@@ -16,6 +19,7 @@ type ButtonBaseProps = {
 const ButtonBase: FC<PropsWithChildren<ButtonBaseProps>> = ({
   children,
   text,
+  type = 'button',
   onClick,
   width,
   height,
@@ -26,6 +30,7 @@ const ButtonBase: FC<PropsWithChildren<ButtonBaseProps>> = ({
 }) => {
   return (
     <StyledButton
+      type={type}
       onClick={onClick}
       width={width}
       height={height}

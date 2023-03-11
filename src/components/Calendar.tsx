@@ -27,8 +27,6 @@ const Calendar: FC = () => {
   const createScheduleModal = useModal();
   const { showToolTip, hideToolTip } = useToolTip();
 
-  const { mutateAsync } = createSchedule();
-
   return (
     <>
       <StyledCalendar>
@@ -93,7 +91,7 @@ const Calendar: FC = () => {
                         }
                         return (
                           <EventDateBar key={index} paintType={paintType} topPosition={position} bgColor={bgColor}>
-                            {calendarDate === startDate ? eventTitle : ''}
+                            {calendarDate === startDate && eventTitle}
                           </EventDateBar>
                         );
                       })}
@@ -127,7 +125,7 @@ const Calendar: FC = () => {
         </ButtonGroup>
         {isLoading && <Spinner />}
       </StyledCalendar>
-      <CreateModal modalProps={createScheduleModal} />
+      <CreateModal modalProps={createScheduleModal} mutateMethod={createSchedule} />
     </>
   );
 };
@@ -287,9 +285,6 @@ const EventDateBar = styled.span<{ paintType: EventPaintEnum; topPosition: numbe
     }
     if (paintType === EventPaintEnum.EndDate) {
       return '0 100px 100px 0';
-    }
-    if (paintType === EventPaintEnum.Ing) {
-      return '0';
     }
     return '0';
   }};
