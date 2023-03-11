@@ -3,7 +3,7 @@ import React, { useState, useCallback } from 'react';
 export type ModalPropsType = {
   isShow: boolean;
   showModal: () => void;
-  hideModal: (e: React.MouseEvent) => void;
+  hideModal: (event?: React.MouseEvent) => void;
 };
 
 const useModal = (): ModalPropsType => {
@@ -16,10 +16,12 @@ const useModal = (): ModalPropsType => {
   }, [isShow]);
 
   const hideModal = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      if (e.target !== e.currentTarget) {
-        return;
+    (event?: React.MouseEvent) => {
+      if (event) {
+        event.stopPropagation();
+        if (event.target !== event.currentTarget) {
+          return;
+        }
       }
       setIsShow(false);
     },

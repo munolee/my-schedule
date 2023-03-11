@@ -63,7 +63,7 @@ const StyledButton = styled.button<{
   color: ${({ textColor }) => textColor};
   background-color: ${({ backgroundColor }) => backgroundColor};
   border: 1px solid ${({ borderColor }) => (borderColor ? borderColor : 'none')};
-  border-radius: 10px;
+  border-radius: 8px;
   cursor: pointer;
   ${({ buttonStyle }) =>
     css`

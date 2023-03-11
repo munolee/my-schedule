@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import styled from '@emotion/styled';
 import { useForm, FieldValues } from 'react-hook-form';
 import { ModalPropsType } from '@hooks/useModal';
@@ -13,29 +13,38 @@ type CreateModalProps = {
 };
 
 const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
+  const [selectBgColor, setSelectBgColor] = useState<string>('#cfdd8e');
   const { mutateAsync } = mutateMethod();
+
+  const initValues = {
+    eventTitle: '',
+    startDate: '',
+    endDate: '',
+    bgColor: '#cfdd8e',
+    typeId: 0,
+  };
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm({
-    mode: 'onSubmit',
-    defaultValues: {
-      eventTitle: '',
-      startDate: '',
-      endDate: '',
-      bgColor: '#cfdd8e',
-      typeId: 0,
-    },
+    mode: 'onChange',
+    defaultValues: initValues,
   });
 
   const onSubmit = async (data: FieldValues) => {
-    console.log(errors);
     await mutateAsync(data as EventScheduleType);
-    reset();
+    resetFormModal();
   };
 
+  const resetFormModal = () => {
+    setSelectBgColor(initValues.bgColor);
+    reset(initValues);
+    modalProps.hideModal();
+  };
+
+  const eventBgColors = ['#cfdd8e', '#eeb8b8', '#6eceda', '#b57fb3', '#f5ddad'];
   return (
     <ModalBase modalProps={modalProps}>
       <ModalContent>
@@ -50,8 +59,8 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
               {...register('eventTitle', {
                 required: true,
                 minLength: {
-                  value: 4,
-                  message: '일정 제목은 최소 4글자 이상 입력해주세요.',
+                  value: 2,
+                  message: '일정 제목은 최소 2글자 이상 입력해주세요.',
                 },
               })}
             />
@@ -85,14 +94,24 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
           </div>
           <div>
             <label htmlFor="event-bg-color">일정 색상</label>
-            <input id="event-bg-color" type="color" {...register('bgColor')} />
+            <input id="event-bg-color" type="text" value={selectBgColor} {...register('bgColor')} />
+            <ColorPickerFiled>
+              {eventBgColors.map((color) => (
+                <ColorPicker
+                  key={color}
+                  active={selectBgColor === color}
+                  color={color}
+                  onClick={() => setSelectBgColor(color)}
+                />
+              ))}
+            </ColorPickerFiled>
           </div>
           <input type="hidden" {...register('typeId')} />
           <ButtonGroup>
             <ButtonBase
               type="button"
               text="취소"
-              onClick={modalProps.hideModal}
+              onClick={resetFormModal}
               width={80}
               height={40}
               textColor="#333333"
@@ -135,18 +154,33 @@ const StyledForm = styled.form`
       padding: 0 8px;
       width: 340px;
       min-height: 40px;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 500;
       color: #666666;
-      border: 1px solid #dddddd;
+      border: 1px solid #999999;
       border-radius: 4px;
     }
   }
 
   label {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
   }
+`;
+
+const ColorPickerFiled = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;
+
+const ColorPicker = styled.div<{ active: boolean; color: string }>`
+  width: 60px;
+  height: 40px;
+  border: 2px solid ${({ active }) => (active ? '#333333' : 'none')};
+  border-radius: 4px;
+  background-color: ${({ color }) => color};
+  cursor: pointer;
 `;
 
 const ErrorMessage = styled.em`
@@ -157,6 +191,7 @@ const ErrorMessage = styled.em`
 `;
 
 const ButtonGroup = styled.div`
+  margin-top: 12px;
   margin-left: auto;
   display: flex;
   flex-direction: row !important;
