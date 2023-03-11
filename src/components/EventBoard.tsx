@@ -28,7 +28,7 @@ export default EventBoard;
 
 const StyledEventBoard = styled.div`
   display: inline-block;
-  margin: 48px 0 0;
+  margin: 4.8rem 0 0;
   padding: 0;
   vertical-align: top;
 `;
@@ -38,40 +38,40 @@ const EventBoardList = styled.div`
 `;
 
 const BoardItem = styled.div`
-  padding: 20px 20px 25px 25px;
-  width: 200px;
-  max-height: 400px;
-  margin-bottom: 20px;
+  padding: 2rem 2rem 2.5rem 2.5rem;
+  width: 20rem;
+  max-height: 40rem;
+  margin-bottom: 2rem;
   text-align: left;
   background-color: #ffffff;
   border-spacing: 0;
-  border-radius: 5px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.05);
   overflow-y: auto;
 
   span {
-    font-size: 15px;
+    font-size: 1.5rem;
     color: #111111;
     //color: #999999;
   }
 `;
 
 const BoardScheduleList = styled.ul`
-  max-height: 180px;
+  max-height: 18rem;
   overflow-y: auto;
 `;
 
 const BoardScheduleItem = styled.li`
-  margin-top: 10px;
+  margin-top: 1rem;
   vertical-align: middle;
 `;
 
 const ScheduleEventCircle = styled.div<{ bgColor: string }>`
-  width: 12px;
-  height: 12px;
-  margin-right: 5px;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-right: 0.5rem;
   padding: 0;
   display: inline-block;
-  border-radius: 50px;
+  border-radius: 5rem;
   background-color: ${({ bgColor }) => bgColor};
 `;

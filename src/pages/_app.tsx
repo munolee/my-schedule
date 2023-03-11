@@ -24,17 +24,17 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/*<ThemeProvider theme={Theme[theme]}>*/}
-      <RecoilRoot>
-        <Global styles={ResetStyle} />
-        <Global styles={GlobalStyle} />
-        <Layout>
-          <Header />
-          <Component {...pageProps} toggleTheme={toggleTheme} />
-        </Layout>
-        <ReactQueryDevtools initialIsOpen={true} />
-      </RecoilRoot>
-      {/*</ThemeProvider>*/}
+      <ThemeProvider theme={Theme[theme]}>
+        <RecoilRoot>
+          <Global styles={ResetStyle} />
+          <Global styles={GlobalStyle} />
+          <Layout>
+            <Header />
+            <Component {...pageProps} toggleTheme={toggleTheme} />
+          </Layout>
+          <ReactQueryDevtools initialIsOpen={true} />
+        </RecoilRoot>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 };

@@ -24,5 +24,5 @@ export default Home;
 
 const HomeContainer = styled.div`
   position: relative;
-  margin-top: 12px;
+  margin-top: 1.2rem;
 `;

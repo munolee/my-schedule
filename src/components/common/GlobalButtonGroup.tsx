@@ -41,10 +41,10 @@ export default GlobalButtonGroup;
 
 const ButtonGroup = styled.div`
   position: absolute;
-  bottom: 8px;
-  right: 8px;
+  bottom: 0.8rem;
+  right: 0.8rem;
   display: flex;
-  gap: 8px;
+  gap: 0.8rem;
   justify-content: flex-end;
   align-items: flex-end;
 `;

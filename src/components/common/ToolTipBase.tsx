@@ -19,14 +19,14 @@ export default ToolTipBase;
 
 const StyledToolTip = styled.div<{ visible: boolean; positionX: number; positionY: number }>`
   position: absolute;
-  padding: 16px;
+  padding: 1.6rem;
   top: 0;
   left: 0;
   display: ${({ visible }) => (visible ? 'block' : 'none')};
   color: #ffffff;
   background-color: #333333;
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 1rem;
+  font-size: 1.6rem;
   z-index: 10;
   transform: ${({ positionX, positionY }) => `translate3d(${positionX}px, ${positionY}px, 0)`};
   transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1) 0.1s;
@@ -34,22 +34,22 @@ const StyledToolTip = styled.div<{ visible: boolean; positionX: number; position
 
   span {
     display: block;
-    font-size: 12px;
+    font-size: 1.2rem;
   }
 
   img {
-    width: 30px;
-    border: 3px solid #e9e9e9;
-    border-radius: 30px;
+    width: 3rem;
+    border: 0.3rem solid #e9e9e9;
+    border-radius: 3rem;
     background-color: #e9e9e9;
   }
 
   &:after {
     position: absolute;
-    top: 10px;
-    left: -15px;
-    border-top: 15px solid #333333;
-    border-left: 15px solid transparent;
+    top: 1rem;
+    left: -1.5rem;
+    border-top: 1.5rem solid #333333;
+    border-left: 1.5rem solid transparent;
     border-right: 0 solid transparent;
     border-bottom: 0 solid transparent;
     content: '';
@@ -59,5 +59,5 @@ const StyledToolTip = styled.div<{ visible: boolean; positionX: number; position
 const TooltipContent = styled.span`
   display: inline-block;
   position: absolute;
-  padding: 10px 10px;
+  padding: 1rem 1rem;
 `;

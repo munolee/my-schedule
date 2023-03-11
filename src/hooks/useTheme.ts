@@ -9,14 +9,14 @@ interface UseThemeType {
 
 const useTheme = (): UseThemeType => {
   const getInitialTheme = useCallback(() => {
-    let theme;
+    let theme: ThemeType = 'light';
     if (typeof window !== 'undefined') {
-      theme = window.localStorage.getItem('app_theme');
+      theme = window.localStorage.getItem('app_theme') as ThemeType;
 
       const { matches } = window.matchMedia('(prefers-color-scheme: dark)');
       theme = matches ? 'dark' : 'light';
     }
-    return theme as ThemeType;
+    return theme;
   }, []);
 
   const [theme, setTheme] = useState<ThemeType>(getInitialTheme);
