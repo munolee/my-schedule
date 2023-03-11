@@ -11,6 +11,7 @@ export const GlobalStyle = css`
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     box-sizing: border-box;
+    font-size: calc(min(100vw, 450px) / 375 * 10);
   }
 
   body {

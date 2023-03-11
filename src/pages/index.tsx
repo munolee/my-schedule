@@ -1,12 +1,22 @@
-import React from 'react';
+import { FC } from 'react';
 import Calendar from '@components/Calendar';
 import styled from '@emotion/styled';
+import GlobalButtonGroup from '@components/common/GlobalButtonGroup';
+import useModal from '@hooks/useModal';
 
-const Home = () => {
+interface HomeProps {
+  toggleTheme: () => void;
+}
+
+const Home: FC<HomeProps> = ({ toggleTheme }) => {
+  const createScheduleModal = useModal();
   return (
-    <HomeContainer>
-      <Calendar />
-    </HomeContainer>
+    <>
+      <HomeContainer>
+        <Calendar createScheduleModalProps={createScheduleModal} />
+      </HomeContainer>
+      <GlobalButtonGroup toggleTheme={toggleTheme} modalProps={createScheduleModal} />
+    </>
   );
 };
 
