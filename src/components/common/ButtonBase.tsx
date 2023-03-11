@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 
 type ButtonType = 'button' | 'submit' | 'reset' | undefined;
 
-type ButtonBaseProps = {
+interface ButtonBaseProps {
   text?: string;
   type?: ButtonType;
   onClick?: (e: React.MouseEvent) => void;
@@ -14,7 +14,7 @@ type ButtonBaseProps = {
   backgroundColor?: string;
   borderColor?: string;
   buttonStyle?: CSSObject;
-};
+}
 
 const ButtonBase: FC<PropsWithChildren<ButtonBaseProps>> = ({
   children,

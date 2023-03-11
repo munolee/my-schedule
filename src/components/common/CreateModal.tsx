@@ -7,10 +7,10 @@ import { EventScheduleType } from '@hooks/useEventSchedule';
 import ModalBase from '@components/common/ModalBase';
 import ButtonBase from '@components/common/ButtonBase';
 
-type CreateModalProps = {
+interface CreateModalProps {
   modalProps: ModalPropsType;
   mutateMethod: () => UseMutationResult<EventScheduleType, unknown, EventScheduleType, unknown>;
-};
+}
 
 const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
   const [selectBgColor, setSelectBgColor] = useState<string>('#cfdd8e');

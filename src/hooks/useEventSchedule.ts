@@ -12,26 +12,26 @@ export enum EventPaintEnum {
   Empty = 'empty',
 }
 
-type TopPosition = {
+interface TopPosition {
   position: number;
-};
+}
 
-export type EventScheduleType = {
+export interface EventScheduleType {
   startDate: string;
   endDate: string;
   eventTitle: string;
   typeId: number;
   bgColor: string;
-};
+}
 
 export type CurrentMonthEventType = EventScheduleType & TopPosition;
 
-type UseEventScheduleType = {
+interface UseEventScheduleType {
   isLoading: boolean;
   currentMonthEvent: CurrentMonthEventType[];
   getEventPaintType: (event: EventScheduleType, date: string) => EventPaintEnum;
   createSchedule: () => UseMutationResult<EventScheduleType, unknown, EventScheduleType, unknown>;
-};
+}
 
 const useEventSchedule = (): UseEventScheduleType => {
   const currentTime = useRecoilValue(currentTimeAtom);

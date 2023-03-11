@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 import { CSSTransition } from 'react-transition-group';
 import { ModalPropsType } from '@hooks/useModal';
 
-type ModalBaseType = {
+interface ModalBaseType {
   modalProps: ModalPropsType;
-};
+}
 
 const ModalBase: FC<PropsWithChildren<ModalBaseType>> = ({ modalProps, children }) => {
   const { isShow, hideModal } = modalProps;

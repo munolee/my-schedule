@@ -2,10 +2,10 @@ import { useCallback, useRef } from 'react';
 import { toolTipAtom } from '@store/toolTip';
 import { useRecoilState } from 'recoil';
 
-export type Position = {
+export interface Position {
   positionX: number;
   positionY: number;
-};
+}
 
 export type ToolTipStateType = {
   focus: boolean;

@@ -4,7 +4,7 @@ import moment, { Moment } from 'moment';
 import { currentTimeAtom } from '@store/currentTime';
 import { DATE_FORMAT } from '@constants/format';
 
-type UseCalendarType = {
+interface UseCalendarType {
   currentMonthWeeks: Moment[][];
   calendarTitleDate: string;
   dayOfWeek: string[];
@@ -13,7 +13,7 @@ type UseCalendarType = {
   handleTodayMonth: () => void;
   isSameDate: (date: Moment) => boolean;
   isSameMonth: (date: Moment) => boolean;
-};
+}
 
 const useCalendar = (): UseCalendarType => {
   const [currentTime, setCurrentTime] = useRecoilState(currentTimeAtom);

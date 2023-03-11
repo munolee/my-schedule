@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import styled from '@emotion/styled';
 
-type SpinnerProps = {
+interface SpinnerProps {
   wrap?: boolean;
-};
+}
 
 const Spinner: FC<SpinnerProps> = ({ wrap = false }) => {
   return (
