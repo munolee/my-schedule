@@ -12,6 +12,7 @@ export const GlobalStyle = css`
     -webkit-font-smoothing: antialiased;
     box-sizing: border-box;
     font-size: calc(min(100vw, 450px) / 375 * 10);
+    transition: background 0.2s;
   }
 
   body {
@@ -19,7 +20,6 @@ export const GlobalStyle = css`
       'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     margin: 0 auto;
     padding: 0;
-    background-color: #f9f8f7;
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;

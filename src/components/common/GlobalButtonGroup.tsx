@@ -4,6 +4,7 @@ import ButtonBase from '@components/common/ButtonBase';
 import PlusSvg from '@assets/PlusSvg';
 import NightSvg from '@assets/NightSvg';
 import { ModalPropsType } from '@hooks/useModal';
+import { useTheme } from '@emotion/react';
 
 interface GlobalButtonGroupProps {
   toggleTheme: () => void;
@@ -11,29 +12,28 @@ interface GlobalButtonGroupProps {
 }
 
 const GlobalButtonGroup: FC<GlobalButtonGroupProps> = ({ toggleTheme, modalProps }) => {
+  const { colors, background, fontColor } = useTheme();
   return (
-    <>
-      <ButtonGroup>
-        <ButtonBase
-          width={48}
-          height={48}
-          backgroundColor="#FF7272"
-          buttonStyle={{ borderRadius: '50%', boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)' }}
-          onClick={modalProps.showModal}
-        >
-          <PlusSvg width={48} height={48} />
-        </ButtonBase>
-        <ButtonBase
-          width={48}
-          height={48}
-          backgroundColor="#FFFFFF"
-          buttonStyle={{ borderRadius: '50%', boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)' }}
-          onClick={toggleTheme}
-        >
-          <NightSvg width={34} height={34} bgColor="#111111" />
-        </ButtonBase>
-      </ButtonGroup>
-    </>
+    <ButtonGroup>
+      <ButtonBase
+        width={48}
+        height={48}
+        backgroundColor={colors.red010}
+        buttonStyle={{ borderRadius: '50%', boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)' }}
+        onClick={modalProps.showModal}
+      >
+        <PlusSvg width={48} height={48} />
+      </ButtonBase>
+      <ButtonBase
+        width={48}
+        height={48}
+        backgroundColor={background}
+        buttonStyle={{ borderRadius: '50%', boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)' }}
+        onClick={toggleTheme}
+      >
+        <NightSvg width={34} height={34} bgColor={fontColor} />
+      </ButtonBase>
+    </ButtonGroup>
   );
 };
 
@@ -41,7 +41,7 @@ export default GlobalButtonGroup;
 
 const ButtonGroup = styled.div`
   position: absolute;
-  bottom: 0.8rem;
+  bottom: 1.6rem;
   right: 0.8rem;
   display: flex;
   gap: 0.8rem;

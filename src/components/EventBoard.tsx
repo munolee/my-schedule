@@ -4,7 +4,6 @@ import useEventSchedule from '@hooks/useEventSchedule';
 
 const EventBoard: FC = () => {
   const { currentMonthEvent } = useEventSchedule();
-
   return (
     <StyledEventBoard>
       <EventBoardList>
@@ -27,9 +26,9 @@ const EventBoard: FC = () => {
 export default EventBoard;
 
 const StyledEventBoard = styled.div`
-  display: inline-block;
   margin: 4.8rem 0 0;
   padding: 0;
+  display: inline-block;
   vertical-align: top;
 `;
 
@@ -39,20 +38,19 @@ const EventBoardList = styled.div`
 
 const BoardItem = styled.div`
   padding: 2rem 2rem 2.5rem 2.5rem;
+  margin-bottom: 2rem;
   width: 20rem;
   max-height: 40rem;
-  margin-bottom: 2rem;
   text-align: left;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.background};
   border-spacing: 0;
   border-radius: 0.5rem;
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.05);
   overflow-y: auto;
 
   span {
-    font-size: 1.5rem;
-    color: #111111;
-    //color: #999999;
+    font-size: ${({ theme }) => theme.fontSize.s14};
+    color: ${({ theme }) => theme.fontColor};
   }
 `;
 
@@ -67,10 +65,10 @@ const BoardScheduleItem = styled.li`
 `;
 
 const ScheduleEventCircle = styled.div<{ bgColor: string }>`
-  width: 1.2rem;
-  height: 1.2rem;
   margin-right: 0.5rem;
   padding: 0;
+  width: 1.2rem;
+  height: 1.2rem;
   display: inline-block;
   border-radius: 5rem;
   background-color: ${({ bgColor }) => bgColor};

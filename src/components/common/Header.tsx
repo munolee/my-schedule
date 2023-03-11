@@ -34,7 +34,7 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.calendarBackground};
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
 `;
 
@@ -64,7 +64,7 @@ const HeaderMenuItem = styled.li<{ isActive: boolean }>`
 `;
 
 const MenuTitle = styled.div`
-  font-size: 1.2rem;
+  font-size: ${({ theme }) => theme.fontSize.s12};
   font-weight: 500;
-  color: #666666;
+  color: ${({ theme }) => theme.fontColor};
 `;

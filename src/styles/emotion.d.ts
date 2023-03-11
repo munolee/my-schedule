@@ -1,13 +1,6 @@
 import '@emotion/react';
-
-type themeId = 'light' | 'dark';
+import { ThemeType } from '@styles/theme';
 
 declare module '@emotion/react' {
-  export interface Theme {
-    [key in themeId]: {
-      background: string;
-      color: string;
-      hoverBackground: string;
-    };
-  }
+  export interface Theme extends ThemeType {}
 }

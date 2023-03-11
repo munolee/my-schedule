@@ -1,11 +1,7 @@
 import { FC } from 'react';
 import styled from '@emotion/styled';
 
-interface SpinnerProps {
-  wrap?: boolean;
-}
-
-const Spinner: FC<SpinnerProps> = ({ wrap = false }) => {
+const Spinner: FC = () => {
   return (
     <SpinnerWrapper>
       <StyledSpinner />
@@ -14,9 +10,9 @@ const Spinner: FC<SpinnerProps> = ({ wrap = false }) => {
 };
 
 const StyledSpinner = styled.div`
-  border: 0.3rem solid #f3f3f3;
+  border: ${({ theme }) => `0.3rem solid ${theme.colors.gray010}`};
+  border-top: ${({ theme }) => `0.3rem solid ${theme.colors.orange010}`};
   border-radius: 50%;
-  border-top: 0.3rem solid #edaa7d;
   width: 4.8rem;
   height: 4.8rem;
   -webkit-animation: spin 2s linear infinite;

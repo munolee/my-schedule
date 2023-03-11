@@ -129,11 +129,17 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
 export default CreateModal;
 
 const ModalContent = styled.div`
-  padding: 3.4rem 2.8rem;
-  width: 40rem;
+  padding: 3.2rem 2.4rem;
+  width: 36rem;
   background-color: #ffffff;
   border-radius: 0.8rem;
   transition: all 0.2s ease-in-out;
+
+  h2 {
+    font-size: ${({ theme }) => theme.fontSize.s16};
+    font-weight: 500;
+    color: ${({ theme }) => theme.fontColor};
+  }
 `;
 
 const StyledForm = styled.form`
@@ -152,9 +158,9 @@ const StyledForm = styled.form`
     input {
       margin-bottom: 1.2rem;
       padding: 0 0.8rem;
-      width: 34rem;
+      width: 30rem;
       min-height: 4rem;
-      font-size: 1.5rem;
+      font-size: ${({ theme }) => theme.fontSize.s12};
       font-weight: 500;
       color: #666666;
       border: 0.1rem solid #999999;
@@ -163,7 +169,7 @@ const StyledForm = styled.form`
   }
 
   label {
-    font-size: 1.6rem;
+    font-size: ${({ theme }) => theme.fontSize.s14};
     font-weight: 500;
   }
 `;
@@ -175,8 +181,8 @@ const ColorPickerFiled = styled.div`
 `;
 
 const ColorPicker = styled.div<{ active: boolean; color: string }>`
-  width: 6rem;
-  height: 4rem;
+  width: 4.8rem;
+  height: 3.2rem;
   border: 0.2rem solid ${({ active }) => (active ? '#333333' : 'none')};
   border-radius: 0.4rem;
   background-color: ${({ color }) => color};
@@ -184,14 +190,14 @@ const ColorPicker = styled.div<{ active: boolean; color: string }>`
 `;
 
 const ErrorMessage = styled.em`
-  font-size: 1.4rem;
+  font-size: ${({ theme }) => theme.fontSize.s12};
   font-weight: 200;
   font-style: normal;
   color: #ff0d37;
 `;
 
 const ButtonGroup = styled.div`
-  margin-top: 1.2rem;
+  margin-top: 0.8rem;
   margin-left: auto;
   display: flex;
   flex-direction: row !important;
