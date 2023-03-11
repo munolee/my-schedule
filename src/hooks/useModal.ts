@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from 'react';
 
-export type ModalPropsType = {
+export interface ModalPropsType {
   isShow: boolean;
   showModal: () => void;
   hideModal: (event?: React.MouseEvent) => void;
-};
+}
 
 const useModal = (): ModalPropsType => {
   const [isShow, setIsShow] = useState(false);
