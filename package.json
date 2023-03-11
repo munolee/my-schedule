@@ -23,7 +23,10 @@
     "next": "^13.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.43.5",
+    "react-is": "^18.2.0",
     "react-query": "^3.39.3",
+    "react-transition-group": "^4.4.5",
     "recoil": "^0.7.6"
   },
   "devDependencies": {
@@ -36,6 +39,7 @@
     "@types/node": "^16.18.12",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "@types/react-transition-group": "^4.4.5",
     "@types/recoil": "^0.0.9",
     "babel-loader": "^8.2.2",
     "husky": "^8.0.3",
