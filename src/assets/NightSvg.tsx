@@ -1,12 +1,13 @@
 import { FC } from 'react';
+import { Colors } from '@styles/theme';
 
-type NightSvgType = {
+interface NightSvgProps {
   width?: number;
   height?: number;
   bgColor?: string;
-};
+}
 
-const NightSvg: FC<NightSvgType> = ({ width = 30, height = 30, bgColor = '#FFFFFF' }) => {
+const NightSvg: FC<NightSvgProps> = ({ width = 30, height = 30, bgColor = Colors.white }) => {
   return (
     <svg width={width} height={height} viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path

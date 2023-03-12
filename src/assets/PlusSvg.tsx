@@ -1,12 +1,13 @@
 import { FC } from 'react';
+import { Colors } from '@styles/theme';
 
-type PlusSvgType = {
+interface PlusSvgProps {
   width?: number;
   height?: number;
   bgColor?: string;
-};
+}
 
-const PlusSvg: FC<PlusSvgType> = ({ width = 30, height = 30, bgColor = '#ffffff' }) => {
+const PlusSvg: FC<PlusSvgProps> = ({ width = 30, height = 30, bgColor = Colors.white }) => {
   return (
     <svg width={width} height={height} viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path

@@ -1,6 +1,8 @@
 import { FC } from 'react';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import ArrowLeftSvg from '@assets/ArrowLeftSvg';
+import ArrowRightSvg from '@assets/ArrowRightSvg';
 import ButtonBase from '@components/common/ButtonBase';
 import CreateModal from '@components/common/CreateModal';
 import Spinner from '@components/common/Spinner';
@@ -8,7 +10,6 @@ import { DATE_FORMAT } from '@constants/format';
 import useCalendar from '@hooks/useCalendar';
 import useEventSchedule, { EventPaintEnum } from '@hooks/useEventSchedule';
 import { ModalPropsType } from '@hooks/useModal';
-import useToolTip from '@hooks/useToolTip';
 
 interface CalendarProps {
   createScheduleModalProps: ModalPropsType;
@@ -26,7 +27,6 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
     isSameMonth,
   } = useCalendar();
   const { isLoading, currentMonthEvent, getEventPaintType, createSchedule } = useEventSchedule();
-  const { showToolTip, hideToolTip } = useToolTip();
   const { fontColor, colors, calendarBackground } = useTheme();
 
   return (
@@ -39,30 +39,27 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
           <MonthButtonGroup>
             <ButtonBase
               onClick={handlePrevMonth}
-              textColor={fontColor}
               borderColor={colors.gray030}
               backgroundColor={calendarBackground}
-              buttonStyle={{ borderRadius: '0.5rem 0 0 0.5rem' }}
+              buttonStyle={{ padding: 0, borderRadius: '0.5rem 0 0 0.5rem' }}
             >
-              &lt;
+              <ArrowLeftSvg bgColor={fontColor} />
             </ButtonBase>
             <ButtonBase
               onClick={handleTodayMonth}
-              textColor={fontColor}
               borderColor={colors.gray030}
               backgroundColor={calendarBackground}
               buttonStyle={{ borderRadius: '0' }}
             >
-              오늘
+              <span>오늘</span>
             </ButtonBase>
             <ButtonBase
               onClick={handleNextMonth}
-              textColor={fontColor}
               borderColor={colors.gray030}
               backgroundColor={calendarBackground}
-              buttonStyle={{ borderRadius: '0 0.5rem 0.5rem 0' }}
+              buttonStyle={{ padding: 0, borderRadius: '0 0.5rem 0.5rem 0' }}
             >
-              &gt;
+              <ArrowRightSvg bgColor={fontColor} />
             </ButtonBase>
           </MonthButtonGroup>
         </CalendarTopBar>
@@ -83,10 +80,6 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
                     isToday={isSameDate(date)}
                     isEmpty={!isSameMonth(date)}
                     onClick={() => console.log('set')}
-                    // onMouseMove={(e) => {
-                    //   showToolTip({ positionX: e.clientX, positionY: e.clientY });
-                    // }}
-                    // onMouseLeave={hideToolTip}
                   >
                     <DateText>{date.date()}</DateText>
                     <StyledEventList>
@@ -110,7 +103,6 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
             ))}
           </tbody>
         </CalendarTable>
-        {/*<ToolTipBase />*/}
         {isLoading && <Spinner />}
       </StyledCalendar>
       <CreateModal modalProps={createScheduleModalProps} mutateMethod={createSchedule} />
@@ -145,6 +137,15 @@ const MonthButtonGroup = styled.div`
   margin-right: 0.8rem;
   display: flex;
   align-items: center;
+
+  > button {
+    height: 2.4rem;
+  }
+
+  span {
+    font-size: ${({ theme }) => theme.fontSize.s14};
+    color: ${({ theme }) => theme.fontColor};
+  }
 `;
 
 const CalendarTable = styled.table`

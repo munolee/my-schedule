@@ -1,8 +1,12 @@
 import { FC, useState } from 'react';
+import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import CalendarSvg from '@assets/CalendarSvg';
+import MemoSvg from '@assets/MemoSvg';
 
 const Header: FC = () => {
   const [currentPage, setCurrentPage] = useState<string>('calendar');
+  const { fontColor } = useTheme();
 
   const handleLocation = (location: string) => {
     setCurrentPage(location);
@@ -12,11 +16,11 @@ const Header: FC = () => {
     <StyledHeader>
       <HeaderList>
         <HeaderMenuItem isActive={currentPage === 'calendar'} onClick={() => handleLocation('calendar')}>
-          <img src={'/image/home.png'} alt="home_btn_image" />
+          <CalendarSvg bgColor={fontColor} />
           <MenuTitle>전체 일정</MenuTitle>
         </HeaderMenuItem>
         <HeaderMenuItem isActive={currentPage === 'table'} onClick={() => handleLocation('table')}>
-          <img src={'/image/time.png'} alt="time_table_btn_image" />
+          <MemoSvg bgColor={fontColor} />
           <MenuTitle>근무&middot;일정</MenuTitle>
         </HeaderMenuItem>
       </HeaderList>
