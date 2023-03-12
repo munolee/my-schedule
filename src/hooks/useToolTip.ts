@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react';
-import { toolTipAtom } from '@store/toolTip';
 import { useRecoilState } from 'recoil';
+import { toolTipAtom } from '@store/toolTip';
 
 export interface Position {
   positionX: number;

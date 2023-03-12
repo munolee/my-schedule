@@ -27,15 +27,15 @@ const Header: FC = () => {
 export default Header;
 
 const StyledHeader = styled.div`
-  //position: sticky;
-  //top: 0;
+  position: relative;
+  top: 0;
   width: 100%;
-  height: 80px;
+  height: 8rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #ffffff;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  background-color: ${({ theme }) => theme.calendarBackground};
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
 `;
 
 const HeaderList = styled.ul`
@@ -43,7 +43,7 @@ const HeaderList = styled.ul`
 `;
 
 const HeaderMenuItem = styled.li<{ isActive: boolean }>`
-  padding: 10px;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,20 +51,20 @@ const HeaderMenuItem = styled.li<{ isActive: boolean }>`
   text-align: center;
   opacity: ${({ isActive }) => (isActive ? '1' : '0.7')};
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 1rem;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.05);
   }
 
   img {
-    width: 24px;
-    margin-bottom: 6px;
+    width: 2.4rem;
+    margin-bottom: 0.6rem;
   }
 `;
 
 const MenuTitle = styled.div`
-  font-size: 13px;
+  font-size: ${({ theme }) => theme.fontSize.s12};
   font-weight: 500;
-  color: #666666;
+  color: ${({ theme }) => theme.fontColor};
 `;

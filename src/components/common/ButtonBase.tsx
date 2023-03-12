@@ -1,6 +1,7 @@
 import React, { FC, PropsWithChildren } from 'react';
-import styled, { CSSObject } from '@emotion/styled';
 import { css } from '@emotion/react';
+import styled, { CSSObject } from '@emotion/styled';
+import { Colors } from '@styles/theme';
 
 type ButtonType = 'button' | 'submit' | 'reset' | undefined;
 
@@ -23,8 +24,8 @@ const ButtonBase: FC<PropsWithChildren<ButtonBaseProps>> = ({
   onClick,
   width,
   height,
-  textColor = '#ffffff',
-  backgroundColor = '#ffffff',
+  textColor = Colors.white,
+  backgroundColor = Colors.white,
   borderColor,
   buttonStyle,
 }) => {
@@ -57,14 +58,15 @@ const StyledButton = styled.button<{
   display: flex;
   justify-content: center;
   align-items: center;
-  width: ${({ width }) => (width ? width + 'px' : 'auto')};
-  height: ${({ height }) => (height ? height + 'px' : 'auto')};
-  font-size: 16px;
+  width: ${({ width }) => (width ? width / 10 + 'rem' : 'auto')};
+  height: ${({ height }) => (height ? height / 10 + 'rem' : 'auto')};
+  font-size: ${({ theme }) => theme.fontSize.s16};
   color: ${({ textColor }) => textColor};
   background-color: ${({ backgroundColor }) => backgroundColor};
-  border: 1px solid ${({ borderColor }) => (borderColor ? borderColor : 'none')};
-  border-radius: 8px;
+  border: 0.1rem solid ${({ borderColor }) => (borderColor ? borderColor : 'none')};
+  border-radius: 0.8rem;
   cursor: pointer;
+
   ${({ buttonStyle }) =>
     css`
       ${buttonStyle}

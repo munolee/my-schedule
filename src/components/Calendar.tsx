@@ -1,18 +1,20 @@
 import { FC } from 'react';
+import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import ButtonBase from '@components/common/ButtonBase';
+import CreateModal from '@components/common/CreateModal';
+import Spinner from '@components/common/Spinner';
 import { DATE_FORMAT } from '@constants/format';
 import useCalendar from '@hooks/useCalendar';
 import useEventSchedule, { EventPaintEnum } from '@hooks/useEventSchedule';
-import useModal from '@hooks/useModal';
+import { ModalPropsType } from '@hooks/useModal';
 import useToolTip from '@hooks/useToolTip';
-import CreateModal from '@components/common/CreateModal';
-import Spinner from '@components/common/Spinner';
-import ButtonBase from '@components/common/ButtonBase';
-import PlusSvg from '@assets/PlusSvg';
-import NightSvg from '@assets/NightSvg';
-import ToolTipBase from '@components/common/ToolTipBase';
 
-const Calendar: FC = () => {
+interface CalendarProps {
+  createScheduleModalProps: ModalPropsType;
+}
+
+const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
   const {
     dayOfWeek,
     calendarTitleDate,
@@ -24,8 +26,8 @@ const Calendar: FC = () => {
     isSameMonth,
   } = useCalendar();
   const { isLoading, currentMonthEvent, getEventPaintType, createSchedule } = useEventSchedule();
-  const createScheduleModal = useModal();
   const { showToolTip, hideToolTip } = useToolTip();
+  const { fontColor, colors, calendarBackground } = useTheme();
 
   return (
     <>
@@ -35,27 +37,33 @@ const Calendar: FC = () => {
             <h2>{calendarTitleDate}</h2>
           </DateLabel>
           <MonthButtonGroup>
-            <div className={'btn-pre'} onClick={handlePrevMonth}>
+            <ButtonBase
+              onClick={handlePrevMonth}
+              textColor={fontColor}
+              borderColor={colors.gray030}
+              backgroundColor={calendarBackground}
+              buttonStyle={{ borderRadius: '0.5rem 0 0 0.5rem' }}
+            >
               &lt;
-            </div>
-            <div className={'btn-current'} onClick={handleTodayMonth}>
-              {/*<div*/}
-              {/*  className={'btn-current'}*/}
-              {/*  onClick={() =>*/}
-              {/*    mutateAsync({*/}
-              {/*      startDate: '2023-03-08',*/}
-              {/*      endDate: '2023-03-10',*/}
-              {/*      eventTitle: '테스트 일정',*/}
-              {/*      typeId: 1,*/}
-              {/*      bgColor: '#cfdd8e',*/}
-              {/*    })*/}
-              {/*  }*/}
-              {/*>*/}
+            </ButtonBase>
+            <ButtonBase
+              onClick={handleTodayMonth}
+              textColor={fontColor}
+              borderColor={colors.gray030}
+              backgroundColor={calendarBackground}
+              buttonStyle={{ borderRadius: '0' }}
+            >
               오늘
-            </div>
-            <div className={'btn-next'} onClick={handleNextMonth}>
+            </ButtonBase>
+            <ButtonBase
+              onClick={handleNextMonth}
+              textColor={fontColor}
+              borderColor={colors.gray030}
+              backgroundColor={calendarBackground}
+              buttonStyle={{ borderRadius: '0 0.5rem 0.5rem 0' }}
+            >
               &gt;
-            </div>
+            </ButtonBase>
           </MonthButtonGroup>
         </CalendarTopBar>
         <CalendarTable>
@@ -103,29 +111,9 @@ const Calendar: FC = () => {
           </tbody>
         </CalendarTable>
         {/*<ToolTipBase />*/}
-        <ButtonGroup>
-          <ButtonBase
-            width={48}
-            height={48}
-            backgroundColor="#FF7272"
-            buttonStyle={{ borderRadius: '50%', boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)' }}
-            onClick={() => createScheduleModal.showModal()}
-          >
-            <PlusSvg width={48} height={48} />
-          </ButtonBase>
-          <ButtonBase
-            width={48}
-            height={48}
-            backgroundColor="#FFFFFF"
-            buttonStyle={{ borderRadius: '50%', boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)' }}
-            onClick={() => console.log('new')}
-          >
-            <NightSvg width={34} height={34} bgColor="#111111" />
-          </ButtonBase>
-        </ButtonGroup>
         {isLoading && <Spinner />}
       </StyledCalendar>
-      <CreateModal modalProps={createScheduleModal} mutateMethod={createSchedule} />
+      <CreateModal modalProps={createScheduleModalProps} mutateMethod={createSchedule} />
     </>
   );
 };
@@ -137,58 +125,43 @@ const StyledCalendar = styled.div`
 `;
 
 const CalendarTopBar = styled.div`
+  margin-bottom: 1.6rem;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 16px;
 `;
 
 const DateLabel = styled.div`
-  margin-left: 8px;
-  font-size: 16px;
-  font-weight: 500;
+  margin-left: 0.8rem;
+
+  h2 {
+    font-size: ${({ theme }) => theme.fontSize.s16};
+    font-weight: 500;
+    color: ${({ theme }) => theme.fontColor};
+  }
 `;
 
 const MonthButtonGroup = styled.div`
-  margin-right: 8px;
+  margin-right: 0.8rem;
   display: flex;
   align-items: center;
-
-  div {
-    font-size: 15px;
-    cursor: pointer;
-    padding: 5px 10px;
-    border: 1px solid #dddddd;
-    background-color: #ffffff;
-
-    :hover {
-      background-color: rgba(0, 0, 0, 0.02);
-    }
-  }
-
-  .btn-pre {
-    border-radius: 5px 0 0 5px;
-  }
-  .btn-next {
-    border-radius: 0 5px 5px 0;
-  }
 `;
 
 const CalendarTable = styled.table`
-  width: 600px;
-  height: 80vh;
+  width: 100%;
+  max-height: calc(100vh - 9.2rem);
   border-spacing: 0;
-  border-radius: 5px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.05);
   background-color: #f2f0f4;
   overflow: hidden;
 
   &:first-of-type {
-    border-bottom: solid 1px #f1f1f1;
-    background-color: #ffffff;
+    border-bottom: ${({ theme }) => `solid 0.1rem ${theme.colors.gray020}`};
+    background-color: ${({ theme }) => theme.calendarBackground};
     th {
-      border-right: solid 1px #e9e9e9;
-      border-bottom: solid 1px #e9e9e9;
+      border-right: ${({ theme }) => `solid 0.1rem ${theme.colors.gray020}`};
+      border-bottom: ${({ theme }) => `solid 0.1rem ${theme.colors.gray020}`};
     }
   }
 
@@ -199,92 +172,92 @@ const CalendarTable = styled.table`
   }
 
   th {
-    padding: 10px 0;
-    font-size: 14px;
-    color: #555;
+    padding: 1rem 0;
+    font-size: ${({ theme }) => theme.fontSize.s14};
+    color: ${({ theme }) => theme.fontColor};
     font-weight: 500;
     text-align: center;
   }
 
   th:first-of-type,
   td:first-of-type {
-    color: #ff7272;
+    color: ${({ theme }) => theme.colors.red010};
   }
 
   th:last-of-type,
   td:last-of-type {
-    color: #698bb8;
+    color: ${({ theme }) => theme.colors.blue010};
   }
 `;
 
 const CalendarDate = styled.td<{ isToday: boolean; isEmpty: boolean }>`
   position: relative;
   width: 14.285%;
-  height: 120px;
-  font-size: 12px;
+  height: 10rem;
+  font-size: ${({ theme }) => theme.fontSize.s12};
   font-weight: 500;
-  color: ${({ isEmpty }) => (isEmpty ? 'rgba(0, 0, 0, 0.3)' : '#4f4f4f')};
+  color: ${({ isEmpty, theme }) => (isEmpty ? theme.colors.gray040 : theme.fontColor)};
   text-align: right;
-  background-color: ${({ isToday, isEmpty }) => {
+  background-color: ${({ isToday, isEmpty, theme }) => {
     if (isToday) {
-      return '#cfe8e8';
+      return theme.colors.green010;
     } else if (isEmpty) {
-      return '#f2f0f4';
+      return theme.colors.gray010;
     }
-    return '#ffffff';
+    return theme.calendarBackground;
   }};
-  border-right: solid 1px #e9e9e9;
-  border-bottom: solid 1px #e9e9e9;
+  border-right: ${({ theme }) => `solid 0.1rem ${theme.colors.gray020}`};
+  border-bottom: ${({ theme }) => `solid 0.1rem ${theme.colors.gray020}`};
 
   &:last-of-type {
     border-right: none;
   }
 
   &:hover {
-    background-color: ${({ isToday }) => {
+    background-color: ${({ isToday, theme }) => {
       if (isToday) {
-        return '#cfe8df';
+        return theme.colors.green020;
       }
-      return '#e9e9e9';
+      return theme.hoverBackground;
     }};
   }
 `;
 
 const DateText = styled.div`
   position: absolute;
-  top: 4px;
-  right: 4px;
+  top: 0.4rem;
+  right: 0.4rem;
 `;
 
 const StyledEventList = styled.div`
   position: absolute;
-  top: 24px;
+  top: 2.4rem;
   width: 100%;
-  min-height: 80px;
+  min-height: 8rem;
 `;
 
 const EventDateBar = styled.span<{ paintType: EventPaintEnum; topPosition: number; bgColor: string }>`
-  margin-left: -1px;
+  margin-left: -0.1rem;
   position: absolute;
-  width: calc(100% + 1px);
-  top: ${({ topPosition }) => topPosition * 16}px;
-  height: 16px;
+  width: calc(100% + 0.1rem);
+  top: ${({ topPosition }) => topPosition * 1.6}rem;
+  height: 1.6rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 12px;
+  font-size: ${({ theme }) => theme.fontSize.s10};
   font-weight: 700;
-  color: #000000;
+  color: ${({ theme }) => theme.colors.black};
   background-color: ${({ bgColor }) => bgColor};
   border-radius: ${({ paintType }) => {
     if (paintType === EventPaintEnum.StartDate) {
-      return '100px 0 0 100px';
+      return '10rem 0 0 10rem';
     }
     if (paintType === EventPaintEnum.OneDay) {
-      return '100px';
+      return '10rem';
     }
     if (paintType === EventPaintEnum.EndDate) {
-      return '0 100px 100px 0';
+      return '0 10rem 10rem 0';
     }
     return '0';
   }};
@@ -292,14 +265,4 @@ const EventDateBar = styled.span<{ paintType: EventPaintEnum; topPosition: numbe
   &:hover {
     opacity: 0.8;
   }
-`;
-
-const ButtonGroup = styled.div`
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-  align-items: flex-end;
 `;

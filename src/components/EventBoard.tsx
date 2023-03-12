@@ -4,7 +4,6 @@ import useEventSchedule from '@hooks/useEventSchedule';
 
 const EventBoard: FC = () => {
   const { currentMonthEvent } = useEventSchedule();
-
   return (
     <StyledEventBoard>
       <EventBoardList>
@@ -27,9 +26,9 @@ const EventBoard: FC = () => {
 export default EventBoard;
 
 const StyledEventBoard = styled.div`
-  display: inline-block;
-  margin: 48px 0 0;
+  margin: 4.8rem 0 0;
   padding: 0;
+  display: inline-block;
   vertical-align: top;
 `;
 
@@ -38,40 +37,39 @@ const EventBoardList = styled.div`
 `;
 
 const BoardItem = styled.div`
-  padding: 20px 20px 25px 25px;
-  width: 200px;
-  max-height: 400px;
-  margin-bottom: 20px;
+  padding: 2rem 2rem 2.5rem 2.5rem;
+  margin-bottom: 2rem;
+  width: 20rem;
+  max-height: 40rem;
   text-align: left;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.background};
   border-spacing: 0;
-  border-radius: 5px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.05);
   overflow-y: auto;
 
   span {
-    font-size: 15px;
-    color: #111111;
-    //color: #999999;
+    font-size: ${({ theme }) => theme.fontSize.s14};
+    color: ${({ theme }) => theme.fontColor};
   }
 `;
 
 const BoardScheduleList = styled.ul`
-  max-height: 180px;
+  max-height: 18rem;
   overflow-y: auto;
 `;
 
 const BoardScheduleItem = styled.li`
-  margin-top: 10px;
+  margin-top: 1rem;
   vertical-align: middle;
 `;
 
 const ScheduleEventCircle = styled.div<{ bgColor: string }>`
-  width: 12px;
-  height: 12px;
-  margin-right: 5px;
+  margin-right: 0.5rem;
   padding: 0;
+  width: 1.2rem;
+  height: 1.2rem;
   display: inline-block;
-  border-radius: 50px;
+  border-radius: 5rem;
   background-color: ${({ bgColor }) => bgColor};
 `;

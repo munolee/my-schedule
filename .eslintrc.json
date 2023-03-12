@@ -1,0 +1,25 @@
+{
+  "plugins": ["import"],
+  "extends": ["next/core-web-vitals"],
+  "rules": {
+    "react-hooks/rules-of-hooks": "off", //  React Hooks rule을 지키지 않은 경우
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "type", "parent", "sibling", "index", "object"],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["react"],
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": false
+        }
+      }
+    ]
+  }
+}

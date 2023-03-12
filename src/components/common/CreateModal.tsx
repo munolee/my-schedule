@@ -1,11 +1,11 @@
 import { FC, useState } from 'react';
 import styled from '@emotion/styled';
 import { useForm, FieldValues } from 'react-hook-form';
-import { ModalPropsType } from '@hooks/useModal';
 import { UseMutationResult } from 'react-query';
-import { EventScheduleType } from '@hooks/useEventSchedule';
-import ModalBase from '@components/common/ModalBase';
 import ButtonBase from '@components/common/ButtonBase';
+import ModalBase from '@components/common/ModalBase';
+import { EventScheduleType } from '@hooks/useEventSchedule';
+import { ModalPropsType } from '@hooks/useModal';
 
 interface CreateModalProps {
   modalProps: ModalPropsType;
@@ -129,41 +129,47 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
 export default CreateModal;
 
 const ModalContent = styled.div`
-  padding: 34px 28px;
-  width: 400px;
+  padding: 3.2rem 2.4rem;
+  width: 36rem;
   background-color: #ffffff;
-  border-radius: 8px;
+  border-radius: 0.8rem;
   transition: all 0.2s ease-in-out;
+
+  h2 {
+    font-size: ${({ theme }) => theme.fontSize.s16};
+    font-weight: 500;
+    color: ${({ theme }) => theme.fontColor};
+  }
 `;
 
 const StyledForm = styled.form`
-  margin-top: 24px;
+  margin-top: 2.4rem;
   display: flex;
-  gap: 14px;
+  gap: 1.4rem;
   align-items: flex-start;
   flex-direction: column;
 
   > div {
     display: flex;
-    gap: 4px;
+    gap: 0.4rem;
     justify-content: center;
     flex-direction: column;
 
     input {
-      margin-bottom: 12px;
-      padding: 0 8px;
-      width: 340px;
-      min-height: 40px;
-      font-size: 15px;
+      margin-bottom: 1.2rem;
+      padding: 0 0.8rem;
+      width: 30rem;
+      min-height: 4rem;
+      font-size: ${({ theme }) => theme.fontSize.s12};
       font-weight: 500;
       color: #666666;
-      border: 1px solid #999999;
-      border-radius: 4px;
+      border: 0.1rem solid #999999;
+      border-radius: 0.4rem;
     }
   }
 
   label {
-    font-size: 16px;
+    font-size: ${({ theme }) => theme.fontSize.s14};
     font-weight: 500;
   }
 `;
@@ -171,27 +177,27 @@ const StyledForm = styled.form`
 const ColorPickerFiled = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 1rem;
 `;
 
 const ColorPicker = styled.div<{ active: boolean; color: string }>`
-  width: 60px;
-  height: 40px;
-  border: 2px solid ${({ active }) => (active ? '#333333' : 'none')};
-  border-radius: 4px;
+  width: 4.8rem;
+  height: 3.2rem;
+  border: 0.2rem solid ${({ active }) => (active ? '#333333' : 'none')};
+  border-radius: 0.4rem;
   background-color: ${({ color }) => color};
   cursor: pointer;
 `;
 
 const ErrorMessage = styled.em`
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.fontSize.s12};
   font-weight: 200;
   font-style: normal;
   color: #ff0d37;
 `;
 
 const ButtonGroup = styled.div`
-  margin-top: 12px;
+  margin-top: 0.8rem;
   margin-left: auto;
   display: flex;
   flex-direction: row !important;

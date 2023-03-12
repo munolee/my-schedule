@@ -33,7 +33,7 @@ const ModalBase: FC<PropsWithChildren<ModalBaseType>> = ({ modalProps, children 
 export default ModalBase;
 
 const ModalContainer = styled.div<{ isShow: boolean }>`
-  z-index: 20;
+  z-index: 10;
   position: fixed;
   top: 0;
   left: 0;
