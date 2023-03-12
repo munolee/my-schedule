@@ -39,7 +39,7 @@ const useEventSchedule = (): UseEventScheduleType => {
   const setEventSchedule = useSetRecoilState(eventScheduleAtom);
 
   const { isLoading } = useQuery(
-    'getSchedule',
+    ['getSchedule', currentTime.year()],
     async () => {
       const response = ScheduleApi.getScheduleList(`year=${currentTime.year()}`);
       return response;

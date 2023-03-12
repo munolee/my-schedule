@@ -33,11 +33,13 @@ const SpinnerWrapper = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 75vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: ${({ theme }) => theme.background};
+  border-radius: 0.4rem;
+  opacity: 0.8;
 `;
 
 export default Spinner;

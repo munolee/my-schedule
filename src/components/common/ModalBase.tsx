@@ -1,6 +1,5 @@
 import { FC, PropsWithChildren, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { CSSTransition } from 'react-transition-group';
 import { ModalPropsType } from '@hooks/useModal';
 
 interface ModalBaseType {
@@ -21,11 +20,8 @@ const ModalBase: FC<PropsWithChildren<ModalBaseType>> = ({ modalProps, children 
 
   return (
     <>
-      <ModalContainer isShow={isShow} onClick={hideModal}>
-        <CSSTransition in={isShow} mountOnEnter unmountOnExit timeout={700} classNames={'modal'}>
-          {children && children}
-        </CSSTransition>
-      </ModalContainer>
+      <ModalContainer isShow={isShow}>{children && children}</ModalContainer>
+      <Background isShow={isShow} onClick={hideModal} />
     </>
   );
 };
@@ -35,32 +31,40 @@ export default ModalBase;
 const ModalContainer = styled.div<{ isShow: boolean }>`
   z-index: 10;
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
   bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  height: 60vh;
   visibility: ${({ isShow }) => (isShow ? 'visible' : 'hidden')};
-  background-color: ${({ isShow }) => (isShow ? 'rgba(0, 0, 0, 0.4)' : 'none')};
+  animation: ${({ isShow }) => (isShow ? `0.3s forwards slideIn` : `0.2s ease forwards slideOut`)};
+  -webkit-animation: ${({ isShow }) => (isShow ? `0.3s forwards slideIn` : `0.2s ease forwards slideOut`)};
 
-  .modal-enter {
-    opacity: 0;
-    transform: scale(0.7);
+  @keyframes slideIn {
+    0% {
+      transform: translateY(100%);
+    }
+    100% {
+      transform: translateY(0%);
+    }
   }
-  .modal-enter-active {
-    opacity: 1;
-    transform: scale(1);
-    transition: all 0.2s ease-in-out;
+
+  @keyframes slideOut {
+    0% {
+      transform: translateY(0%);
+    }
+    100% {
+      transform: translateY(100%);
+    }
   }
-  .modal-exit {
-    opacity: 1;
-    transform: scale(1);
-  }
-  .modal-exit-active {
-    opacity: 0;
-    transform: scale(0.7);
-    transition: all 0.2s ease-in-out;
-  }
+`;
+
+const Background = styled.div<{ isShow: boolean }>`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  visibility: ${({ isShow }) => (isShow ? 'visible' : 'hidden')};
+  background-color: ${({ isShow }) => (isShow ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0)')};
+  transition: background-color 0.3s ease;
 `;

@@ -1,8 +1,13 @@
 import { FC, useState } from 'react';
+import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import CalendarSvg from '@assets/CalendarSvg';
+import MemoSvg from '@assets/MemoSvg';
+import FlatIcon from '@components/common/FlatIcon';
 
 const Header: FC = () => {
   const [currentPage, setCurrentPage] = useState<string>('calendar');
+  const { fontColor, fontSize } = useTheme();
 
   const handleLocation = (location: string) => {
     setCurrentPage(location);
@@ -12,12 +17,16 @@ const Header: FC = () => {
     <StyledHeader>
       <HeaderList>
         <HeaderMenuItem isActive={currentPage === 'calendar'} onClick={() => handleLocation('calendar')}>
-          <img src={'/image/home.png'} alt="home_btn_image" />
+          <FlatIcon size={fontSize.s30} color={fontColor}>
+            <CalendarSvg />
+          </FlatIcon>
           <MenuTitle>전체 일정</MenuTitle>
         </HeaderMenuItem>
-        <HeaderMenuItem isActive={currentPage === 'table'} onClick={() => handleLocation('table')}>
-          <img src={'/image/time.png'} alt="time_table_btn_image" />
-          <MenuTitle>근무&middot;일정</MenuTitle>
+        <HeaderMenuItem isActive={currentPage === 'memo'} onClick={() => handleLocation('memo')}>
+          <FlatIcon size={fontSize.s30} color={fontColor}>
+            <MemoSvg />
+          </FlatIcon>
+          <MenuTitle>일정 메모</MenuTitle>
         </HeaderMenuItem>
       </HeaderList>
     </StyledHeader>

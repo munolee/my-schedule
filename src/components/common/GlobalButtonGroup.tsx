@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import NightSvg from '@assets/NightSvg';
 import PlusSvg from '@assets/PlusSvg';
 import ButtonBase from '@components/common/ButtonBase';
+import FlatIcon from '@components/common/FlatIcon';
 import { ModalPropsType } from '@hooks/useModal';
 
 interface GlobalButtonGroupProps {
@@ -12,7 +13,7 @@ interface GlobalButtonGroupProps {
 }
 
 const GlobalButtonGroup: FC<GlobalButtonGroupProps> = ({ toggleTheme, modalProps }) => {
-  const { colors, background, fontColor } = useTheme();
+  const { colors, calendarBackground, fontColor, fontSize } = useTheme();
   return (
     <ButtonGroup>
       <ButtonBase
@@ -22,16 +23,20 @@ const GlobalButtonGroup: FC<GlobalButtonGroupProps> = ({ toggleTheme, modalProps
         buttonStyle={{ borderRadius: '50%', boxShadow: '0 0 1rem 0 rgba(0, 0, 0, 0.2)' }}
         onClick={modalProps.showModal}
       >
-        <PlusSvg width={48} height={48} />
+        <FlatIcon size={fontSize.s30} color={colors.white}>
+          <PlusSvg />
+        </FlatIcon>
       </ButtonBase>
       <ButtonBase
         width={48}
         height={48}
-        backgroundColor={background}
+        backgroundColor={calendarBackground}
         buttonStyle={{ borderRadius: '50%', boxShadow: '0 0 1rem 0 rgba(0, 0, 0, 0.2)' }}
         onClick={toggleTheme}
       >
-        <NightSvg width={34} height={34} bgColor={fontColor} />
+        <FlatIcon size={fontSize.s30} color={fontColor}>
+          <NightSvg />
+        </FlatIcon>
       </ButtonBase>
     </ButtonGroup>
   );

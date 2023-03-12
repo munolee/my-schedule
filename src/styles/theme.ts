@@ -4,13 +4,17 @@ export const Colors = {
   gray030: '#dddddd',
   gray040: '#999999',
   gray050: '#666666',
-  gray060: '#4f4f4f',
+  gray060: '#4c4c4c',
   gray070: '#333333',
+  gray080: '#232323',
 
-  red010: '#ff7272', // 일정 생성 버튼, 일요일 폰트 색상
-  red020: '#ff0d37', // 모달 에러 메시지
+  red010: '#ff7272', // 일정 생성 버튼
+  red020: '#ff0d37', // 모달 에러 메시지, 일요일 폰트 색상
+  red030: '#673e3e',
 
-  blue010: '#698bb8', // 토요일 폰트 색상
+  blue010: '#4b81AF', // 모달 버튼 색상
+  blue020: '#0067A3', // 토요일 폰트 색상
+  blue030: '#56689a',
 
   green010: '#cfe8e8', // 달력 오늘 색상
   green020: '#cfe8df', // 달력 오늘 색상 Hover
@@ -30,11 +34,11 @@ export const Colors = {
 
   // 캘린더 테마 색상
   CalendarLight: '#ffffff',
-  CalendarDark: '#374553',
+  CalendarDark: '#1d1c1c',
 
   // 백그라운드 테마 색상
   bgLight: '#f9f8f7',
-  bgDark: '#28323c',
+  bgDark: '#111111',
   // bgDark: '#2b2b2b',
 };
 
@@ -43,8 +47,13 @@ export const FontSize = {
   s12: '1.2rem',
   s14: '1.4rem',
   s16: '1.6rem',
-  s18: '1.8r1em',
+  s18: '1.8rem',
   s20: '2rem',
+  s22: '2.2rem',
+  s24: '2.4rem',
+  s26: '2.6rem',
+  s28: '2.8rem',
+  s30: '3rem',
 };
 
 const palette = { colors: Colors, fontSize: FontSize };
@@ -59,6 +68,7 @@ export type ThemeType = {
   fontColor: string;
   hoverBackground: string;
   calendarBackground: string;
+  calendarBorder: string;
 } & PaletteType;
 
 interface ThemeGroup {
@@ -72,6 +82,7 @@ const Theme: ThemeGroup = {
     fontColor: Colors.black,
     hoverBackground: Colors.bgLight,
     calendarBackground: Colors.white,
+    calendarBorder: Colors.gray020,
     ...palette,
   },
   dark: {
@@ -79,6 +90,7 @@ const Theme: ThemeGroup = {
     fontColor: Colors.white,
     hoverBackground: Colors.bgDark,
     calendarBackground: Colors.CalendarDark,
+    calendarBorder: Colors.gray080,
     ...palette,
   },
 };
