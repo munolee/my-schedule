@@ -30,14 +30,11 @@ export default ModalBase;
 
 const ModalContainer = styled.div<{ isShow: boolean }>`
   z-index: 10;
-  position: absolute;
-  left: 0;
+  position: fixed;
   bottom: 0;
   width: 100%;
+  max-width: 600px;
   height: 60vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   visibility: ${({ isShow }) => (isShow ? 'visible' : 'hidden')};
   animation: ${({ isShow }) => (isShow ? `0.3s forwards slideIn` : `0.2s ease forwards slideOut`)};
   -webkit-animation: ${({ isShow }) => (isShow ? `0.3s forwards slideIn` : `0.2s ease forwards slideOut`)};

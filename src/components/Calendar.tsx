@@ -40,7 +40,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
           <MonthButtonGroup>
             <ButtonBase
               onClick={handlePrevMonth}
-              borderColor={colors.gray030}
+              borderColor={colors.gray040}
               backgroundColor={calendarBackground}
               buttonStyle={{ padding: 0, borderRadius: '0.5rem 0 0 0.5rem' }}
             >
@@ -50,7 +50,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
             </ButtonBase>
             <ButtonBase
               onClick={handleTodayMonth}
-              borderColor={colors.gray030}
+              borderColor={colors.gray040}
               backgroundColor={calendarBackground}
               buttonStyle={{ borderRadius: '0' }}
             >
@@ -58,7 +58,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
             </ButtonBase>
             <ButtonBase
               onClick={handleNextMonth}
-              borderColor={colors.gray030}
+              borderColor={colors.gray040}
               backgroundColor={calendarBackground}
               buttonStyle={{ padding: 0, borderRadius: '0 0.5rem 0.5rem 0' }}
             >
@@ -119,6 +119,7 @@ export default Calendar;
 
 const StyledCalendar = styled.div`
   position: relative;
+  padding: 0 0.8rem;
 `;
 
 const CalendarTopBar = styled.div`
@@ -161,11 +162,11 @@ const CalendarTable = styled.table`
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.05);
   overflow: hidden;
 
-  border-bottom: ${({ theme }) => `solid 0.1rem ${theme.colors.gray020}`};
+  border-bottom: ${({ theme }) => `solid 0.1rem ${theme.calendarBorder}`};
   background-color: ${({ theme }) => theme.calendarBackground};
   th {
-    border-right: ${({ theme }) => `solid 0.1rem ${theme.colors.gray020}`};
-    border-bottom: ${({ theme }) => `solid 0.1rem ${theme.colors.gray020}`};
+    border-right: ${({ theme }) => `solid 0.1rem ${theme.calendarBorder}`};
+    border-bottom: ${({ theme }) => `solid 0.1rem ${theme.calendarBorder}`};
   }
 
   &:last-of-type {
@@ -182,10 +183,10 @@ const CalendarTable = styled.table`
     text-align: center;
 
     &:first-of-type {
-      color: ${({ theme }) => theme.colors.red010};
+      color: ${({ theme }) => theme.colors.red020};
     }
     &:last-of-type {
-      color: ${({ theme }) => theme.colors.blue010};
+      color: ${({ theme }) => theme.colors.blue020};
     }
   }
 `;
@@ -198,7 +199,7 @@ const CalendarDate = styled.td<{ isToday: boolean; isEmpty: boolean }>`
   font-weight: 500;
   color: ${({ isEmpty, theme }) => {
     if (isEmpty) {
-      return theme.colors.gray040;
+      return theme.colors.gray060;
     }
     return theme.fontColor;
   }};
@@ -209,13 +210,13 @@ const CalendarDate = styled.td<{ isToday: boolean; isEmpty: boolean }>`
     }
     return theme.calendarBackground;
   }};
-  border-right: ${({ theme }) => `solid 0.1rem ${theme.colors.gray020}`};
-  border-bottom: ${({ theme }) => `solid 0.1rem ${theme.colors.gray020}`};
+  border-right: ${({ theme }) => `solid 0.1rem ${theme.calendarBorder}`};
+  border-bottom: ${({ theme }) => `solid 0.1rem ${theme.calendarBorder}`};
 
   &:first-of-type {
     color: ${({ isEmpty, theme }) => {
       if (isEmpty) {
-        return theme.colors.red010;
+        return theme.colors.red030;
       }
       return theme.colors.red020;
     }};
@@ -224,7 +225,7 @@ const CalendarDate = styled.td<{ isToday: boolean; isEmpty: boolean }>`
   &:last-of-type {
     color: ${({ isEmpty, theme }) => {
       if (isEmpty) {
-        return theme.colors.blue010;
+        return theme.colors.blue030;
       }
       return theme.colors.blue020;
     }};

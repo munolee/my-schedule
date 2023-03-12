@@ -21,7 +21,7 @@ interface CreateModalProps {
 const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
   const [selectBgColor, setSelectBgColor] = useState<string>('#cfdd8e');
   const { mutateAsync } = mutateMethod();
-  const { colors, fontColor, fontSize } = useTheme();
+  const { colors, fontSize } = useTheme();
 
   const initValues = {
     eventTitle: '',
@@ -57,17 +57,17 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
       <ModalContent>
         <ButtonGroup>
           <ButtonBase type="button" text="취소" onClick={resetFormModal} backgroundColor="transparent">
-            <FlatIcon size={fontSize.s30} color={colors.blue020}>
+            <FlatIcon size={fontSize.s30} color={colors.blue010}>
               <CloseSvg />
             </FlatIcon>
           </ButtonBase>
           <ButtonBase type="submit" text="생성" backgroundColor="transparent">
-            <FlatIcon size={fontSize.s30} color={colors.blue020}>
+            <FlatIcon size={fontSize.s30} color={colors.blue010}>
               <ConfirmSvg />
             </FlatIcon>
           </ButtonBase>
         </ButtonGroup>
-        <StyledForm onSubmit={handleSubmit(onSubmit)}>
+        <StyledForm onSubmit={handleSubmit(onSubmit)} autoComplete="off">
           <div>
             <input
               type="text"
@@ -132,30 +132,35 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
 export default CreateModal;
 
 const ModalContent = styled.div`
-  padding: 3.2rem 2.4rem;
+  padding: 1.6rem 0.8rem;
   width: 100%;
   height: 100%;
   background-color: ${({ theme }) => theme.calendarBackground};
-  border-radius: 1.2rem;
+  border-radius: 1.6rem 1.6rem 0 0;
+
+  @media (max-width: 900px) {
+    padding: 1.6rem 0.2rem;
+  }
 `;
 
 const StyledForm = styled.form`
   margin-top: 2.4rem;
-  display: flex;
-  gap: 1.4rem;
-  align-items: flex-start;
-  flex-direction: column;
+  padding: 0 2.4rem;
 
   > div {
+    margin-top: 3.6rem;
     display: flex;
     gap: 0.4rem;
     justify-content: center;
     flex-direction: column;
 
+    &:first-child {
+      margin-top: 0;
+    }
+
     input {
-      margin-bottom: 1.2rem;
       padding: 0 0.8rem;
-      width: 30rem;
+      width: 100%;
       min-height: 4rem;
       font-size: ${({ theme }) => theme.fontSize.s18};
       font-weight: 500;
@@ -184,8 +189,8 @@ const ColorPickerFiled = styled.div`
 `;
 
 const ColorPicker = styled.div<{ active: boolean; color: string }>`
-  width: 4.8rem;
-  height: 3.2rem;
+  width: 20%;
+  height: 4rem;
   border: 0.2rem solid ${({ active, theme }) => (active ? theme.fontColor : 'none')};
   border-radius: 0.4rem;
   background-color: ${({ color }) => color};
@@ -193,8 +198,9 @@ const ColorPicker = styled.div<{ active: boolean; color: string }>`
 `;
 
 const ErrorMessage = styled.em`
-  font-size: ${({ theme }) => theme.fontSize.s12};
-  font-weight: 200;
+  margin-top: 0.4rem;
+  font-size: ${({ theme }) => theme.fontSize.s14};
+  font-weight: 300;
   font-style: normal;
   color: ${({ theme }) => theme.colors.red020};
 `;

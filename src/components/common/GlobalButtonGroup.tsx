@@ -13,7 +13,7 @@ interface GlobalButtonGroupProps {
 }
 
 const GlobalButtonGroup: FC<GlobalButtonGroupProps> = ({ toggleTheme, modalProps }) => {
-  const { colors, background, fontColor, fontSize } = useTheme();
+  const { colors, calendarBackground, fontColor, fontSize } = useTheme();
   return (
     <ButtonGroup>
       <ButtonBase
@@ -30,7 +30,7 @@ const GlobalButtonGroup: FC<GlobalButtonGroupProps> = ({ toggleTheme, modalProps
       <ButtonBase
         width={48}
         height={48}
-        backgroundColor={background}
+        backgroundColor={calendarBackground}
         buttonStyle={{ borderRadius: '50%', boxShadow: '0 0 1rem 0 rgba(0, 0, 0, 0.2)' }}
         onClick={toggleTheme}
       >
