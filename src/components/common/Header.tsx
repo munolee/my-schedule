@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useTranslation } from 'next-i18next';
 import CalendarSvg from '@assets/CalendarSvg';
 import MemoSvg from '@assets/MemoSvg';
 import FlatIcon from '@components/common/FlatIcon';
@@ -8,6 +9,7 @@ import FlatIcon from '@components/common/FlatIcon';
 const Header: FC = () => {
   const [currentPage, setCurrentPage] = useState<string>('calendar');
   const { fontColor, fontSize } = useTheme();
+  const { t } = useTranslation();
 
   const handleLocation = (location: string) => {
     setCurrentPage(location);
@@ -17,16 +19,16 @@ const Header: FC = () => {
     <StyledHeader>
       <HeaderList>
         <HeaderMenuItem isActive={currentPage === 'calendar'} onClick={() => handleLocation('calendar')}>
-          <FlatIcon size={fontSize.s30} color={fontColor}>
+          <FlatIcon size={fontSize.s20} color={fontColor}>
             <CalendarSvg />
           </FlatIcon>
-          <MenuTitle>전체 일정</MenuTitle>
+          <MenuTitle>{t('header:fullSchedule')}</MenuTitle>
         </HeaderMenuItem>
         <HeaderMenuItem isActive={currentPage === 'memo'} onClick={() => handleLocation('memo')}>
-          <FlatIcon size={fontSize.s30} color={fontColor}>
+          <FlatIcon size={fontSize.s20} color={fontColor}>
             <MemoSvg />
           </FlatIcon>
-          <MenuTitle>일정 메모</MenuTitle>
+          <MenuTitle>{t('header:scheduleMemo')}</MenuTitle>
         </HeaderMenuItem>
       </HeaderList>
     </StyledHeader>
@@ -39,7 +41,7 @@ const StyledHeader = styled.div`
   position: relative;
   top: 0;
   width: 100%;
-  height: 8rem;
+  height: 6rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,10 +51,11 @@ const StyledHeader = styled.div`
 
 const HeaderList = styled.ul`
   display: flex;
+  gap: 0.8rem;
 `;
 
 const HeaderMenuItem = styled.li<{ isActive: boolean }>`
-  padding: 1rem;
+  padding: 0.4rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -73,7 +76,7 @@ const HeaderMenuItem = styled.li<{ isActive: boolean }>`
 `;
 
 const MenuTitle = styled.div`
-  font-size: ${({ theme }) => theme.fontSize.s12};
+  font-size: ${({ theme }) => theme.fontSize.s14};
   font-weight: 500;
   color: ${({ theme }) => theme.fontColor};
 `;

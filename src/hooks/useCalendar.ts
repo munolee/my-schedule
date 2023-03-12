@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import moment, { Moment } from 'moment';
+import { useTranslation } from 'next-i18next';
 import { useRecoilState } from 'recoil';
 import { DATE_FORMAT } from '@constants/format';
 import { currentTimeAtom } from '@store/currentTime';
@@ -17,6 +18,7 @@ interface UseCalendarType {
 
 const useCalendar = (): UseCalendarType => {
   const [currentTime, setCurrentTime] = useRecoilState(currentTimeAtom);
+  const { i18n } = useTranslation();
 
   const currentMonthWeeks = useMemo(() => {
     const startWeek = currentTime.clone().startOf('month').week();
@@ -33,7 +35,10 @@ const useCalendar = (): UseCalendarType => {
   }, [currentTime]);
 
   const calendarTitleDate = useMemo(() => {
-    return currentTime.format(DATE_FORMAT.TITLE_FORMAT);
+    if (i18n.language === 'ko') {
+      return currentTime.format(DATE_FORMAT.TITLE_FORMAT);
+    }
+    return currentTime.format(DATE_FORMAT.TITLE_FORMAT_EN);
   }, [currentTime]);
 
   const isSameDate = (date: Moment) => {

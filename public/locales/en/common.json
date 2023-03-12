@@ -1,0 +1,10 @@
+{
+  "today": "Today",
+  "scheduleTitle": "Schedule Title",
+  "errorMessage": {
+    "titleMinLength" : "Please enter at least 2 characters for the schedule title.",
+    "titleMaxLength" : "Please enter a maximum of 10 characters for the schedule title.",
+    "selectStartDate" : "Please select a schedule start date.",
+    "selectEndDate" : "Please select the end date of the schedule."
+  }
+}

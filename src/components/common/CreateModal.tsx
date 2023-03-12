@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import moment from 'moment';
+import { useTranslation } from 'next-i18next';
 import { useForm, FieldValues } from 'react-hook-form';
 import { UseMutationResult } from 'react-query';
 import CloseSvg from '@assets/CloseSvg';
@@ -22,6 +23,7 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
   const [selectBgColor, setSelectBgColor] = useState<string>('#cfdd8e');
   const { mutateAsync } = mutateMethod();
   const { colors, fontSize } = useTheme();
+  const { t } = useTranslation();
 
   const initValues = {
     eventTitle: '',
@@ -56,12 +58,12 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
     <ModalBase modalProps={modalProps}>
       <ModalContent>
         <ButtonGroup>
-          <ButtonBase type="button" text="취소" onClick={resetFormModal} backgroundColor="transparent">
+          <ButtonBase type="button" onClick={resetFormModal} backgroundColor="transparent">
             <FlatIcon size={fontSize.s30} color={colors.blue010}>
               <CloseSvg />
             </FlatIcon>
           </ButtonBase>
-          <ButtonBase type="submit" text="생성" backgroundColor="transparent">
+          <ButtonBase type="submit" backgroundColor="transparent">
             <FlatIcon size={fontSize.s30} color={colors.blue010}>
               <ConfirmSvg />
             </FlatIcon>
@@ -71,17 +73,17 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
           <div>
             <input
               type="text"
-              placeholder="일정 제목"
+              placeholder={t('common:scheduleTitle')}
               autoFocus
               {...register('eventTitle', {
                 required: true,
                 minLength: {
                   value: 2,
-                  message: '일정 제목은 최소 2글자 이상 입력해주세요.',
+                  message: t('common:errorMessage.titleMinLength'),
                 },
                 maxLength: {
                   value: 10,
-                  message: '일정 제목은 최대 10글자 이하로 입력해주세요.',
+                  message: t('common:errorMessage.titleMaxLength'),
                 },
               })}
             />
@@ -91,9 +93,10 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
             <input
               type="date"
               placeholder="startDate"
+              lang="en"
               {...register('startDate', {
                 required: true,
-                minLength: { value: 10, message: '일정 시작일을 선택해주세요.' },
+                minLength: { value: 10, message: t('common:errorMessage.selectStartDate') },
               })}
             />
             {errors.startDate && <ErrorMessage>{errors.startDate?.message}</ErrorMessage>}
@@ -104,7 +107,7 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
               placeholder="endDate"
               {...register('endDate', {
                 required: true,
-                minLength: { value: 10, message: '일정 시작일을 선택해주세요.' },
+                minLength: { value: 10, message: t('common:errorMessage.selectEndDate') },
               })}
             />
             {errors.endDate && <ErrorMessage>{errors.endDate?.message}</ErrorMessage>}
@@ -169,9 +172,16 @@ const StyledForm = styled.form`
       border: 0.1rem solid transparent;
       border-bottom: 0.1rem solid ${({ theme }) => theme.fontColor};
       border-radius: 0;
+      text-align: center;
 
       &::placeholder {
         color: ${({ theme }) => theme.colors.gray030};
+      }
+
+      ::-webkit-calendar-picker-indicator {
+        padding-left: 100%;
+        position: absolute;
+        cursor: pointer;
       }
     }
   }
@@ -203,6 +213,7 @@ const ErrorMessage = styled.em`
   font-weight: 300;
   font-style: normal;
   color: ${({ theme }) => theme.colors.red020};
+  text-align: center;
 `;
 
 const ButtonGroup = styled.div`

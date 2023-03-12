@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useTranslation } from 'next-i18next';
 import ArrowLeftSvg from '@assets/ArrowLeftSvg';
 import ArrowRightSvg from '@assets/ArrowRightSvg';
 import ButtonBase from '@components/common/ButtonBase';
@@ -29,6 +30,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
   } = useCalendar();
   const { isLoading, currentMonthEvent, getEventPaintType, createSchedule } = useEventSchedule();
   const { fontColor, colors, calendarBackground, fontSize } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -54,7 +56,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
               backgroundColor={calendarBackground}
               buttonStyle={{ borderRadius: '0' }}
             >
-              <span>오늘</span>
+              <span>{t('common:today')}</span>
             </ButtonBase>
             <ButtonBase
               onClick={handleNextMonth}
@@ -84,6 +86,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
                     key={j}
                     isToday={isSameDate(date)}
                     isEmpty={!isSameMonth(date)}
+                    weekLength={currentMonthWeeks.length}
                     onClick={() => console.log('set')}
                   >
                     <DateText>{date.date()}</DateText>
@@ -156,7 +159,7 @@ const MonthButtonGroup = styled.div`
 
 const CalendarTable = styled.table`
   width: 100%;
-  max-height: calc(100vh - 9.2rem);
+  max-height: calc(100vh - 20.2rem);
   border-spacing: 0;
   border-radius: 0.5rem;
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.05);
@@ -191,10 +194,10 @@ const CalendarTable = styled.table`
   }
 `;
 
-const CalendarDate = styled.td<{ isToday: boolean; isEmpty: boolean }>`
+const CalendarDate = styled.td<{ isToday: boolean; isEmpty: boolean; weekLength: number }>`
   position: relative;
   width: 14.285%;
-  height: 10rem;
+  height: ${({ weekLength }) => (weekLength > 5 ? '8.3rem' : '10rem')};
   font-size: ${({ theme }) => theme.fontSize.s12};
   font-weight: 500;
   color: ${({ isEmpty, theme }) => {
@@ -271,6 +274,9 @@ const EventDateBar = styled.span<{
   font-size: ${({ theme }) => theme.fontSize.s10};
   font-weight: 700;
   color: ${({ theme }) => theme.colors.black};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   background-color: ${({ bgColor }) => bgColor};
   border-radius: ${({ paintType }) => {
     if (paintType === EventPaintEnum.StartDate) {
