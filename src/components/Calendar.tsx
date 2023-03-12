@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useTranslation } from 'next-i18next';
 import ArrowLeftSvg from '@assets/ArrowLeftSvg';
 import ArrowRightSvg from '@assets/ArrowRightSvg';
 import ButtonBase from '@components/common/ButtonBase';
@@ -29,6 +30,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
   } = useCalendar();
   const { isLoading, currentMonthEvent, getEventPaintType, createSchedule } = useEventSchedule();
   const { fontColor, colors, calendarBackground, fontSize } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -54,7 +56,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
               backgroundColor={calendarBackground}
               buttonStyle={{ borderRadius: '0' }}
             >
-              <span>오늘</span>
+              <span>{t('common:today')}</span>
             </ButtonBase>
             <ButtonBase
               onClick={handleNextMonth}
@@ -271,6 +273,9 @@ const EventDateBar = styled.span<{
   font-size: ${({ theme }) => theme.fontSize.s10};
   font-weight: 700;
   color: ${({ theme }) => theme.colors.black};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   background-color: ${({ bgColor }) => bgColor};
   border-radius: ${({ paintType }) => {
     if (paintType === EventPaintEnum.StartDate) {

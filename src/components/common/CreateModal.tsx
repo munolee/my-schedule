@@ -169,9 +169,16 @@ const StyledForm = styled.form`
       border: 0.1rem solid transparent;
       border-bottom: 0.1rem solid ${({ theme }) => theme.fontColor};
       border-radius: 0;
+      text-align: center;
 
       &::placeholder {
         color: ${({ theme }) => theme.colors.gray030};
+      }
+
+      ::-webkit-calendar-picker-indicator {
+        padding-left: 100%;
+        position: absolute;
+        cursor: pointer;
       }
     }
   }
@@ -203,6 +210,7 @@ const ErrorMessage = styled.em`
   font-weight: 300;
   font-style: normal;
   color: ${({ theme }) => theme.colors.red020};
+  text-align: center;
 `;
 
 const ButtonGroup = styled.div`

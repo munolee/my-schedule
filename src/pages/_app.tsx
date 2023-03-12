@@ -1,5 +1,6 @@
 import { Global, ThemeProvider } from '@emotion/react';
 import { AppProps } from 'next/app';
+import { appWithTranslation } from 'next-i18next';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
@@ -39,4 +40,4 @@ const App = ({ Component, pageProps }: AppProps) => {
   );
 };
 
-export default App;
+export default appWithTranslation(App);
