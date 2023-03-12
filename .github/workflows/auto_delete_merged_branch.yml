@@ -1,0 +1,29 @@
+name: 🔥 Delete Merged Branch
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Install NPM
+        run: |
+          npm init --y
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.npm_token }}" > ~/.npmrc
+          echo "@munolee:registry=https://npm.pkg.github.com" >> ~/.npmrc
+          npm install @munolee/gas-app --force
+
+      # main branch에 merge된 branch를 삭제합니다.
+      - name: Merged PR
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { deleteBranch } = require('@munolee/gas-app')
+            deleteBranch({ context, github })
