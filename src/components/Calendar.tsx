@@ -86,6 +86,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
                     key={j}
                     isToday={isSameDate(date)}
                     isEmpty={!isSameMonth(date)}
+                    weekLength={currentMonthWeeks.length}
                     onClick={() => console.log('set')}
                   >
                     <DateText>{date.date()}</DateText>
@@ -158,7 +159,7 @@ const MonthButtonGroup = styled.div`
 
 const CalendarTable = styled.table`
   width: 100%;
-  max-height: calc(100vh - 9.2rem);
+  max-height: calc(100vh - 20.2rem);
   border-spacing: 0;
   border-radius: 0.5rem;
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.05);
@@ -193,10 +194,10 @@ const CalendarTable = styled.table`
   }
 `;
 
-const CalendarDate = styled.td<{ isToday: boolean; isEmpty: boolean }>`
+const CalendarDate = styled.td<{ isToday: boolean; isEmpty: boolean; weekLength: number }>`
   position: relative;
   width: 14.285%;
-  height: 10rem;
+  height: ${({ weekLength }) => (weekLength > 5 ? '8.3rem' : '10rem')};
   font-size: ${({ theme }) => theme.fontSize.s12};
   font-weight: 500;
   color: ${({ isEmpty, theme }) => {
