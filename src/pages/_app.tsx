@@ -32,7 +32,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             <Header />
             <Component {...pageProps} toggleTheme={toggleTheme} />
           </Layout>
-          <ReactQueryDevtools initialIsOpen={true} />
+          <ReactQueryDevtools initialIsOpen={false} />
         </RecoilRoot>
       </ThemeProvider>
     </QueryClientProvider>

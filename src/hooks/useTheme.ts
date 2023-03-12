@@ -1,36 +1,36 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Colors } from '@styles/theme';
 
-type ThemeType = 'light' | 'dark';
+const enum Theme {
+  Light = 'light',
+  Dark = 'dark',
+}
 
 interface UseThemeType {
-  theme: ThemeType;
+  theme: Theme;
   toggleTheme: () => void;
 }
 
 const useTheme = (): UseThemeType => {
-  const getInitialTheme = useCallback(() => {
-    // TODO window 객체 생성 전 기본값 못 찾는 이슈
-    let theme: ThemeType = 'light';
-    if (typeof window !== 'undefined') {
-      theme = window.localStorage.getItem('app_theme') as ThemeType;
+  const [theme, setTheme] = useState<Theme>(Theme.Light);
 
-      const { matches } = window.matchMedia('(prefers-color-scheme: dark)');
-      theme = matches ? 'dark' : 'light';
+  useEffect(() => {
+    if (
+      window.localStorage.getItem('app_theme') === Theme.Dark ||
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) {
+      setTheme(Theme.Dark);
     }
-    return theme;
-  }, []);
-
-  const [theme, setTheme] = useState<ThemeType>(getInitialTheme);
-
-  const toggleTheme = useCallback(() => {
-    setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
   }, []);
 
   useEffect(() => {
     window.localStorage.setItem('app_theme', theme);
-    document.body.style.backgroundColor = theme === 'light' ? Colors.bgLight : Colors.bgDark;
+    document.body.style.backgroundColor = theme === Theme.Light ? Colors.bgLight : Colors.bgDark;
   }, [theme]);
+
+  const toggleTheme = useCallback(() => {
+    setTheme((prevTheme) => (prevTheme === Theme.Dark ? Theme.Light : Theme.Dark));
+  }, []);
 
   return { theme, toggleTheme };
 };
