@@ -5,6 +5,7 @@ import ArrowLeftSvg from '@assets/ArrowLeftSvg';
 import ArrowRightSvg from '@assets/ArrowRightSvg';
 import ButtonBase from '@components/common/ButtonBase';
 import CreateModal from '@components/common/CreateModal';
+import FlatIcon from '@components/common/FlatIcon';
 import Spinner from '@components/common/Spinner';
 import { DATE_FORMAT } from '@constants/format';
 import useCalendar from '@hooks/useCalendar';
@@ -27,7 +28,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
     isSameMonth,
   } = useCalendar();
   const { isLoading, currentMonthEvent, getEventPaintType, createSchedule } = useEventSchedule();
-  const { fontColor, colors, calendarBackground } = useTheme();
+  const { fontColor, colors, calendarBackground, fontSize } = useTheme();
 
   return (
     <>
@@ -43,7 +44,9 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
               backgroundColor={calendarBackground}
               buttonStyle={{ padding: 0, borderRadius: '0.5rem 0 0 0.5rem' }}
             >
-              <ArrowLeftSvg bgColor={fontColor} />
+              <FlatIcon size={fontSize.s24} color={fontColor}>
+                <ArrowLeftSvg />
+              </FlatIcon>
             </ButtonBase>
             <ButtonBase
               onClick={handleTodayMonth}
@@ -59,7 +62,9 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
               backgroundColor={calendarBackground}
               buttonStyle={{ padding: 0, borderRadius: '0 0.5rem 0.5rem 0' }}
             >
-              <ArrowRightSvg bgColor={fontColor} />
+              <FlatIcon size={fontSize.s24} color={fontColor}>
+                <ArrowRightSvg />
+              </FlatIcon>
             </ButtonBase>
           </MonthButtonGroup>
         </CalendarTopBar>
@@ -154,16 +159,13 @@ const CalendarTable = styled.table`
   border-spacing: 0;
   border-radius: 0.5rem;
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.05);
-  background-color: #f2f0f4;
   overflow: hidden;
 
-  &:first-of-type {
+  border-bottom: ${({ theme }) => `solid 0.1rem ${theme.colors.gray020}`};
+  background-color: ${({ theme }) => theme.calendarBackground};
+  th {
+    border-right: ${({ theme }) => `solid 0.1rem ${theme.colors.gray020}`};
     border-bottom: ${({ theme }) => `solid 0.1rem ${theme.colors.gray020}`};
-    background-color: ${({ theme }) => theme.calendarBackground};
-    th {
-      border-right: ${({ theme }) => `solid 0.1rem ${theme.colors.gray020}`};
-      border-bottom: ${({ theme }) => `solid 0.1rem ${theme.colors.gray020}`};
-    }
   }
 
   &:last-of-type {
@@ -178,16 +180,13 @@ const CalendarTable = styled.table`
     color: ${({ theme }) => theme.fontColor};
     font-weight: 500;
     text-align: center;
-  }
 
-  th:first-of-type,
-  td:first-of-type {
-    color: ${({ theme }) => theme.colors.red010};
-  }
-
-  th:last-of-type,
-  td:last-of-type {
-    color: ${({ theme }) => theme.colors.blue010};
+    &:first-of-type {
+      color: ${({ theme }) => theme.colors.red010};
+    }
+    &:last-of-type {
+      color: ${({ theme }) => theme.colors.blue010};
+    }
   }
 `;
 
@@ -197,20 +196,38 @@ const CalendarDate = styled.td<{ isToday: boolean; isEmpty: boolean }>`
   height: 10rem;
   font-size: ${({ theme }) => theme.fontSize.s12};
   font-weight: 500;
-  color: ${({ isEmpty, theme }) => (isEmpty ? theme.colors.gray040 : theme.fontColor)};
+  color: ${({ isEmpty, theme }) => {
+    if (isEmpty) {
+      return theme.colors.gray040;
+    }
+    return theme.fontColor;
+  }};
   text-align: right;
-  background-color: ${({ isToday, isEmpty, theme }) => {
+  background-color: ${({ isToday, theme }) => {
     if (isToday) {
       return theme.colors.green010;
-    } else if (isEmpty) {
-      return theme.colors.gray010;
     }
     return theme.calendarBackground;
   }};
   border-right: ${({ theme }) => `solid 0.1rem ${theme.colors.gray020}`};
   border-bottom: ${({ theme }) => `solid 0.1rem ${theme.colors.gray020}`};
 
+  &:first-of-type {
+    color: ${({ isEmpty, theme }) => {
+      if (isEmpty) {
+        return theme.colors.red010;
+      }
+      return theme.colors.red020;
+    }};
+  }
+
   &:last-of-type {
+    color: ${({ isEmpty, theme }) => {
+      if (isEmpty) {
+        return theme.colors.blue010;
+      }
+      return theme.colors.blue020;
+    }};
     border-right: none;
   }
 
@@ -237,11 +254,15 @@ const StyledEventList = styled.div`
   min-height: 8rem;
 `;
 
-const EventDateBar = styled.span<{ paintType: EventPaintEnum; topPosition: number; bgColor: string }>`
+const EventDateBar = styled.span<{
+  paintType: EventPaintEnum;
+  topPosition: number;
+  bgColor: string;
+}>`
   margin-left: -0.1rem;
   position: absolute;
-  width: calc(100% + 0.1rem);
   top: ${({ topPosition }) => topPosition * 1.6}rem;
+  width: calc(100% + 0.1rem);
   height: 1.6rem;
   display: flex;
   justify-content: center;

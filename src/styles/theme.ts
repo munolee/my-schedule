@@ -7,10 +7,11 @@ export const Colors = {
   gray060: '#4f4f4f',
   gray070: '#333333',
 
-  red010: '#ff7272', // 일정 생성 버튼, 일요일 폰트 색상
-  red020: '#ff0d37', // 모달 에러 메시지
+  red010: '#ff7272', // 일정 생성 버튼
+  red020: '#ff0d37', // 모달 에러 메시지, 일요일 폰트 색상
 
-  blue010: '#698bb8', // 토요일 폰트 색상
+  blue010: '#698bb8',
+  blue020: '#0067A3', // 토요일 폰트 색상
 
   green010: '#cfe8e8', // 달력 오늘 색상
   green020: '#cfe8df', // 달력 오늘 색상 Hover
@@ -43,8 +44,13 @@ export const FontSize = {
   s12: '1.2rem',
   s14: '1.4rem',
   s16: '1.6rem',
-  s18: '1.8r1em',
+  s18: '1.8rem',
   s20: '2rem',
+  s22: '2.2rem',
+  s24: '2.4rem',
+  s26: '2.6rem',
+  s28: '2.8rem',
+  s30: '3rem',
 };
 
 const palette = { colors: Colors, fontSize: FontSize };

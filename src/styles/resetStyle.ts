@@ -72,4 +72,10 @@ export const ResetStyle = css`
     border: none;
     outline: none;
   }
+
+  /* remove focus outline */
+  textarea:focus,
+  input:focus {
+    outline: none;
+  }
 `;
