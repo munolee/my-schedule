@@ -1,6 +1,6 @@
+import styled from '@emotion/styled';
 import { FC } from 'react';
 import Calendar from '@components/Calendar';
-import styled from '@emotion/styled';
 import GlobalButtonGroup from '@components/common/GlobalButtonGroup';
 import useModal from '@hooks/useModal';
 
@@ -23,6 +23,6 @@ const Home: FC<HomeProps> = ({ toggleTheme }) => {
 export default Home;
 
 const HomeContainer = styled.div`
-  position: relative;
   margin-top: 1.2rem;
+  position: relative;
 `;

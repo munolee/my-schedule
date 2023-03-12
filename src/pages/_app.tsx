@@ -1,14 +1,14 @@
+import { Global, ThemeProvider } from '@emotion/react';
 import { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
-import { Global, ThemeProvider } from '@emotion/react';
-import { ResetStyle } from '@styles/resetStyle';
-import { GlobalStyle } from '@styles/globalStyle';
-import { default as Theme } from '@styles/theme';
-import Layout from '@components/layout';
 import Header from '@components/common/Header';
+import Layout from '@components/layout';
 import useTheme from '@hooks/useTheme';
+import { GlobalStyle } from '@styles/globalStyle';
+import { ResetStyle } from '@styles/resetStyle';
+import { default as Theme } from '@styles/theme';
 
 const queryClient = new QueryClient({
   defaultOptions: {

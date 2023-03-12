@@ -7,11 +7,13 @@
     "build": "next build",
     "start": "next start",
     "ts-check": "tsc --noEmit",
+    "lint": "next lint",
     "prettify": "prettier --write \"./**/*.{ts,tsx}\"",
     "prepare": "husky install"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
       "npx prettier --write"
     ]
   },
@@ -42,6 +44,9 @@
     "@types/react-dom": "^18.0.11",
     "@types/react-transition-group": "^4.4.5",
     "@types/recoil": "^0.0.9",
+    "@typescript-eslint/eslint-plugin": "^5.48.0",
+    "eslint": "8.30.0",
+    "eslint-config-next": "13.0.7",
     "babel-loader": "^8.2.2",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",

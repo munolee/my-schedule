@@ -1,5 +1,5 @@
-import { FC, useState } from 'react';
 import styled from '@emotion/styled';
+import { FC, useState } from 'react';
 
 const Header: FC = () => {
   const [currentPage, setCurrentPage] = useState<string>('calendar');

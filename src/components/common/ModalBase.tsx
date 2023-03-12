@@ -1,5 +1,5 @@
-import { FC, PropsWithChildren, useEffect } from 'react';
 import styled from '@emotion/styled';
+import { FC, PropsWithChildren, useEffect } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { ModalPropsType } from '@hooks/useModal';
 

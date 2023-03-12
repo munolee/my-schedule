@@ -1,8 +1,8 @@
-import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQuery, useMutation, UseMutationResult } from 'react-query';
-import { currentMonthEventSelector, eventScheduleAtom } from '@store/eventSchedule';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { ScheduleApi } from '@api/schedule';
 import { currentTimeAtom } from '@store/currentTime';
+import { currentMonthEventSelector, eventScheduleAtom } from '@store/eventSchedule';
 
 export enum EventPaintEnum {
   StartDate = 'startDate',

@@ -1,10 +1,10 @@
-import { FC } from 'react';
-import styled from '@emotion/styled';
-import ButtonBase from '@components/common/ButtonBase';
-import PlusSvg from '@assets/PlusSvg';
-import NightSvg from '@assets/NightSvg';
-import { ModalPropsType } from '@hooks/useModal';
 import { useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
+import { FC } from 'react';
+import NightSvg from '@assets/NightSvg';
+import PlusSvg from '@assets/PlusSvg';
+import ButtonBase from '@components/common/ButtonBase';
+import { ModalPropsType } from '@hooks/useModal';
 
 interface GlobalButtonGroupProps {
   toggleTheme: () => void;
@@ -47,4 +47,8 @@ const ButtonGroup = styled.div`
   gap: 0.8rem;
   justify-content: flex-end;
   align-items: flex-end;
+
+  @media (max-width: 900px) {
+    position: fixed;
+  }
 `;
