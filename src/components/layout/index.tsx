@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
 import { FC, ReactNode } from 'react';
+import styled from '@emotion/styled';
 
 interface LayoutProps {
   children: ReactNode;

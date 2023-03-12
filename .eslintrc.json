@@ -9,7 +9,7 @@
         "groups": ["builtin", "external", "internal", "type", "parent", "sibling", "index", "object"],
         "pathGroups": [
           {
-            "pattern": "React",
+            "pattern": "react",
             "group": "external",
             "position": "before"
           }

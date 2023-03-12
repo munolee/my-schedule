@@ -1,5 +1,5 @@
-import styled from '@emotion/styled';
 import { FC } from 'react';
+import styled from '@emotion/styled';
 import useEventSchedule from '@hooks/useEventSchedule';
 
 const EventBoard: FC = () => {
