@@ -30,7 +30,6 @@ const App = ({ Component, pageProps }: AppProps) => {
           <Global styles={ResetStyle} />
           <Global styles={GlobalStyle} />
           <Layout>
-            <Header />
             <Component {...pageProps} toggleTheme={toggleTheme} />
           </Layout>
           <ReactQueryDevtools initialIsOpen={false} />

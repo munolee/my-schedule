@@ -1,10 +1,19 @@
 {
-  "today": "Today",
-  "scheduleTitle": "Schedule Title",
+  "guestLogin": "Getting Started as a Guest",
+  "idUserLogin": "Logging in a User",
+  "userName": "Username",
+  "password": "Password",
+  "login": "Login",
   "errorMessage": {
+    "idMinLength" : "Please enter at least 4 characters for the user name.",
+    "idMaxLength" : "Please enter a maximum of 12 characters for your user name.",
+    "pwMinLength" : "Please enter a password of at least 5 characters.",
+    "pwMaxLength" : "Please enter the password up to 16 characters.",
     "titleMinLength" : "Please enter at least 2 characters for the schedule title.",
     "titleMaxLength" : "Please enter a maximum of 10 characters for the schedule title.",
     "selectStartDate" : "Please select a schedule start date.",
     "selectEndDate" : "Please select the end date of the schedule."
-  }
+  },
+  "today": "Today",
+  "scheduleTitle": "Schedule Title"
 }
