@@ -15,17 +15,20 @@ const useTheme = (): UseThemeType => {
   const [theme, setTheme] = useState<Theme>(Theme.Light);
 
   useEffect(() => {
-    if (
-      window.localStorage.getItem('app_theme') === Theme.Dark ||
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-    ) {
-      setTheme(Theme.Dark);
+    let theme = window.localStorage.getItem('app_theme') as Theme;
+    if (!theme) {
+      const { matches } = window.matchMedia('(prefers-color-scheme: dark)');
+      theme = matches ? Theme.Dark : Theme.Light;
     }
+    setTheme(theme);
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem('app_theme', theme);
     document.body.style.backgroundColor = theme === Theme.Light ? Colors.bgLight : Colors.bgDark;
+
+    setTimeout(() => {
+      window.localStorage.setItem('app_theme', theme);
+    }, 100);
   }, [theme]);
 
   const toggleTheme = useCallback(() => {

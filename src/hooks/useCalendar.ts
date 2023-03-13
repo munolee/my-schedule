@@ -18,7 +18,7 @@ interface UseCalendarType {
 
 const useCalendar = (): UseCalendarType => {
   const [currentTime, setCurrentTime] = useRecoilState(currentTimeAtom);
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation('common');
 
   const currentMonthWeeks = useMemo(() => {
     const startWeek = currentTime.clone().startOf('month').week();
@@ -64,7 +64,7 @@ const useCalendar = (): UseCalendarType => {
     setCurrentTime(moment());
   };
 
-  const dayOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
+  const dayOfWeek = t('dayOfWeek').split(', ');
   return {
     currentMonthWeeks,
     calendarTitleDate,
