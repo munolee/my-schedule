@@ -1,10 +1,19 @@
 {
-  "today": "今日",
-  "scheduleTitle": "スケジュールタイトル",
+  "guestLogin": "ゲストとしてスタートする。",
+  "idUserLogin": "ユーザーログイン",
+  "userName": "ユーザー名",
+  "password": "パスワード",
+  "login": "ログインする",
   "errorMessage": {
+    "idMinLength" : "ユーザー名は最低4文字以上入力してください。",
+    "idMaxLength" : "ユーザー名は最大12文字以下で入力してください。",
+    "pwMinLength" : "パスワードは最低5文字以上入力してください。",
+    "pwMaxLength" : "パスワードは最大16文字以下で入力してください。",
     "titleMinLength" : "日程のタイトルは最低2文字以上入力してください。",
     "titleMaxLength" : "日程のタイトルは最大10文字以下で入力してください。",
     "selectStartDate" : "日程開始日を選択してください。",
     "selectEndDate" : "日程終了日を選択してください。"
-  }
+  },
+  "today": "今日",
+  "scheduleTitle": "スケジュールタイトル"
 }
