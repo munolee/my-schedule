@@ -6,8 +6,8 @@ import { useTranslation } from 'next-i18next';
 import { FieldValues, useForm } from 'react-hook-form';
 import { LoginParamsType } from '@api/auth';
 import ArrowLeftSvg from '@assets/ArrowLeftSvg';
-import ButtonBase from '@components/common/ButtonBase';
 import FlatIcon from '@components/common/FlatIcon';
+import ButtonBase from '@components/common/buttons/ButtonBase';
 import useAuthLogin from '@hooks/useAuthLogin';
 
 const LoginForm: FC = () => {

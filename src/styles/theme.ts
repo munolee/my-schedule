@@ -12,7 +12,7 @@ export const Colors = {
   red020: '#ff0d37', // 모달 에러 메시지, 일요일 폰트 색상
   red030: '#673e3e',
 
-  blue010: '#4b81AF', // 모달 버튼 색상
+  blue010: '#4b81AF',
   blue020: '#0067A3', // 토요일 폰트 색상
   blue030: '#56689a',
 
@@ -69,6 +69,7 @@ export type ThemeType = {
   hoverBackground: string;
   calendarBackground: string;
   calendarBorder: string;
+  modalButton: string;
 } & PaletteType;
 
 interface ThemeGroup {
@@ -83,6 +84,7 @@ const Theme: ThemeGroup = {
     hoverBackground: Colors.bgLight,
     calendarBackground: Colors.white,
     calendarBorder: Colors.gray020,
+    modalButton: Colors.gray070,
     ...palette,
   },
   dark: {
@@ -91,6 +93,7 @@ const Theme: ThemeGroup = {
     hoverBackground: Colors.bgDark,
     calendarBackground: Colors.CalendarDark,
     calendarBorder: Colors.gray080,
+    modalButton: Colors.blue010,
     ...palette,
   },
 };

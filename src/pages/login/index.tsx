@@ -2,7 +2,7 @@ import { FC } from 'react';
 import styled from '@emotion/styled';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import GlobalButtonGroup from '@components/common/GlobalButtonGroup';
+import GlobalButtonGroup from '@components/common/buttons/GlobalButtonGroup';
 import LoginForm from '@components/forms/LoginForm';
 
 interface PageLoginProps {
@@ -11,10 +11,12 @@ interface PageLoginProps {
 
 const PageLogin: FC<PageLoginProps> = ({ toggleTheme }) => {
   return (
-    <StyledContainer>
-      <LoginForm />
+    <>
+      <StyledContainer>
+        <LoginForm />
+      </StyledContainer>
       <GlobalButtonGroup toggleTheme={toggleTheme} />
-    </StyledContainer>
+    </>
   );
 };
 

@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Calendar from '@components/Calendar';
-import GlobalButtonGroup from '@components/common/GlobalButtonGroup';
 import Header from '@components/common/Header';
+import GlobalButtonGroup from '@components/common/buttons/GlobalButtonGroup';
 import useModal from '@hooks/useModal';
 
 interface PageHomeProps {

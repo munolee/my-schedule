@@ -7,9 +7,9 @@ import { useForm, FieldValues } from 'react-hook-form';
 import { UseMutationResult } from 'react-query';
 import CloseSvg from '@assets/CloseSvg';
 import ConfirmSvg from '@assets/ConfirmSvg';
-import ButtonBase from '@components/common/ButtonBase';
 import FlatIcon from '@components/common/FlatIcon';
-import ModalBase from '@components/common/ModalBase';
+import ButtonBase from '@components/common/buttons/ButtonBase';
+import ModalBase from '@components/common/modals/ModalBase';
 import { DATE_FORMAT } from '@constants/format';
 import { EventScheduleType } from '@hooks/useEventSchedule';
 import { ModalPropsType } from '@hooks/useModal';
@@ -22,7 +22,7 @@ interface CreateModalProps {
 const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
   const [selectBgColor, setSelectBgColor] = useState<string>('#cfdd8e');
   const { mutateAsync } = mutateMethod();
-  const { colors, fontSize } = useTheme();
+  const { fontSize, modalButton } = useTheme();
   const { t } = useTranslation();
 
   const initValues = {
@@ -57,19 +57,19 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
   return (
     <ModalBase modalProps={modalProps}>
       <ModalContent>
-        <ButtonGroup>
-          <ButtonBase type="button" onClick={resetFormModal} backgroundColor="transparent">
-            <FlatIcon size={fontSize.s30} color={colors.blue010}>
-              <CloseSvg />
-            </FlatIcon>
-          </ButtonBase>
-          <ButtonBase type="submit" backgroundColor="transparent">
-            <FlatIcon size={fontSize.s30} color={colors.blue010}>
-              <ConfirmSvg />
-            </FlatIcon>
-          </ButtonBase>
-        </ButtonGroup>
         <StyledForm onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+          <ButtonGroup>
+            <ButtonBase type="button" onClick={resetFormModal} backgroundColor="transparent">
+              <FlatIcon size={fontSize.s30} color={modalButton}>
+                <CloseSvg />
+              </FlatIcon>
+            </ButtonBase>
+            <ButtonBase type="submit" backgroundColor="transparent">
+              <FlatIcon size={fontSize.s30} color={modalButton}>
+                <ConfirmSvg />
+              </FlatIcon>
+            </ButtonBase>
+          </ButtonGroup>
           <div>
             <input
               type="text"
@@ -147,11 +147,9 @@ const ModalContent = styled.div`
 `;
 
 const StyledForm = styled.form`
-  margin-top: 2.4rem;
-  padding: 0 2.4rem;
-
   > div {
     margin-top: 3.6rem;
+    padding: 0 2.4rem;
     display: flex;
     gap: 0.4rem;
     justify-content: center;
@@ -182,6 +180,7 @@ const StyledForm = styled.form`
         padding-left: 100%;
         position: absolute;
         cursor: pointer;
+        background-image: none;
       }
     }
   }
@@ -190,6 +189,13 @@ const StyledForm = styled.form`
     font-size: ${({ theme }) => theme.fontSize.s14};
     font-weight: 500;
   }
+`;
+
+const ButtonGroup = styled.div`
+  padding: 0 0 !important;
+  display: flex;
+  justify-content: space-between !important;
+  flex-direction: row !important;
 `;
 
 const ColorPickerFiled = styled.div`
@@ -214,9 +220,4 @@ const ErrorMessage = styled.em`
   font-style: normal;
   color: ${({ theme }) => theme.colors.red020};
   text-align: center;
-`;
-
-const ButtonGroup = styled.div`
-  display: flex;
-  justify-content: space-between;
 `;
