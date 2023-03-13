@@ -15,5 +15,6 @@
     "selectEndDate" : "Please select the end date of the schedule."
   },
   "today": "Today",
-  "scheduleTitle": "Schedule Title"
+  "scheduleTitle": "Schedule Title",
+  "dayOfWeek" : "Sun, Mon, Tue, Wed, Thu, Fri, Sat"
 }

@@ -15,5 +15,6 @@
     "selectEndDate" : "일정 종료일을 선택해주세요."
   },
   "today": "오늘",
-  "scheduleTitle": "일정 제목"
+  "scheduleTitle": "일정 제목",
+  "dayOfWeek" : "일, 월, 화, 수, 목, 금, 토"
 }

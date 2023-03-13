@@ -41,7 +41,7 @@ const LoginForm: FC = () => {
           <ButtonBase
             onClick={() => setIsShowLoginForm(false)}
             backgroundColor="transparent"
-            buttonStyle={{ padding: 0, borderRadius: '0.5rem 0 0 0.5rem' }}
+            buttonStyle={{ padding: 0 }}
           >
             <FlatIcon size={fontSize.s30} color={fontColor}>
               <ArrowLeftSvg />
@@ -165,7 +165,7 @@ const StyledForm = styled.form<{ isShow: boolean }>`
     justify-content: center;
     flex-direction: column;
 
-    &:first-child {
+    &:first-of-type {
       margin-top: 0;
     }
 

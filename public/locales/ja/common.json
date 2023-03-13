@@ -15,5 +15,6 @@
     "selectEndDate" : "日程終了日を選択してください。"
   },
   "today": "今日",
-  "scheduleTitle": "スケジュールタイトル"
+  "scheduleTitle": "スケジュールタイトル",
+  "dayOfWeek" : "日, 月, 火, 水, 木, 金, 土"
 }

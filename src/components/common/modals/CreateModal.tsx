@@ -155,7 +155,7 @@ const StyledForm = styled.form`
     justify-content: center;
     flex-direction: column;
 
-    &:first-child {
+    &:first-of-type {
       margin-top: 0;
     }
 
