@@ -3,17 +3,19 @@ import styled from '@emotion/styled';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Calendar from '@components/Calendar';
+import Header from '@components/common/Header';
 import GlobalButtonGroup from '@components/common/buttons/GlobalButtonGroup';
 import useModal from '@hooks/useModal';
 
-interface HomeProps {
+interface PageHomeProps {
   toggleTheme: () => void;
 }
 
-const Home: FC<HomeProps> = ({ toggleTheme }) => {
+const PageHome: FC<PageHomeProps> = ({ toggleTheme }) => {
   const createScheduleModal = useModal();
   return (
     <>
+      <Header />
       <HomeContainer>
         <Calendar createScheduleModalProps={createScheduleModal} />
       </HomeContainer>
@@ -22,7 +24,7 @@ const Home: FC<HomeProps> = ({ toggleTheme }) => {
   );
 };
 
-export default Home;
+export default PageHome;
 
 const HomeContainer = styled.div`
   margin-top: 1.2rem;

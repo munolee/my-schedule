@@ -9,6 +9,11 @@ const nextConfig = {
   compiler: {
     emotion: true,
   },
+  env: {
+    BASE_URL: process.env.API_DOMAIN,
+    GUEST_ID: process.env.GUEST_ID,
+    GUEST_PW: process.env.GUEST_PW,
+  },
 };
 
 module.exports = nextConfig;

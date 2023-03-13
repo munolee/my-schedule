@@ -9,24 +9,26 @@ import { ModalPropsType } from '@hooks/useModal';
 
 interface GlobalButtonGroupProps {
   toggleTheme: () => void;
-  modalProps: ModalPropsType;
+  modalProps?: ModalPropsType;
 }
 
 const GlobalButtonGroup: FC<GlobalButtonGroupProps> = ({ toggleTheme, modalProps }) => {
   const { colors, calendarBackground, fontColor, fontSize } = useTheme();
   return (
     <ButtonGroup>
-      <ButtonBase
-        width={48}
-        height={48}
-        backgroundColor={colors.red010}
-        buttonStyle={{ borderRadius: '50%', boxShadow: '0 0 1rem 0 rgba(0, 0, 0, 0.2)' }}
-        onClick={modalProps.showModal}
-      >
-        <FlatIcon size={fontSize.s30} color={colors.white}>
-          <PlusSvg />
-        </FlatIcon>
-      </ButtonBase>
+      {modalProps && (
+        <ButtonBase
+          width={48}
+          height={48}
+          backgroundColor={colors.red010}
+          buttonStyle={{ borderRadius: '50%', boxShadow: '0 0 1rem 0 rgba(0, 0, 0, 0.2)' }}
+          onClick={modalProps.showModal}
+        >
+          <FlatIcon size={fontSize.s30} color={colors.white}>
+            <PlusSvg />
+          </FlatIcon>
+        </ButtonBase>
+      )}
       <ButtonBase
         width={48}
         height={48}
