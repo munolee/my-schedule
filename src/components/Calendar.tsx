@@ -4,10 +4,10 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'next-i18next';
 import ArrowLeftSvg from '@assets/ArrowLeftSvg';
 import ArrowRightSvg from '@assets/ArrowRightSvg';
-import ButtonBase from '@components/common/ButtonBase';
-import CreateModal from '@components/common/CreateModal';
 import FlatIcon from '@components/common/FlatIcon';
 import Spinner from '@components/common/Spinner';
+import ButtonBase from '@components/common/buttons/ButtonBase';
+import CreateModal from '@components/common/modals/CreateModal';
 import { DATE_FORMAT } from '@constants/format';
 import useCalendar from '@hooks/useCalendar';
 import useEventSchedule, { EventPaintEnum } from '@hooks/useEventSchedule';
@@ -95,7 +95,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
                         const { startDate, eventTitle, position, bgColor } = event;
                         const calendarDate = date.format(DATE_FORMAT.BASIC_FORMAT);
                         const paintType = getEventPaintType(event, calendarDate);
-                        if (paintType === EventPaintEnum.Empty) {
+                        if (paintType === EventPaintEnum.Empty || position > 4) {
                           return;
                         }
                         return (
@@ -265,9 +265,9 @@ const EventDateBar = styled.span<{
 }>`
   margin-left: -0.1rem;
   position: absolute;
-  top: ${({ topPosition }) => topPosition * 1.6}rem;
+  top: ${({ topPosition }) => topPosition * 1.4}rem;
   width: calc(100% + 0.1rem);
-  height: 1.6rem;
+  height: 1.4rem;
   display: flex;
   justify-content: center;
   align-items: center;

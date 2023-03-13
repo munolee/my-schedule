@@ -3,8 +3,8 @@ import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import NightSvg from '@assets/NightSvg';
 import PlusSvg from '@assets/PlusSvg';
-import ButtonBase from '@components/common/ButtonBase';
 import FlatIcon from '@components/common/FlatIcon';
+import ButtonBase from '@components/common/buttons/ButtonBase';
 import { ModalPropsType } from '@hooks/useModal';
 
 interface GlobalButtonGroupProps {
