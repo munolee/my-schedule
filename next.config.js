@@ -10,9 +10,18 @@ const nextConfig = {
     emotion: true,
   },
   env: {
-    BASE_URL: process.env.API_DOMAIN,
+    API_DOMAIN: process.env.API_DOMAIN,
     GUEST_ID: process.env.GUEST_ID,
     GUEST_PW: process.env.GUEST_PW,
+  },
+  async redirects() {
+    return [
+      {
+        source: '/login',
+        destination: '/',
+        permanent: false,
+      },
+    ];
   },
 };
 

@@ -1,5 +1,5 @@
+import { axios } from '@api/axios';
 import { EventScheduleType } from '@hooks/useEventSchedule';
-import { axios } from './axios';
 
 export const ScheduleApi = {
   getScheduleList: async (params: string) => {

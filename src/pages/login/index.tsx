@@ -11,10 +11,12 @@ interface PageLoginProps {
 
 const PageLogin: FC<PageLoginProps> = ({ toggleTheme }) => {
   return (
-    <StyledContainer>
-      <LoginForm />
+    <>
+      <StyledContainer>
+        <LoginForm />
+      </StyledContainer>
       <GlobalButtonGroup toggleTheme={toggleTheme} />
-    </StyledContainer>
+    </>
   );
 };
 
