@@ -1,4 +1,4 @@
-import Axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 const getToken = () => {
   if (typeof window === 'undefined') return {};
@@ -7,7 +7,7 @@ const getToken = () => {
 
 const userToken = getToken();
 
-export const axios = Axios.create({
+export const axiosInstance = axios.create({
   baseURL: process.env.API_DOMAIN || 'https://schdule-express.vercel.app',
   headers: {
     'content-type': 'application/json',
@@ -17,7 +17,7 @@ export const axios = Axios.create({
 
 export interface ResponseError extends AxiosError {}
 
-axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     return response;
   },

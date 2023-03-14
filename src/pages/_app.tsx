@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { Global, ThemeProvider } from '@emotion/react';
-import App, { AppProps } from 'next/app';
+import { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { appWithTranslation } from 'next-i18next';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
-import { axios } from '@api/axios';
+import { axiosInstance } from '@api/axios';
 import Layout from '@components/layout';
 import useTheme from '@hooks/useTheme';
 import { GlobalStyle } from '@styles/globalStyle';
@@ -27,7 +27,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   const router = useRouter();
 
   useEffect(() => {
-    const interceptor = axios.interceptors.response.use(
+    const interceptor = axiosInstance.interceptors.response.use(
       (response) => response,
       (error) => {
         if (error.response?.status === 401) {
@@ -37,7 +37,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       }
     );
     return () => {
-      axios.interceptors.response.eject(interceptor);
+      axiosInstance.interceptors.response.eject(interceptor);
     };
   }, [router]);
 

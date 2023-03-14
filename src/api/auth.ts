@@ -1,4 +1,4 @@
-import { axios } from '@api/axios';
+import { axiosInstance } from '@api/axios';
 
 export interface LoginParamsType {
   id: string;
@@ -12,17 +12,17 @@ export interface LoginResponseType {
 
 export const AuthApi = {
   getAuthLoginCheck: async (params: string) => {
-    const response = await axios.get(`/api/auth/`);
+    const response = await axiosInstance.get(`/api/auth/`);
     return response.data;
   },
 
   userLogin: async (params: LoginParamsType) => {
-    const response = await axios.post<LoginResponseType>(`api/auth/login`, params);
+    const response = await axiosInstance.post<LoginResponseType>(`api/auth/login`, params);
     return response.data;
   },
 
   userLogout: async () => {
-    const response = await axios.post(`api/auth/logout`);
+    const response = await axiosInstance.post(`api/auth/logout`);
     return response.data;
   },
 };

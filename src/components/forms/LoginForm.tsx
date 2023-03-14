@@ -1,7 +1,6 @@
 import { FC, useState } from 'react';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { FieldValues, useForm } from 'react-hook-form';
 import { LoginParamsType } from '@api/auth';
@@ -14,7 +13,6 @@ const LoginForm: FC = () => {
   const [isShowLoginForm, setIsShowLoginForm] = useState<boolean>(false);
   const { userLogin } = useAuthLogin();
   const { mutateAsync } = userLogin();
-  const { push } = useRouter();
   const { t } = useTranslation();
   const { colors, fontColor, fontSize } = useTheme();
 
@@ -31,7 +29,6 @@ const LoginForm: FC = () => {
   const onSubmit = async (data: FieldValues | LoginParamsType) => {
     await mutateAsync(data as LoginParamsType);
     reset();
-    push({ pathname: '/' });
   };
 
   return (
