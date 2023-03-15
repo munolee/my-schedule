@@ -14,15 +14,6 @@ const nextConfig = {
     GUEST_ID: process.env.GUEST_ID,
     GUEST_PW: process.env.GUEST_PW,
   },
-  async redirects() {
-    return [
-      {
-        source: '/login',
-        destination: '/',
-        permanent: false,
-      },
-    ];
-  },
 };
 
 module.exports = nextConfig;

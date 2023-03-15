@@ -1,7 +1,10 @@
+import { useRouter } from 'next/router';
 import { useMutation } from 'react-query';
 import { AuthApi, LoginParamsType } from '@api/auth';
 
 const useAuthLogin = () => {
+  const { push } = useRouter();
+
   const saveToken = (token: string) => {
     window.localStorage.setItem('user_token', token);
   };
@@ -14,10 +17,11 @@ const useAuthLogin = () => {
       },
       {
         onSuccess: (response) => {
-          if (!response) {
+          if (!response.success) {
             return;
           }
           saveToken(response?.token);
+          push('/');
         },
       }
     );

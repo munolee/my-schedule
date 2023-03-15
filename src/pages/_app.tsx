@@ -1,12 +1,9 @@
-import { useEffect } from 'react';
 import { Global, ThemeProvider } from '@emotion/react';
-import App, { AppProps } from 'next/app';
-import { useRouter } from 'next/router';
+import { AppProps } from 'next/app';
 import { appWithTranslation } from 'next-i18next';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
-import { axios } from '@api/axios';
 import Layout from '@components/layout';
 import useTheme from '@hooks/useTheme';
 import { GlobalStyle } from '@styles/globalStyle';
@@ -24,22 +21,6 @@ const queryClient = new QueryClient({
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const { theme, toggleTheme } = useTheme();
-  const router = useRouter();
-
-  useEffect(() => {
-    const interceptor = axios.interceptors.response.use(
-      (response) => response,
-      (error) => {
-        if (error.response?.status === 401) {
-          router.push('/login');
-        }
-        return Promise.reject(error);
-      }
-    );
-    return () => {
-      axios.interceptors.response.eject(interceptor);
-    };
-  }, [router]);
 
   return (
     <QueryClientProvider client={queryClient}>

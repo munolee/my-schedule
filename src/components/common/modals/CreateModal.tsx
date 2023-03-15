@@ -20,16 +20,16 @@ interface CreateModalProps {
 }
 
 const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
-  const [selectBgColor, setSelectBgColor] = useState<string>('#cfdd8e');
   const { mutateAsync } = mutateMethod();
-  const { fontSize, modalButton } = useTheme();
+  const { fontSize, modalButton, colors } = useTheme();
   const { t } = useTranslation();
+  const [selectBgColor, setSelectBgColor] = useState<string>(colors.event1);
 
   const initValues = {
     eventTitle: '',
     startDate: moment().format(DATE_FORMAT.BASIC_FORMAT),
     endDate: moment().format(DATE_FORMAT.BASIC_FORMAT),
-    bgColor: '#cfdd8e',
+    bgColor: colors.event1,
     typeId: 0,
   };
   const {
@@ -53,7 +53,7 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
     modalProps.hideModal();
   };
 
-  const eventBgColors = ['#cfdd8e', '#eeb8b8', '#6eceda', '#b57fb3', '#f5ddad'];
+  const eventBgColors = [colors.event1, colors.event2, colors.event3, colors.event4, colors.event5];
   return (
     <ModalBase modalProps={modalProps}>
       <ModalContent>
