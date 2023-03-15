@@ -36,6 +36,7 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm({
     mode: 'onChange',
@@ -93,7 +94,6 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
             <input
               type="date"
               placeholder="startDate"
-              lang="en"
               {...register('startDate', {
                 required: true,
                 minLength: { value: 10, message: t('common:errorMessage.selectStartDate') },
@@ -113,14 +113,17 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
             {errors.endDate && <ErrorMessage>{errors.endDate?.message}</ErrorMessage>}
           </div>
           <div>
-            <input type="hidden" value={selectBgColor} {...register('bgColor')} />
+            <input type="hidden" {...register('bgColor')} />
             <ColorPickerFiled>
               {eventBgColors.map((color) => (
                 <ColorPicker
                   key={color}
                   active={selectBgColor === color}
                   color={color}
-                  onClick={() => setSelectBgColor(color)}
+                  onClick={() => {
+                    setSelectBgColor(color);
+                    setValue('bgColor', color);
+                  }}
                 />
               ))}
             </ColorPickerFiled>

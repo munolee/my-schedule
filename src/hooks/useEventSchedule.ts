@@ -1,6 +1,7 @@
-import { useQuery, useMutation, UseMutationResult } from 'react-query';
+import { useMutation, UseMutationResult, useQuery } from 'react-query';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { ScheduleApi } from '@api/schedule';
+import useToast, { ToastEnumType } from '@hooks/useToast';
 import { currentTimeAtom } from '@store/currentTime';
 import { currentMonthEventSelector, eventScheduleAtom } from '@store/eventSchedule';
 
@@ -37,8 +38,9 @@ const useEventSchedule = (): UseEventScheduleType => {
   const currentTime = useRecoilValue(currentTimeAtom);
   const currentMonthEvent = useRecoilValue(currentMonthEventSelector);
   const setEventSchedule = useSetRecoilState(eventScheduleAtom);
+  const { showToast } = useToast();
 
-  const { isLoading } = useQuery(
+  const { isLoading, refetch } = useQuery(
     ['getSchedule', currentTime.year()],
     async () => {
       const response = ScheduleApi.getScheduleList(`year=${currentTime.year()}`);
@@ -55,10 +57,21 @@ const useEventSchedule = (): UseEventScheduleType => {
   );
 
   const createSchedule = () => {
-    return useMutation(async (params: EventScheduleType) => {
-      const result = await ScheduleApi.createSchedule(params);
-      return result;
-    });
+    return useMutation(
+      async (params: EventScheduleType) => {
+        const result = await ScheduleApi.createSchedule(params);
+        return result;
+      },
+      {
+        onSuccess: (data) => {
+          if (!data) {
+            return;
+          }
+          showToast({ type: ToastEnumType.Success, message: '성공적으로 등록되었습니다.' });
+          refetch();
+        },
+      }
+    );
   };
 
   const getEventPaintType = (event: EventScheduleType, date: string) => {

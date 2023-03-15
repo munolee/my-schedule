@@ -32,6 +32,12 @@ export const Colors = {
   white: '#ffffff',
   black: '#111111',
 
+  // 토스트 메시지 색상
+  toast: '#5a5b5c',
+  success: '#f1f9eC',
+  info: '#f5f4f5',
+  error: '#fDf7fD',
+
   // 캘린더 테마 색상
   CalendarLight: '#ffffff',
   CalendarDark: '#1d1c1c',
