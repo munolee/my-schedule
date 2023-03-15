@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import { useMutation, UseMutationResult, useQuery } from 'react-query';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { ScheduleApi } from '@api/schedule';
@@ -38,6 +39,7 @@ const useEventSchedule = (): UseEventScheduleType => {
   const currentTime = useRecoilValue(currentTimeAtom);
   const currentMonthEvent = useRecoilValue(currentMonthEventSelector);
   const setEventSchedule = useSetRecoilState(eventScheduleAtom);
+  const { t } = useTranslation();
   const { showToast } = useToast();
 
   const { isLoading, refetch } = useQuery(
@@ -67,7 +69,7 @@ const useEventSchedule = (): UseEventScheduleType => {
           if (!data) {
             return;
           }
-          showToast({ type: ToastEnumType.Success, message: '성공적으로 등록되었습니다.' });
+          showToast({ type: ToastEnumType.Success, message: t('common:toastMessage.registeredSuccessfully') });
           refetch();
         },
       }

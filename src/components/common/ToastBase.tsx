@@ -38,7 +38,7 @@ export const ToastContainer = styled.div`
 const ToastContent = styled.div<{ type: ToastEnumType }>`
   margin-top: 0.8rem;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   width: 100%;
   min-width: 50rem;

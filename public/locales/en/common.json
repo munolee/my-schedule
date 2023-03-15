@@ -16,5 +16,9 @@
   },
   "today": "Today",
   "scheduleTitle": "Schedule Title",
-  "dayOfWeek" : "Sun, Mon, Tue, Wed, Thu, Fri, Sat"
+  "dayOfWeek" : "Sun, Mon, Tue, Wed, Thu, Fri, Sat",
+  "toastMessage": {
+    "inReady": "In Ready.",
+    "registeredSuccessfully": "Registered Successfully!"
+  }
 }

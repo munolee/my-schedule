@@ -1,30 +1,32 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import CalendarSvg from '@assets/CalendarSvg';
 import MemoSvg from '@assets/MemoSvg';
 import FlatIcon from '@components/common/FlatIcon';
+import useToast, { ToastEnumType } from '@hooks/useToast';
 
 const Header: FC = () => {
-  const [currentPage, setCurrentPage] = useState<string>('calendar');
   const { fontColor, fontSize } = useTheme();
   const { t } = useTranslation();
-
-  const handleLocation = (location: string) => {
-    setCurrentPage(location);
-  };
+  const { pathname } = useRouter();
+  const { showToast } = useToast();
 
   return (
     <StyledHeader>
       <HeaderList>
-        <HeaderMenuItem isActive={currentPage === 'calendar'} onClick={() => handleLocation('calendar')}>
+        <HeaderMenuItem isActive={pathname === '/'}>
           <FlatIcon size={fontSize.s20} color={fontColor}>
             <CalendarSvg />
           </FlatIcon>
           <MenuTitle>{t('header:fullSchedule')}</MenuTitle>
         </HeaderMenuItem>
-        <HeaderMenuItem isActive={currentPage === 'memo'} onClick={() => handleLocation('memo')}>
+        <HeaderMenuItem
+          isActive={false}
+          onClick={() => showToast({ type: ToastEnumType.Error, message: t('common:toastMessage.inReady') })}
+        >
           <FlatIcon size={fontSize.s20} color={fontColor}>
             <MemoSvg />
           </FlatIcon>
