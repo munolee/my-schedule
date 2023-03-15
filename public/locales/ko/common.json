@@ -16,5 +16,9 @@
   },
   "today": "오늘",
   "scheduleTitle": "일정 제목",
-  "dayOfWeek" : "일, 월, 화, 수, 목, 금, 토"
+  "dayOfWeek" : "일, 월, 화, 수, 목, 금, 토",
+  "toastMessage": {
+    "inReady": "준비중입니다.",
+    "registeredSuccessfully": "성공적으로 등록되었습니다!"
+  }
 }

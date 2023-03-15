@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Colors } from '@styles/theme';
 
-const enum Theme {
+export enum Theme {
   Light = 'light',
   Dark = 'dark',
 }

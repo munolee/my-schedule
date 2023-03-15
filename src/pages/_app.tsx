@@ -4,6 +4,7 @@ import { appWithTranslation } from 'next-i18next';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
+import ToastBase from '@components/common/ToastBase';
 import Layout from '@components/layout';
 import useTheme from '@hooks/useTheme';
 import { GlobalStyle } from '@styles/globalStyle';
@@ -30,6 +31,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           <Global styles={GlobalStyle} />
           <Layout>
             <Component {...pageProps} toggleTheme={toggleTheme} />
+            <ToastBase />
           </Layout>
           <ReactQueryDevtools initialIsOpen={false} />
         </RecoilRoot>
