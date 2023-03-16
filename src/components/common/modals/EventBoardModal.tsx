@@ -1,6 +1,11 @@
 import { FC, useEffect } from 'react';
+import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import CloseSvg from '@assets/CloseSvg';
+import ConfirmSvg from '@assets/ConfirmSvg';
+import FlatIcon from '@components/common/FlatIcon';
+import ButtonBase from '@components/common/buttons/ButtonBase';
 import ModalBase from '@components/common/modals/ModalBase';
 import { EventScheduleType } from '@hooks/useEventSchedule';
 import { ModalPropsType } from '@hooks/useModal';
@@ -11,48 +16,72 @@ interface EventBoardModalProps {
 }
 
 const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps, currentDateEvent }) => {
-  const { replace, query } = useRouter();
+  const { replace } = useRouter();
+  const { fontSize, modalButton } = useTheme();
 
   useEffect(() => {
-    if (query.date) {
-      modalProps.showModal();
-    }
-  }, [query]);
-
-  useEffect(() => {
-    if (!modalProps.isShow && query.date) {
+    if (!modalProps.isShow) {
       replace('/');
     }
-  }, [query, modalProps.isShow]);
+  }, [modalProps.isShow]);
 
   return (
     <ModalBase modalProps={modalProps}>
-      <StyledEventBoard>
+      <ModalContent>
+        <ButtonGroup>
+          <ButtonBase type="button" onClick={() => modalProps.hideModal()} backgroundColor="transparent">
+            <FlatIcon size={fontSize.s30} color={modalButton}>
+              <CloseSvg />
+            </FlatIcon>
+          </ButtonBase>
+          <ButtonBase type="submit" backgroundColor="transparent">
+            <FlatIcon size={fontSize.s30} color={modalButton}>
+              <ConfirmSvg />
+            </FlatIcon>
+          </ButtonBase>
+        </ButtonGroup>
+
         <EventBoardList>
           <BoardItem>
             <div>주요 일정</div>
-            <BoardScheduleList>
-              {currentDateEvent.map((event, index) => (
-                <BoardScheduleItem key={index}>
-                  <ScheduleEventCircle bgColor={event.bgColor} />
-                  <span>{event.eventTitle}</span>
-                </BoardScheduleItem>
-              ))}
-            </BoardScheduleList>
+            {currentDateEvent.length > 0 ? (
+              <BoardScheduleList>
+                {currentDateEvent.map((event, index) => (
+                  <BoardScheduleItem key={index}>
+                    <ScheduleEventCircle bgColor={event.bgColor} />
+                    <span>{event.eventTitle}</span>
+                  </BoardScheduleItem>
+                ))}
+              </BoardScheduleList>
+            ) : (
+              <></>
+            )}
           </BoardItem>
         </EventBoardList>
-      </StyledEventBoard>
+      </ModalContent>
     </ModalBase>
   );
 };
 
 export default EventBoardModal;
 
-const StyledEventBoard = styled.div`
-  margin: 4.8rem 0 0;
-  padding: 0;
-  display: inline-block;
-  vertical-align: top;
+const ModalContent = styled.div`
+  padding: 1.6rem 0.8rem;
+  width: 100%;
+  height: 100%;
+  background-color: ${({ theme }) => theme.calendarBackground};
+  border-radius: 1.6rem 1.6rem 0 0;
+
+  @media (max-width: 900px) {
+    padding: 1.6rem 0.2rem;
+  }
+`;
+
+const ButtonGroup = styled.div`
+  padding: 0 0 !important;
+  display: flex;
+  justify-content: space-between !important;
+  flex-direction: row !important;
 `;
 
 const EventBoardList = styled.div`

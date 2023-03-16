@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { useMutation, UseMutationResult, useQuery } from 'react-query';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -30,15 +32,19 @@ export type CurrentMonthEventType = EventScheduleType & TopPosition;
 
 interface UseEventScheduleType {
   isLoading: boolean;
+  currentDateEvent: EventScheduleType[];
   currentMonthEvent: CurrentMonthEventType[];
   getEventPaintType: (event: EventScheduleType, date: string) => EventPaintEnum;
   createSchedule: () => UseMutationResult<EventScheduleType, unknown, EventScheduleType, unknown>;
+  handleClickDate: (date: string, callback: () => void) => void;
 }
 
 const useEventSchedule = (): UseEventScheduleType => {
   const currentTime = useRecoilValue(currentTimeAtom);
   const currentMonthEvent = useRecoilValue(currentMonthEventSelector);
   const setEventSchedule = useSetRecoilState(eventScheduleAtom);
+
+  const { query, replace } = useRouter();
   const { t } = useTranslation();
   const { showToast } = useToast();
 
@@ -76,6 +82,23 @@ const useEventSchedule = (): UseEventScheduleType => {
     );
   };
 
+  const currentDateEvent = useMemo(() => {
+    const { date } = query;
+    if (!date) return [];
+
+    return currentMonthEvent.filter((event) => event.startDate <= date && event.endDate >= date);
+  }, [query, currentMonthEvent]);
+
+  const handleClickDate = (date: string, callback: () => void) => {
+    replace({
+      pathname: '/',
+      query: {
+        date: date,
+      },
+    });
+    callback();
+  };
+
   const getEventPaintType = (event: EventScheduleType, date: string) => {
     const { startDate, endDate } = event;
     if (date === startDate) {
@@ -93,9 +116,11 @@ const useEventSchedule = (): UseEventScheduleType => {
 
   return {
     isLoading,
+    currentDateEvent,
     currentMonthEvent,
     getEventPaintType,
     createSchedule,
+    handleClickDate,
   };
 };
 

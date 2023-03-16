@@ -1,14 +1,10 @@
-import React, { FC, useState } from 'react';
+import React, { FC, MutableRefObject, useState } from 'react';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import moment from 'moment';
 import { useTranslation } from 'next-i18next';
 import { FieldValues, useForm } from 'react-hook-form';
 import { UseMutationResult } from 'react-query';
-import CloseSvg from '@assets/CloseSvg';
-import ConfirmSvg from '@assets/ConfirmSvg';
-import FlatIcon from '@components/common/FlatIcon';
-import ButtonBase from '@components/common/buttons/ButtonBase';
 import { DATE_FORMAT } from '@constants/format';
 import { EventScheduleType } from '@hooks/useEventSchedule';
 import { ModalPropsType } from '@hooks/useModal';
@@ -16,11 +12,12 @@ import { ModalPropsType } from '@hooks/useModal';
 interface ScheduleFormProps {
   modalProps: ModalPropsType;
   mutateMethod: () => UseMutationResult<EventScheduleType, unknown, EventScheduleType, unknown>;
+  submitRef: MutableRefObject<HTMLInputElement | null>;
 }
 
-const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, mutateMethod }) => {
+const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, mutateMethod, submitRef }) => {
   const { mutateAsync } = mutateMethod();
-  const { fontSize, modalButton, colors } = useTheme();
+  const { colors } = useTheme();
   const { t } = useTranslation();
   const [selectBgColor, setSelectBgColor] = useState<string>(colors.event1);
 
@@ -34,7 +31,6 @@ const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, mutateMethod }) => {
   const {
     register,
     handleSubmit,
-    reset,
     setValue,
     formState: { errors },
   } = useForm({
@@ -48,26 +44,12 @@ const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, mutateMethod }) => {
   };
 
   const resetFormModal = () => {
-    setSelectBgColor(initValues.bgColor);
-    reset(initValues);
     modalProps.hideModal();
   };
 
   const eventBgColors = [colors.event1, colors.event2, colors.event3, colors.event4, colors.event5];
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-      <ButtonGroup>
-        <ButtonBase type="button" onClick={resetFormModal} backgroundColor="transparent">
-          <FlatIcon size={fontSize.s30} color={modalButton}>
-            <CloseSvg />
-          </FlatIcon>
-        </ButtonBase>
-        <ButtonBase type="submit" backgroundColor="transparent">
-          <FlatIcon size={fontSize.s30} color={modalButton}>
-            <ConfirmSvg />
-          </FlatIcon>
-        </ButtonBase>
-      </ButtonGroup>
       <div>
         <input
           type="text"
@@ -126,6 +108,7 @@ const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, mutateMethod }) => {
         </ColorPickerFiled>
       </div>
       <input type="hidden" {...register('typeId')} />
+      <input type="submit" style={{ display: 'none' }} ref={submitRef} />
     </StyledForm>
   );
 };
@@ -175,13 +158,6 @@ const StyledForm = styled.form`
     font-size: ${({ theme }) => theme.fontSize.s14};
     font-weight: 500;
   }
-`;
-
-const ButtonGroup = styled.div`
-  padding: 0 0 !important;
-  display: flex;
-  justify-content: space-between !important;
-  flex-direction: row !important;
 `;
 
 const ColorPickerFiled = styled.div`

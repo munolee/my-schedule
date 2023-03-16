@@ -8,10 +8,11 @@ import FlatIcon from '@components/common/FlatIcon';
 import Spinner from '@components/common/Spinner';
 import ButtonBase from '@components/common/buttons/ButtonBase';
 import CreateModal from '@components/common/modals/CreateModal';
+import EventBoardModal from '@components/common/modals/EventBoardModal';
 import { DATE_FORMAT } from '@constants/format';
 import useCalendar from '@hooks/useCalendar';
 import useEventSchedule, { EventPaintEnum } from '@hooks/useEventSchedule';
-import { ModalPropsType } from '@hooks/useModal';
+import useModal, { ModalPropsType } from '@hooks/useModal';
 
 interface CalendarProps {
   createScheduleModalProps: ModalPropsType;
@@ -28,9 +29,11 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
     isSameDate,
     isSameMonth,
   } = useCalendar();
-  const { isLoading, currentMonthEvent, getEventPaintType, createSchedule } = useEventSchedule();
+  const { isLoading, currentMonthEvent, getEventPaintType, createSchedule, currentDateEvent, handleClickDate } =
+    useEventSchedule();
   const { fontColor, colors, calendarBackground, fontSize } = useTheme();
   const { t } = useTranslation();
+  const eventBoardModal = useModal();
 
   return (
     <>
@@ -87,7 +90,11 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
                     isToday={isSameDate(date)}
                     isEmpty={!isSameMonth(date)}
                     weekLength={currentMonthWeeks.length}
-                    onClick={() => console.log('set')}
+                    onClick={() =>
+                      handleClickDate(date.format(DATE_FORMAT.BASIC_FORMAT), () => {
+                        eventBoardModal.showModal();
+                      })
+                    }
                   >
                     <DateText>{date.date()}</DateText>
                     <StyledEventList>
@@ -114,6 +121,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
         {isLoading && <Spinner />}
       </StyledCalendar>
       <CreateModal modalProps={createScheduleModalProps} mutateMethod={createSchedule} />
+      <EventBoardModal modalProps={eventBoardModal} currentDateEvent={currentDateEvent} />
     </>
   );
 };

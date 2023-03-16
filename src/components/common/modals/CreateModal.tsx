@@ -1,6 +1,11 @@
-import { FC } from 'react';
+import { FC, useRef } from 'react';
+import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { UseMutationResult } from 'react-query';
+import CloseSvg from '@assets/CloseSvg';
+import ConfirmSvg from '@assets/ConfirmSvg';
+import FlatIcon from '@components/common/FlatIcon';
+import ButtonBase from '@components/common/buttons/ButtonBase';
 import ModalBase from '@components/common/modals/ModalBase';
 import ScheduleForm from '@components/forms/ScheduleForm';
 import { EventScheduleType } from '@hooks/useEventSchedule';
@@ -12,10 +17,25 @@ interface CreateModalProps {
 }
 
 const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
+  const { fontSize, modalButton } = useTheme();
+  const submitRef = useRef<HTMLInputElement | null>(null);
+
   return (
     <ModalBase modalProps={modalProps}>
       <ModalContent>
-        <ScheduleForm modalProps={modalProps} mutateMethod={mutateMethod} />
+        <ButtonGroup>
+          <ButtonBase type="button" onClick={() => modalProps.hideModal()} backgroundColor="transparent">
+            <FlatIcon size={fontSize.s30} color={modalButton}>
+              <CloseSvg />
+            </FlatIcon>
+          </ButtonBase>
+          <ButtonBase type="button" backgroundColor="transparent" onClick={() => submitRef.current?.click()}>
+            <FlatIcon size={fontSize.s30} color={modalButton}>
+              <ConfirmSvg />
+            </FlatIcon>
+          </ButtonBase>
+        </ButtonGroup>
+        <ScheduleForm modalProps={modalProps} mutateMethod={mutateMethod} submitRef={submitRef} />
       </ModalContent>
     </ModalBase>
   );
@@ -33,4 +53,11 @@ const ModalContent = styled.div`
   @media (max-width: 900px) {
     padding: 1.6rem 0.2rem;
   }
+`;
+
+const ButtonGroup = styled.div`
+  padding: 0 0 !important;
+  display: flex;
+  justify-content: space-between !important;
+  flex-direction: row !important;
 `;
