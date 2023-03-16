@@ -1,5 +1,7 @@
 import { FC, PropsWithChildren, useEffect } from 'react';
 import styled from '@emotion/styled';
+import { createPortal } from 'react-dom';
+
 import { ModalPropsType } from '@hooks/useModal';
 
 interface ModalBaseType {
@@ -20,8 +22,14 @@ const ModalBase: FC<PropsWithChildren<ModalBaseType>> = ({ modalProps, children 
 
   return (
     <>
-      <ModalContainer isShow={isShow}>{children && children}</ModalContainer>
-      <Background isShow={isShow} onClick={hideModal} />
+      {isShow &&
+        createPortal(
+          <>
+            <ModalContainer isShow={isShow}>{children && children}</ModalContainer>
+            <Background isShow={isShow} onClick={hideModal} />
+          </>,
+          document.querySelector('#modal-root') as HTMLDivElement
+        )}
     </>
   );
 };

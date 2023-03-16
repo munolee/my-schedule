@@ -1,0 +1,209 @@
+import React, { FC, useState } from 'react';
+import { useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
+import moment from 'moment';
+import { useTranslation } from 'next-i18next';
+import { FieldValues, useForm } from 'react-hook-form';
+import { UseMutationResult } from 'react-query';
+import CloseSvg from '@assets/CloseSvg';
+import ConfirmSvg from '@assets/ConfirmSvg';
+import FlatIcon from '@components/common/FlatIcon';
+import ButtonBase from '@components/common/buttons/ButtonBase';
+import { DATE_FORMAT } from '@constants/format';
+import { EventScheduleType } from '@hooks/useEventSchedule';
+import { ModalPropsType } from '@hooks/useModal';
+
+interface ScheduleFormProps {
+  modalProps: ModalPropsType;
+  mutateMethod: () => UseMutationResult<EventScheduleType, unknown, EventScheduleType, unknown>;
+}
+
+const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, mutateMethod }) => {
+  const { mutateAsync } = mutateMethod();
+  const { fontSize, modalButton, colors } = useTheme();
+  const { t } = useTranslation();
+  const [selectBgColor, setSelectBgColor] = useState<string>(colors.event1);
+
+  const initValues = {
+    eventTitle: '',
+    startDate: moment().format(DATE_FORMAT.BASIC_FORMAT),
+    endDate: moment().format(DATE_FORMAT.BASIC_FORMAT),
+    bgColor: colors.event1,
+    typeId: 0,
+  };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    mode: 'onChange',
+    defaultValues: initValues,
+  });
+
+  const onSubmit = async (data: FieldValues) => {
+    await mutateAsync(data as EventScheduleType);
+    resetFormModal();
+  };
+
+  const resetFormModal = () => {
+    setSelectBgColor(initValues.bgColor);
+    reset(initValues);
+    modalProps.hideModal();
+  };
+
+  const eventBgColors = [colors.event1, colors.event2, colors.event3, colors.event4, colors.event5];
+  return (
+    <StyledForm onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      <ButtonGroup>
+        <ButtonBase type="button" onClick={resetFormModal} backgroundColor="transparent">
+          <FlatIcon size={fontSize.s30} color={modalButton}>
+            <CloseSvg />
+          </FlatIcon>
+        </ButtonBase>
+        <ButtonBase type="submit" backgroundColor="transparent">
+          <FlatIcon size={fontSize.s30} color={modalButton}>
+            <ConfirmSvg />
+          </FlatIcon>
+        </ButtonBase>
+      </ButtonGroup>
+      <div>
+        <input
+          type="text"
+          placeholder={t('common:scheduleTitle')}
+          autoFocus
+          {...register('eventTitle', {
+            required: true,
+            minLength: {
+              value: 2,
+              message: t('common:errorMessage.titleMinLength'),
+            },
+            maxLength: {
+              value: 10,
+              message: t('common:errorMessage.titleMaxLength'),
+            },
+          })}
+        />
+        {errors.eventTitle && <ErrorMessage>{errors.eventTitle?.message}</ErrorMessage>}
+      </div>
+      <div>
+        <input
+          type="date"
+          placeholder="startDate"
+          {...register('startDate', {
+            required: true,
+            minLength: { value: 10, message: t('common:errorMessage.selectStartDate') },
+          })}
+        />
+        {errors.startDate && <ErrorMessage>{errors.startDate?.message}</ErrorMessage>}
+      </div>
+      <div>
+        <input
+          type="date"
+          placeholder="endDate"
+          {...register('endDate', {
+            required: true,
+            minLength: { value: 10, message: t('common:errorMessage.selectEndDate') },
+          })}
+        />
+        {errors.endDate && <ErrorMessage>{errors.endDate?.message}</ErrorMessage>}
+      </div>
+      <div>
+        <input type="hidden" {...register('bgColor')} />
+        <ColorPickerFiled>
+          {eventBgColors.map((color) => (
+            <ColorPicker
+              key={color}
+              active={selectBgColor === color}
+              color={color}
+              onClick={() => {
+                setSelectBgColor(color);
+                setValue('bgColor', color);
+              }}
+            />
+          ))}
+        </ColorPickerFiled>
+      </div>
+      <input type="hidden" {...register('typeId')} />
+    </StyledForm>
+  );
+};
+
+export default ScheduleForm;
+
+const StyledForm = styled.form`
+  > div {
+    margin-top: 3.6rem;
+    padding: 0 2.4rem;
+    display: flex;
+    gap: 0.4rem;
+    justify-content: center;
+    flex-direction: column;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+
+    input {
+      padding: 0 0.8rem;
+      width: 100%;
+      min-height: 4rem;
+      font-size: ${({ theme }) => theme.fontSize.s18};
+      font-weight: 500;
+      color: ${({ theme }) => theme.fontColor};
+      background-color: transparent;
+      border: 0.1rem solid transparent;
+      border-bottom: 0.1rem solid ${({ theme }) => theme.fontColor};
+      border-radius: 0;
+      text-align: center;
+
+      &::placeholder {
+        color: ${({ theme }) => theme.colors.gray030};
+      }
+
+      ::-webkit-calendar-picker-indicator {
+        padding-left: 100%;
+        position: absolute;
+        cursor: pointer;
+        background-image: none;
+      }
+    }
+  }
+
+  label {
+    font-size: ${({ theme }) => theme.fontSize.s14};
+    font-weight: 500;
+  }
+`;
+
+const ButtonGroup = styled.div`
+  padding: 0 0 !important;
+  display: flex;
+  justify-content: space-between !important;
+  flex-direction: row !important;
+`;
+
+const ColorPickerFiled = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+`;
+
+const ColorPicker = styled.div<{ active: boolean; color: string }>`
+  width: 20%;
+  height: 4rem;
+  border: 0.2rem solid ${({ active, theme }) => (active ? theme.fontColor : 'none')};
+  border-radius: 0.4rem;
+  background-color: ${({ color }) => color};
+  cursor: pointer;
+`;
+
+const ErrorMessage = styled.em`
+  margin-top: 0.4rem;
+  font-size: ${({ theme }) => theme.fontSize.s14};
+  font-weight: 300;
+  font-style: normal;
+  color: ${({ theme }) => theme.colors.red020};
+  text-align: center;
+`;
