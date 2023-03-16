@@ -37,6 +37,7 @@ const ModalBase: FC<PropsWithChildren<ModalBaseType>> = ({ modalProps, children 
 export default ModalBase;
 
 const ModalContainer = styled.div<{ isShow: boolean }>`
+  margin: 0 0 0 calc(33.333% - 1px);
   z-index: 10;
   position: fixed;
   bottom: 0;
@@ -46,6 +47,10 @@ const ModalContainer = styled.div<{ isShow: boolean }>`
   visibility: ${({ isShow }) => (isShow ? 'visible' : 'hidden')};
   animation: ${({ isShow }) => (isShow ? `0.3s forwards slideIn` : `0.2s ease forwards slideOut`)};
   -webkit-animation: ${({ isShow }) => (isShow ? `0.3s forwards slideIn` : `0.2s ease forwards slideOut`)};
+
+  @media (max-width: 900px) {
+    margin: 0 auto;
+  }
 
   @keyframes slideIn {
     0% {
