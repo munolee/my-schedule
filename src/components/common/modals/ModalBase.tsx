@@ -1,14 +1,24 @@
 import { FC, PropsWithChildren, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { createPortal } from 'react-dom';
-
 import { ModalPropsType } from '@hooks/useModal';
+
+export enum ModalEnum {
+  BottomSheet = 'bottomSheet',
+  SecondBottomSheet = 'secondBottomSheet',
+  Alert = 'alert',
+}
 
 interface ModalBaseType {
   modalProps: ModalPropsType;
+  modalType?: ModalEnum;
 }
 
-const ModalBase: FC<PropsWithChildren<ModalBaseType>> = ({ modalProps, children }) => {
+const ModalBase: FC<PropsWithChildren<ModalBaseType>> = ({
+  modalProps,
+  modalType = ModalEnum.BottomSheet,
+  children,
+}) => {
   const { isShow, hideModal } = modalProps;
 
   useEffect(() => {
@@ -25,7 +35,9 @@ const ModalBase: FC<PropsWithChildren<ModalBaseType>> = ({ modalProps, children 
       {isShow &&
         createPortal(
           <>
-            <ModalContainer isShow={isShow}>{children && children}</ModalContainer>
+            <ModalContainer isShow={isShow} modalType={modalType}>
+              {children && children}
+            </ModalContainer>
             <Background isShow={isShow} onClick={hideModal} />
           </>,
           document.querySelector('#modal-root') as HTMLDivElement
@@ -36,14 +48,21 @@ const ModalBase: FC<PropsWithChildren<ModalBaseType>> = ({ modalProps, children 
 
 export default ModalBase;
 
-const ModalContainer = styled.div<{ isShow: boolean }>`
+const ModalContainer = styled.div<{ isShow: boolean; modalType: ModalEnum }>`
   margin: 0 0 0 calc(33.333% - 1px);
   z-index: 10;
   position: fixed;
   bottom: 0;
   width: 100%;
   max-width: 600px;
-  height: 60vh;
+  height: ${({ modalType }) => {
+    if (modalType === ModalEnum.BottomSheet) {
+      return '80vh';
+    } else if (modalType === ModalEnum.SecondBottomSheet) {
+      return '60vh';
+    }
+    return '60vh';
+  }};
   visibility: ${({ isShow }) => (isShow ? 'visible' : 'hidden')};
   animation: ${({ isShow }) => (isShow ? `0.3s forwards slideIn` : `0.2s ease forwards slideOut`)};
   -webkit-animation: ${({ isShow }) => (isShow ? `0.3s forwards slideIn` : `0.2s ease forwards slideOut`)};

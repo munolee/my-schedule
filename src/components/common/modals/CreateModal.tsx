@@ -5,20 +5,22 @@ import CloseSvg from '@assets/CloseSvg';
 import ConfirmSvg from '@assets/ConfirmSvg';
 import FlatIcon from '@components/common/FlatIcon';
 import ButtonBase from '@components/common/buttons/ButtonBase';
-import ModalBase from '@components/common/modals/ModalBase';
+import ModalBase, { ModalEnum } from '@components/common/modals/ModalBase';
 import ScheduleForm from '@components/forms/ScheduleForm';
+import { EventScheduleType } from '@hooks/useEventSchedule';
 import { ModalPropsType } from '@hooks/useModal';
 
 interface CreateModalProps {
   modalProps: ModalPropsType;
+  initSchedule?: EventScheduleType;
 }
 
-const CreateModal: FC<CreateModalProps> = ({ modalProps }) => {
+const CreateModal: FC<CreateModalProps> = ({ modalProps, initSchedule }) => {
   const { fontSize, modalButton } = useTheme();
   const submitRef = useRef<HTMLInputElement | null>(null);
 
   return (
-    <ModalBase modalProps={modalProps}>
+    <ModalBase modalProps={modalProps} modalType={ModalEnum.SecondBottomSheet}>
       <ModalContent>
         <ButtonGroup>
           <ButtonBase type="button" onClick={() => modalProps.hideModal()} backgroundColor="transparent">
@@ -32,7 +34,7 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps }) => {
             </FlatIcon>
           </ButtonBase>
         </ButtonGroup>
-        <ScheduleForm modalProps={modalProps} submitRef={submitRef} />
+        <ScheduleForm modalProps={modalProps} initSchedule={initSchedule} submitRef={submitRef} />
       </ModalContent>
     </ModalBase>
   );
@@ -46,6 +48,7 @@ const ModalContent = styled.div`
   height: 100%;
   background-color: ${({ theme }) => theme.calendarBackground};
   border-radius: 1.6rem 1.6rem 0 0;
+  box-shadow: 0 0 1rem 1rem rgba(0, 0, 0, 0.05);
 
   @media (max-width: 900px) {
     padding: 1.6rem 0.2rem;

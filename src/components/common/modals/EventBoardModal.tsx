@@ -2,10 +2,13 @@ import { FC, useEffect } from 'react';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import DeleteSvg from '@assets/DeleteSvg';
+import EditSvg from '@assets/EditSvg';
 import PlusSvg from '@assets/PlusSvg';
 import FlatIcon from '@components/common/FlatIcon';
 import ButtonBase from '@components/common/buttons/ButtonBase';
-import ModalBase from '@components/common/modals/ModalBase';
+import CreateModal from '@components/common/modals/CreateModal';
+import ModalBase, { ModalEnum } from '@components/common/modals/ModalBase';
 import useEventSchedule from '@hooks/useEventSchedule';
 import useModal, { ModalPropsType } from '@hooks/useModal';
 
@@ -14,10 +17,11 @@ interface EventBoardModalProps {
 }
 
 const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
-  const { replace } = useRouter();
-  const { fontSize, modalButton } = useTheme();
+  const { currentDateMainlyEvent, currentDateHolidayEvent, boardDateTitle, initScheduleValues } = useEventSchedule();
+  const { replace, query } = useRouter();
+  const { date } = query as { date: string };
+  const { fontSize, modalButton, fontColor } = useTheme();
   const createScheduleModal = useModal();
-  const { currentDateMainlyEvent, currentDateHolidayEvent, boardDateTitle } = useEventSchedule();
 
   useEffect(() => {
     if (!modalProps.isShow) {
@@ -26,48 +30,68 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
   }, [modalProps.isShow]);
 
   return (
-    <ModalBase modalProps={modalProps}>
-      <ModalContent>
-        <ButtonGroup>
-          <StyledDate>{boardDateTitle}</StyledDate>
-          <ButtonBase type="button" onClick={() => createScheduleModal.showModal()} backgroundColor="transparent">
-            <FlatIcon size={fontSize.s30} color={modalButton}>
-              <PlusSvg />
-            </FlatIcon>
-          </ButtonBase>
-        </ButtonGroup>
-        {currentDateHolidayEvent.length > 0 && (
+    <>
+      <ModalBase modalProps={modalProps} modalType={ModalEnum.BottomSheet}>
+        <ModalContent>
+          <ButtonGroup>
+            <StyledDate>{boardDateTitle}</StyledDate>
+            <ButtonBase type="button" onClick={() => createScheduleModal.showModal()} backgroundColor="transparent">
+              <FlatIcon size={fontSize.s30} color={modalButton}>
+                <PlusSvg />
+              </FlatIcon>
+            </ButtonBase>
+          </ButtonGroup>
+          {currentDateHolidayEvent.length > 0 && (
+            <BoardList>
+              <BoardTitle>공휴일</BoardTitle>
+              <BoardScheduleList>
+                {currentDateHolidayEvent.map((event, index) => (
+                  <BoardScheduleItem key={index}>
+                    <EventCircle bgColor={event.bgColor} />
+                    <span>{event.eventTitle}</span>
+                  </BoardScheduleItem>
+                ))}
+              </BoardScheduleList>
+            </BoardList>
+          )}
           <BoardList>
-            <BoardTitle>공휴일</BoardTitle>
+            <BoardTitle>주요 일정</BoardTitle>
             <BoardScheduleList>
-              {currentDateHolidayEvent.map((event, index) => (
-                <BoardScheduleItem key={index}>
-                  <EventCircle bgColor={event.bgColor} />
-                  <span>{event.eventTitle}</span>
+              {currentDateMainlyEvent.length > 0 ? (
+                currentDateMainlyEvent.map((event, index) => (
+                  <BoardScheduleItem key={index}>
+                    <div>
+                      <EventCircle bgColor={event.bgColor} />
+                      <span>{event.eventTitle}</span>
+                    </div>
+                    <ScheduleButtonGroup>
+                      <ButtonBase type="button" backgroundColor="transparent">
+                        <FlatIcon size={fontSize.s20} color={fontColor}>
+                          <EditSvg />
+                        </FlatIcon>
+                      </ButtonBase>
+                      <ButtonBase type="button" backgroundColor="transparent">
+                        <FlatIcon size={fontSize.s16} color={fontColor}>
+                          <DeleteSvg />
+                        </FlatIcon>
+                      </ButtonBase>
+                    </ScheduleButtonGroup>
+                  </BoardScheduleItem>
+                ))
+              ) : (
+                <BoardScheduleItem>
+                  <span>일정이 없습니다.</span>
                 </BoardScheduleItem>
-              ))}
+              )}
             </BoardScheduleList>
           </BoardList>
-        )}
-        <BoardList>
-          <BoardTitle>주요 일정</BoardTitle>
-          <BoardScheduleList>
-            {currentDateMainlyEvent.length > 0 ? (
-              currentDateMainlyEvent.map((event, index) => (
-                <BoardScheduleItem key={index}>
-                  <EventCircle bgColor={event.bgColor} />
-                  <span>{event.eventTitle}</span>
-                </BoardScheduleItem>
-              ))
-            ) : (
-              <BoardScheduleItem>
-                <span>일정이 없습니다.</span>
-              </BoardScheduleItem>
-            )}
-          </BoardScheduleList>
-        </BoardList>
-      </ModalContent>
-    </ModalBase>
+        </ModalContent>
+      </ModalBase>
+      <CreateModal
+        modalProps={createScheduleModal}
+        initSchedule={{ ...initScheduleValues, startDate: date, endDate: date }}
+      />
+    </>
   );
 };
 
@@ -77,8 +101,9 @@ const ModalContent = styled.div`
   padding: 1.6rem 0.8rem;
   width: 100%;
   height: 100%;
-  background-color: ${({ theme }) => theme.calendarBackground};
+  background-color: ${({ theme }) => theme.background};
   border-radius: 1.6rem 1.6rem 0 0;
+  box-shadow: 0 0 1rem 1rem rgba(0, 0, 0, 0.05);
 
   @media (max-width: 900px) {
     padding: 1.6rem 0.2rem;
@@ -112,22 +137,31 @@ const BoardTitle = styled.h2`
 `;
 
 const BoardScheduleList = styled.ul`
-  max-height: 18rem;
+  max-height: 60vh;
   overflow-y: auto;
 `;
 
 const BoardScheduleItem = styled.li`
   padding: 1.6rem 2rem;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-radius: 0.8rem;
 
   &:hover {
-    background-color: ${({ theme }) => theme.hoverBackground};
+    background-color: ${({ theme }) => theme.calendarBorder};
+  }
+
+  > div {
+    display: flex;
+    align-items: center;
   }
 
   span {
+    flex: 1;
     font-size: ${({ theme }) => theme.fontSize.s14};
-    font-weight: 400;
+    font-weight: 600;
     color: ${({ theme }) => theme.fontColor};
   }
 `;
@@ -140,4 +174,8 @@ const EventCircle = styled.div<{ bgColor: string }>`
   display: inline-block;
   border-radius: 5rem;
   background-color: ${({ bgColor }) => bgColor};
+`;
+
+const ScheduleButtonGroup = styled.div`
+  opacity: 0.8;
 `;

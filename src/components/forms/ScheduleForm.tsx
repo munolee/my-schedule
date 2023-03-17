@@ -1,32 +1,24 @@
 import { FC, useState, MutableRefObject } from 'react';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import moment from 'moment';
 import { useTranslation } from 'next-i18next';
-import { FieldValues, useForm } from 'react-hook-form';
-import { DATE_FORMAT } from '@constants/format';
+import { useForm, FieldValues } from 'react-hook-form';
 import useEventSchedule, { EventScheduleType } from '@hooks/useEventSchedule';
 import { ModalPropsType } from '@hooks/useModal';
 
 interface ScheduleFormProps {
   modalProps: ModalPropsType;
+  initSchedule?: EventScheduleType;
   submitRef: MutableRefObject<HTMLInputElement | null>;
 }
 
-const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, submitRef }) => {
-  const { createSchedule } = useEventSchedule();
+const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, initSchedule, submitRef }) => {
+  const { createSchedule, initScheduleValues } = useEventSchedule();
   const { mutateAsync } = createSchedule();
   const { colors } = useTheme();
   const { t } = useTranslation();
   const [selectBgColor, setSelectBgColor] = useState<string>(colors.event1);
 
-  const initValues = {
-    eventTitle: '',
-    startDate: moment().format(DATE_FORMAT.BASIC_FORMAT),
-    endDate: moment().format(DATE_FORMAT.BASIC_FORMAT),
-    bgColor: colors.event1,
-    typeId: 0,
-  };
   const {
     register,
     handleSubmit,
@@ -34,15 +26,11 @@ const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, submitRef }) => {
     formState: { errors },
   } = useForm({
     mode: 'onChange',
-    defaultValues: initValues,
+    defaultValues: initSchedule || initScheduleValues,
   });
 
   const onSubmit = async (data: FieldValues) => {
     await mutateAsync(data as EventScheduleType);
-    resetFormModal();
-  };
-
-  const resetFormModal = () => {
     modalProps.hideModal();
   };
 

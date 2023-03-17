@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useTheme } from '@emotion/react';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -39,6 +40,7 @@ interface UseEventScheduleType {
   createSchedule: () => UseMutationResult<EventScheduleType, unknown, EventScheduleType>;
   handleClickDate: (date: string, callback: () => void) => void;
   boardDateTitle: string;
+  initScheduleValues: EventScheduleType;
 }
 
 const useEventSchedule = (): UseEventScheduleType => {
@@ -47,6 +49,7 @@ const useEventSchedule = (): UseEventScheduleType => {
   const { query, replace } = useRouter();
   const { t, i18n } = useTranslation();
   const { showToast } = useToast();
+  const { colors } = useTheme();
 
   const createSchedule = () => {
     return useMutation(
@@ -111,6 +114,14 @@ const useEventSchedule = (): UseEventScheduleType => {
     return EventPaintEnum.Empty;
   };
 
+  const initScheduleValues = {
+    eventTitle: '',
+    startDate: moment().format(DATE_FORMAT.BASIC_FORMAT),
+    endDate: moment().format(DATE_FORMAT.BASIC_FORMAT),
+    bgColor: colors.event1,
+    typeId: 0,
+  };
+
   return {
     createSchedule,
     currentMonthEvent,
@@ -119,6 +130,7 @@ const useEventSchedule = (): UseEventScheduleType => {
     boardDateTitle,
     getEventPaintType,
     handleClickDate,
+    initScheduleValues,
   };
 };
 
