@@ -20,17 +20,15 @@ interface CalendarProps {
 
 const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
   const {
-    dayOfWeek,
+    isLoading,
+    scheduleRefetch,
     calendarTitleDate,
     currentMonthWeeks,
-    handlePrevMonth,
-    handleNextMonth,
-    handleTodayMonth,
+    handleClickMonth,
     isSameDate,
     isSameMonth,
   } = useCalendar();
-  const { isLoading, currentMonthEvent, getEventPaintType, createSchedule, currentDateEvent, handleClickDate } =
-    useEventSchedule();
+  const { currentMonthEvent, getEventPaintType, handleClickDate } = useEventSchedule();
   const { fontColor, colors, calendarBackground, fontSize } = useTheme();
   const { t } = useTranslation();
   const eventBoardModal = useModal();
@@ -44,7 +42,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
           </DateLabel>
           <MonthButtonGroup>
             <ButtonBase
-              onClick={handlePrevMonth}
+              onClick={() => handleClickMonth('prev')}
               borderColor={colors.gray040}
               backgroundColor={calendarBackground}
               buttonStyle={{ padding: 0, borderRadius: '0.5rem 0 0 0.5rem' }}
@@ -54,7 +52,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
               </FlatIcon>
             </ButtonBase>
             <ButtonBase
-              onClick={handleTodayMonth}
+              onClick={() => handleClickMonth('today')}
               borderColor={colors.gray040}
               backgroundColor={calendarBackground}
               buttonStyle={{ borderRadius: '0' }}
@@ -62,7 +60,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
               <span>{t('common:today')}</span>
             </ButtonBase>
             <ButtonBase
-              onClick={handleNextMonth}
+              onClick={() => handleClickMonth('next')}
               borderColor={colors.gray040}
               backgroundColor={calendarBackground}
               buttonStyle={{ padding: 0, borderRadius: '0 0.5rem 0.5rem 0' }}
@@ -76,9 +74,11 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
         <CalendarTable>
           <thead>
             <tr>
-              {dayOfWeek.map((day) => (
-                <th key={day}>{day}</th>
-              ))}
+              {t('dayOfWeek')
+                .split(', ')
+                .map((day) => (
+                  <th key={day}>{day}</th>
+                ))}
             </tr>
           </thead>
           <tbody>
@@ -120,8 +120,8 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
         </CalendarTable>
         {isLoading && <Spinner />}
       </StyledCalendar>
-      <CreateModal modalProps={createScheduleModalProps} mutateMethod={createSchedule} />
-      <EventBoardModal modalProps={eventBoardModal} currentDateEvent={currentDateEvent} />
+      <CreateModal modalProps={createScheduleModalProps} />
+      <EventBoardModal modalProps={eventBoardModal} />
     </>
   );
 };

@@ -1,22 +1,21 @@
-import React, { FC, MutableRefObject, useState } from 'react';
+import { FC, useState, MutableRefObject } from 'react';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import moment from 'moment';
 import { useTranslation } from 'next-i18next';
 import { FieldValues, useForm } from 'react-hook-form';
-import { UseMutationResult } from 'react-query';
 import { DATE_FORMAT } from '@constants/format';
-import { EventScheduleType } from '@hooks/useEventSchedule';
+import useEventSchedule, { EventScheduleType } from '@hooks/useEventSchedule';
 import { ModalPropsType } from '@hooks/useModal';
 
 interface ScheduleFormProps {
   modalProps: ModalPropsType;
-  mutateMethod: () => UseMutationResult<EventScheduleType, unknown, EventScheduleType, unknown>;
   submitRef: MutableRefObject<HTMLInputElement | null>;
 }
 
-const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, mutateMethod, submitRef }) => {
-  const { mutateAsync } = mutateMethod();
+const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, submitRef }) => {
+  const { createSchedule } = useEventSchedule();
+  const { mutateAsync } = createSchedule();
   const { colors } = useTheme();
   const { t } = useTranslation();
   const [selectBgColor, setSelectBgColor] = useState<string>(colors.event1);

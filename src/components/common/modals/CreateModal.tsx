@@ -1,22 +1,19 @@
 import { FC, useRef } from 'react';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { UseMutationResult } from 'react-query';
 import CloseSvg from '@assets/CloseSvg';
 import ConfirmSvg from '@assets/ConfirmSvg';
 import FlatIcon from '@components/common/FlatIcon';
 import ButtonBase from '@components/common/buttons/ButtonBase';
 import ModalBase from '@components/common/modals/ModalBase';
 import ScheduleForm from '@components/forms/ScheduleForm';
-import { EventScheduleType } from '@hooks/useEventSchedule';
 import { ModalPropsType } from '@hooks/useModal';
 
 interface CreateModalProps {
   modalProps: ModalPropsType;
-  mutateMethod: () => UseMutationResult<EventScheduleType, unknown, EventScheduleType, unknown>;
 }
 
-const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
+const CreateModal: FC<CreateModalProps> = ({ modalProps }) => {
   const { fontSize, modalButton } = useTheme();
   const submitRef = useRef<HTMLInputElement | null>(null);
 
@@ -35,7 +32,7 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps, mutateMethod }) => {
             </FlatIcon>
           </ButtonBase>
         </ButtonGroup>
-        <ScheduleForm modalProps={modalProps} mutateMethod={mutateMethod} submitRef={submitRef} />
+        <ScheduleForm modalProps={modalProps} submitRef={submitRef} />
       </ModalContent>
     </ModalBase>
   );
@@ -56,8 +53,7 @@ const ModalContent = styled.div`
 `;
 
 const ButtonGroup = styled.div`
-  padding: 0 0 !important;
   display: flex;
-  justify-content: space-between !important;
-  flex-direction: row !important;
+  justify-content: space-between;
+  flex-direction: row;
 `;
