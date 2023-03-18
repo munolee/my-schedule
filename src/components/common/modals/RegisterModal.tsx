@@ -10,12 +10,13 @@ import ScheduleForm from '@components/forms/ScheduleForm';
 import { EventScheduleType } from '@hooks/useEventSchedule';
 import { ModalPropsType } from '@hooks/useModal';
 
-interface CreateModalProps {
+interface RegisterModalProps {
   modalProps: ModalPropsType;
+  type?: 'register' | 'edit';
   initSchedule?: EventScheduleType;
 }
 
-const CreateModal: FC<CreateModalProps> = ({ modalProps, initSchedule }) => {
+const RegisterModal: FC<RegisterModalProps> = ({ modalProps, type = 'register', initSchedule }) => {
   const { fontSize, modalButton } = useTheme();
   const submitRef = useRef<HTMLInputElement | null>(null);
 
@@ -40,7 +41,7 @@ const CreateModal: FC<CreateModalProps> = ({ modalProps, initSchedule }) => {
   );
 };
 
-export default CreateModal;
+export default RegisterModal;
 
 const ModalContent = styled.div`
   padding: 1.6rem 0.8rem;

@@ -7,8 +7,8 @@ import EditSvg from '@assets/EditSvg';
 import PlusSvg from '@assets/PlusSvg';
 import FlatIcon from '@components/common/FlatIcon';
 import ButtonBase from '@components/common/buttons/ButtonBase';
-import CreateModal from '@components/common/modals/CreateModal';
 import ModalBase, { ModalEnum } from '@components/common/modals/ModalBase';
+import RegisterModal from '@components/common/modals/RegisterModal';
 import useEventSchedule from '@hooks/useEventSchedule';
 import useModal, { ModalPropsType } from '@hooks/useModal';
 
@@ -87,7 +87,7 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
           </BoardList>
         </ModalContent>
       </ModalBase>
-      <CreateModal
+      <RegisterModal
         modalProps={createScheduleModal}
         initSchedule={{ ...initScheduleValues, startDate: date, endDate: date }}
       />

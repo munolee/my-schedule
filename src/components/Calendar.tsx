@@ -7,8 +7,8 @@ import ArrowRightSvg from '@assets/ArrowRightSvg';
 import FlatIcon from '@components/common/FlatIcon';
 import Spinner from '@components/common/Spinner';
 import ButtonBase from '@components/common/buttons/ButtonBase';
-import CreateModal from '@components/common/modals/CreateModal';
 import EventBoardModal from '@components/common/modals/EventBoardModal';
+import RegisterModal from '@components/common/modals/RegisterModal';
 import { DATE_FORMAT } from '@constants/format';
 import useCalendar from '@hooks/useCalendar';
 import useEventSchedule, { EventPaintEnum } from '@hooks/useEventSchedule';
@@ -120,7 +120,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
         </CalendarTable>
         {isLoading && <Spinner />}
       </StyledCalendar>
-      <CreateModal modalProps={createScheduleModalProps} />
+      <RegisterModal modalProps={createScheduleModalProps} />
       <EventBoardModal modalProps={eventBoardModal} />
     </>
   );

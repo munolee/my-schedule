@@ -114,13 +114,22 @@ const useEventSchedule = (): UseEventScheduleType => {
     return EventPaintEnum.Empty;
   };
 
-  const initScheduleValues = {
-    eventTitle: '',
-    startDate: moment().format(DATE_FORMAT.BASIC_FORMAT),
-    endDate: moment().format(DATE_FORMAT.BASIC_FORMAT),
-    bgColor: colors.event1,
-    typeId: 0,
-  };
+  const initScheduleValues = useMemo(() => {
+    const { date, startDate, endDate, eventTitle, typeId, bgColor } = query as Record<string, string>;
+    const initValues = {
+      eventTitle: '',
+      startDate: moment().format(DATE_FORMAT.BASIC_FORMAT),
+      endDate: moment().format(DATE_FORMAT.BASIC_FORMAT),
+      bgColor: colors.event1,
+      typeId: 0,
+    };
+    if (date) {
+      return { ...initValues, startDate: date, endDate: date };
+    } else if (eventTitle) {
+      return { eventTitle, startDate, endDate, bgColor, typeId: Number(typeId) };
+    }
+    return initValues;
+  }, [query]);
 
   return {
     createSchedule,

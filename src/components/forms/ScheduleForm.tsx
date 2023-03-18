@@ -8,11 +8,12 @@ import { ModalPropsType } from '@hooks/useModal';
 
 interface ScheduleFormProps {
   modalProps: ModalPropsType;
+  type?: 'register' | 'edit';
   initSchedule?: EventScheduleType;
   submitRef: MutableRefObject<HTMLInputElement | null>;
 }
 
-const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, initSchedule, submitRef }) => {
+const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, type, initSchedule, submitRef }) => {
   const { createSchedule, initScheduleValues } = useEventSchedule();
   const { mutateAsync } = createSchedule();
   const { colors } = useTheme();
