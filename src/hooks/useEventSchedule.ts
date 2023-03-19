@@ -3,11 +3,9 @@ import { useTheme } from '@emotion/react';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
-import { useMutation, UseMutationResult } from 'react-query';
 import { useRecoilValue } from 'recoil';
-import { DeleteSchedulePramsType, ScheduleApi, UpdateScheduleParamsType } from '@api/schedule';
 import { DATE_FORMAT } from '@constants/format';
-import useToast, { ToastEnumType } from '@hooks/useToast';
+import useScheduleMutate from '@hooks/queries/useScheduleMutate';
 import { currentMonthEventSelector } from '@store/eventSchedule';
 
 export enum EventPaintEnum {
@@ -38,9 +36,6 @@ interface UseEventScheduleType {
   currentDateMainlyEvent: EventScheduleType[];
   currentDateHolidayEvent: EventScheduleType[];
   getEventPaintType: (event: EventScheduleType, date: string) => EventPaintEnum;
-  createSchedule: () => UseMutationResult<EventScheduleType, unknown, EventScheduleType>;
-  updateSchedule: () => UseMutationResult<UpdateScheduleParamsType, unknown, UpdateScheduleParamsType>;
-  deleteSchedule: () => UseMutationResult<DeleteSchedulePramsType, unknown, DeleteSchedulePramsType>;
   handleClickDate: (date: string, callback: CbFunctionType) => void;
   handleClickSchedule: (event: EventScheduleType, callback: CbFunctionType) => void;
   boardDateTitle: string;
@@ -51,66 +46,8 @@ const useEventSchedule = (): UseEventScheduleType => {
   const currentMonthEvent = useRecoilValue(currentMonthEventSelector);
 
   const { query, replace } = useRouter();
-  const { t, i18n } = useTranslation();
-  const { showToast } = useToast();
+  const { i18n } = useTranslation();
   const { colors } = useTheme();
-
-  const createSchedule = () => {
-    return useMutation(
-      async (params: EventScheduleType) => {
-        const result = await ScheduleApi.createSchedule(params);
-        return result;
-      },
-      {
-        onSuccess: (data) => {
-          if (!data) {
-            return;
-          }
-          showToast({ type: ToastEnumType.Success, message: t('common:toastMessage.registeredSuccessfully') });
-          // TODO 스케쥴 Get API Refetch 수정 사항
-          // refetch();
-        },
-      }
-    );
-  };
-
-  const updateSchedule = () => {
-    return useMutation(
-      async ({ _id, params }: UpdateScheduleParamsType) => {
-        const result = await ScheduleApi.updateSchedule(_id, params);
-        return result;
-      },
-      {
-        onSuccess: (data) => {
-          if (!data) {
-            return;
-          }
-          showToast({ type: ToastEnumType.Success, message: t('common:toastMessage.modifiedSuccessfully') });
-          // TODO 스케쥴 Get API Refetch 수정 사항
-          // refetch();
-        },
-      }
-    );
-  };
-
-  const deleteSchedule = () => {
-    return useMutation(
-      async ({ _id }: DeleteSchedulePramsType) => {
-        const result = await ScheduleApi.deleteSchedule(_id);
-        return result;
-      },
-      {
-        onSuccess: (data) => {
-          if (!data) {
-            return;
-          }
-          showToast({ type: ToastEnumType.Success, message: t('common:toastMessage.deletedSuccessfully') });
-          // TODO 스케쥴 Get API Refetch 수정 사항
-          // refetch();
-        },
-      }
-    );
-  };
 
   const currentDateMainlyEvent = useMemo(() => {
     const { date } = query;
@@ -186,9 +123,6 @@ const useEventSchedule = (): UseEventScheduleType => {
   }, [query]);
 
   return {
-    createSchedule,
-    updateSchedule,
-    deleteSchedule,
     currentMonthEvent,
     currentDateMainlyEvent,
     currentDateHolidayEvent,

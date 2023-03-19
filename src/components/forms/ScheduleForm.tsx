@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { useForm, FieldValues } from 'react-hook-form';
+import useScheduleMutate from '@hooks/queries/useScheduleMutate';
 import useEventSchedule, { EventScheduleType } from '@hooks/useEventSchedule';
 import { ModalPropsType } from '@hooks/useModal';
 
@@ -14,9 +15,11 @@ interface ScheduleFormProps {
 }
 
 const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, type, submitRef }) => {
-  const { createSchedule, updateSchedule, initScheduleValues } = useEventSchedule();
+  const { initScheduleValues } = useEventSchedule();
+  const { createSchedule, updateSchedule } = useScheduleMutate();
   const { mutateAsync: createMutation } = createSchedule();
   const { mutateAsync: updateMutation } = updateSchedule();
+
   const { t } = useTranslation();
   const { colors } = useTheme();
   const { query } = useRouter();

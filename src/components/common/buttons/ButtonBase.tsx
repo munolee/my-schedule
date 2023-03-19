@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import styled, { CSSObject } from '@emotion/styled';
 import { Colors } from '@styles/theme';
 
-type ButtonType = 'button' | 'submit' | 'reset' | undefined;
+type ButtonType = 'button' | 'submit' | 'reset';
 
 interface ButtonBaseProps {
   text?: string;

@@ -11,6 +11,7 @@ import ButtonBase from '@components/common/buttons/ButtonBase';
 import ConfirmModal from '@components/common/modals/ConfirmModal';
 import ModalBase, { ModalEnum } from '@components/common/modals/ModalBase';
 import RegisterModal from '@components/common/modals/RegisterModal';
+import useScheduleMutate from '@hooks/queries/useScheduleMutate';
 import useEventSchedule from '@hooks/useEventSchedule';
 import useModal, { ModalPropsType } from '@hooks/useModal';
 
@@ -19,9 +20,10 @@ interface EventBoardModalProps {
 }
 
 const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
-  const { currentDateMainlyEvent, currentDateHolidayEvent, boardDateTitle, handleClickSchedule, deleteSchedule } =
-    useEventSchedule();
-  const { mutateAsync } = deleteSchedule();
+  const { currentDateMainlyEvent, currentDateHolidayEvent, boardDateTitle, handleClickSchedule } = useEventSchedule();
+  const { deleteSchedule } = useScheduleMutate();
+  const { mutateAsync: deleteMutation } = deleteSchedule();
+
   const createScheduleModal = useModal();
   const confirmModal = useModal();
   const { t } = useTranslation();
@@ -109,14 +111,14 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
           </BoardList>
         </ModalContent>
       </ModalBase>
-      <RegisterModal modalProps={createScheduleModal} type="edit" />
+      <RegisterModal modalProps={createScheduleModal} type={_id ? 'edit' : 'register'} />
       <ConfirmModal
         modalProps={confirmModal}
         confirmMethod={async () => {
           if (!_id) {
             return;
           }
-          await mutateAsync({ _id: _id as string });
+          await deleteMutation({ _id: _id as string });
         }}
         text={t('common:confirmDelete')}
         subText={t('common:unableToRecover')}

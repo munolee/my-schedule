@@ -1,16 +1,11 @@
 import { useCallback, useMemo } from 'react';
 import moment, { Moment } from 'moment';
 import { useTranslation } from 'next-i18next';
-import { useQuery } from 'react-query';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { ScheduleApi } from '@api/schedule';
+import { useRecoilState } from 'recoil';
 import { DATE_FORMAT } from '@constants/format';
 import { currentTimeAtom } from '@store/currentTime';
-import { eventScheduleAtom } from '@store/eventSchedule';
 
 interface UseCalendarType {
-  isLoading: boolean;
-  scheduleRefetch: () => void;
   currentMonthWeeks: Moment[][];
   calendarTitleDate: string;
   handleClickMonth: (type: 'prev' | 'next' | 'today') => void;
@@ -20,7 +15,6 @@ interface UseCalendarType {
 
 const useCalendar = (): UseCalendarType => {
   const [currentTime, setCurrentTime] = useRecoilState(currentTimeAtom);
-  const setEventSchedule = useSetRecoilState(eventScheduleAtom);
   const { i18n } = useTranslation('common');
 
   const currentMonthWeeks = useMemo(() => {
@@ -36,22 +30,6 @@ const useCalendar = (): UseCalendarType => {
       )
     );
   }, [currentTime]);
-
-  const { isLoading, refetch: scheduleRefetch } = useQuery(
-    ['getSchedule', currentTime.year()],
-    async () => {
-      const response = ScheduleApi.getScheduleList(`year=${currentTime.year()}`);
-      return response;
-    },
-    {
-      onSuccess: (data) => {
-        if (!data) {
-          return;
-        }
-        setEventSchedule(data);
-      },
-    }
-  );
 
   const calendarTitleDate = useMemo(() => {
     return currentTime.format(i18n.language === 'ko' ? DATE_FORMAT.TITLE_FORMAT : DATE_FORMAT.TITLE_FORMAT_EN);
@@ -80,8 +58,6 @@ const useCalendar = (): UseCalendarType => {
   };
 
   return {
-    isLoading,
-    scheduleRefetch,
     currentMonthWeeks,
     calendarTitleDate,
     handleClickMonth,

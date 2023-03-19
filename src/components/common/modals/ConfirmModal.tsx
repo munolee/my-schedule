@@ -39,6 +39,7 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ modalProps, text, subText, confir
             width={60}
             height={48}
             textColor={fontColor}
+            backgroundColor="transparent"
             buttonStyle={{ border: 'none', fontSize: fontSize.s16, fontWeight: 500 }}
           />
           <ButtonBase
