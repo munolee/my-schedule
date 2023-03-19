@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { useMutation, UseMutationResult } from 'react-query';
 import { useRecoilValue } from 'recoil';
-import { ScheduleApi } from '@api/schedule';
+import { ScheduleApi, UpdateScheduleParamsType } from '@api/schedule';
 import { DATE_FORMAT } from '@constants/format';
 import useToast, { ToastEnumType } from '@hooks/useToast';
 import { currentMonthEventSelector } from '@store/eventSchedule';
@@ -39,6 +39,7 @@ interface UseEventScheduleType {
   currentDateHolidayEvent: EventScheduleType[];
   getEventPaintType: (event: EventScheduleType, date: string) => EventPaintEnum;
   createSchedule: () => UseMutationResult<EventScheduleType, unknown, EventScheduleType>;
+  updateSchedule: () => UseMutationResult<UpdateScheduleParamsType, unknown, UpdateScheduleParamsType>;
   handleClickDate: (date: string, callback: CbFunctionType) => void;
   handleClickEditSchedule: (event: EventScheduleType, callback: CbFunctionType) => void;
   boardDateTitle: string;
@@ -65,6 +66,25 @@ const useEventSchedule = (): UseEventScheduleType => {
             return;
           }
           showToast({ type: ToastEnumType.Success, message: t('common:toastMessage.registeredSuccessfully') });
+          // TODO 스케쥴 Get API Refetch 수정 사항
+          // refetch();
+        },
+      }
+    );
+  };
+
+  const updateSchedule = () => {
+    return useMutation(
+      async ({ _id, params }: UpdateScheduleParamsType) => {
+        const result = await ScheduleApi.updateSchedule(_id, params);
+        return result;
+      },
+      {
+        onSuccess: (data) => {
+          if (!data) {
+            return;
+          }
+          showToast({ type: ToastEnumType.Success, message: t('common:toastMessage.modifiedSuccessfully') });
           // TODO 스케쥴 Get API Refetch 수정 사항
           // refetch();
         },
@@ -129,7 +149,7 @@ const useEventSchedule = (): UseEventScheduleType => {
   };
 
   const initScheduleValues = useMemo(() => {
-    const { date, startDate, endDate, eventTitle, typeId, bgColor } = query as Record<string, string>;
+    const { date, _id, startDate, endDate, eventTitle, typeId, bgColor } = query as Record<string, string>;
     const initValues = {
       eventTitle: '',
       startDate: moment().format(DATE_FORMAT.BASIC_FORMAT),
@@ -137,9 +157,8 @@ const useEventSchedule = (): UseEventScheduleType => {
       bgColor: colors.event1,
       typeId: 0,
     };
-
-    if (eventTitle) {
-      return { eventTitle, startDate, endDate, bgColor, typeId: Number(typeId) };
+    if (_id) {
+      return { _id, eventTitle, startDate, endDate, bgColor, typeId: Number(typeId) };
     } else if (date) {
       return { ...initValues, startDate: date, endDate: date };
     }
@@ -148,6 +167,7 @@ const useEventSchedule = (): UseEventScheduleType => {
 
   return {
     createSchedule,
+    updateSchedule,
     currentMonthEvent,
     currentDateMainlyEvent,
     currentDateHolidayEvent,

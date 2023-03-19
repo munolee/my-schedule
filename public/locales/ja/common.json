@@ -19,6 +19,7 @@
   "dayOfWeek" : "日, 月, 火, 水, 木, 金, 土",
   "toastMessage": {
     "inReady": "準備中です。",
-    "registeredSuccessfully": "登録に成功しました！"
+    "registeredSuccessfully": "登録に成功しました！",
+    "modifiedSuccessfully": "修正に成功しました！"
   }
 }

@@ -19,6 +19,7 @@
   "dayOfWeek" : "Sun, Mon, Tue, Wed, Thu, Fri, Sat",
   "toastMessage": {
     "inReady": "In Ready.",
-    "registeredSuccessfully": "Registered Successfully!"
+    "registeredSuccessfully": "Registered Successfully!",
+    "modifiedSuccessfully": "Modified Successfully!"
   }
 }

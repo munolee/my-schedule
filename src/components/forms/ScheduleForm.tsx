@@ -1,6 +1,7 @@
 import { FC, useState, MutableRefObject } from 'react';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { useForm, FieldValues } from 'react-hook-form';
 import useEventSchedule, { EventScheduleType } from '@hooks/useEventSchedule';
@@ -13,10 +14,12 @@ interface ScheduleFormProps {
 }
 
 const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, type, submitRef }) => {
-  const { createSchedule, initScheduleValues } = useEventSchedule();
-  const { mutateAsync } = createSchedule();
-  const { colors } = useTheme();
+  const { createSchedule, updateSchedule, initScheduleValues } = useEventSchedule();
+  const { mutateAsync: createMutation } = createSchedule();
+  const { mutateAsync: updateMutation } = updateSchedule();
   const { t } = useTranslation();
+  const { colors } = useTheme();
+  const { query } = useRouter();
   const [selectBgColor, setSelectBgColor] = useState<string>(colors.event1);
 
   const {
@@ -30,7 +33,15 @@ const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, type, submitRef }) =>
   });
 
   const onSubmit = async (data: FieldValues) => {
-    await mutateAsync(data as EventScheduleType);
+    const schedule = data as EventScheduleType;
+    delete data._id;
+
+    if (type === 'register') {
+      await createMutation(schedule);
+    } else {
+      const { _id } = query;
+      await updateMutation({ _id: _id as string, params: schedule });
+    }
     modalProps.hideModal();
   };
 

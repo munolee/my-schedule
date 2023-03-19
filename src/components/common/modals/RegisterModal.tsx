@@ -33,7 +33,7 @@ const RegisterModal: FC<RegisterModalProps> = ({ modalProps, type = 'register' }
             </FlatIcon>
           </ButtonBase>
         </ButtonGroup>
-        <ScheduleForm modalProps={modalProps} submitRef={submitRef} />
+        <ScheduleForm modalProps={modalProps} type={type} submitRef={submitRef} />
       </ModalContent>
     </ModalBase>
   );

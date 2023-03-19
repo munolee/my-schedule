@@ -95,7 +95,7 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
           </BoardList>
         </ModalContent>
       </ModalBase>
-      <RegisterModal modalProps={createScheduleModal} />
+      <RegisterModal modalProps={createScheduleModal} type="edit" />
     </>
   );
 };
