@@ -20,6 +20,14 @@
   "toastMessage": {
     "inReady": "準備中です。",
     "registeredSuccessfully": "登録に成功しました！",
-    "modifiedSuccessfully": "修正に成功しました！"
-  }
+    "modifiedSuccessfully": "修正に成功しました！",
+    "deletedSuccessfully": "削除に成功しました！"
+  },
+  "alert": {
+    "cancel" : "キャンセル",
+    "confirm": "確認",
+    "delete" : "削除"
+  },
+  "confirmDelete" : "本当に削除しますか？",
+  "unableToRecover" : "スケジュールを削除すると、再復旧できません。"
 }

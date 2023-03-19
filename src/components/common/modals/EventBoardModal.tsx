@@ -2,6 +2,7 @@ import { FC, useEffect } from 'react';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import DeleteSvg from '@assets/DeleteSvg';
 import EditSvg from '@assets/EditSvg';
 import PlusSvg from '@assets/PlusSvg';
@@ -23,6 +24,7 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
   const { mutateAsync } = deleteSchedule();
   const createScheduleModal = useModal();
   const confirmModal = useModal();
+  const { t } = useTranslation();
   const { replace, query } = useRouter();
   const { _id } = query;
   const { fontSize, modalButton, fontColor } = useTheme();
@@ -116,9 +118,9 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
           }
           await mutateAsync({ _id: _id as string });
         }}
-        text={'정말로 삭제하시겠습니까?'}
-        subText={'일정 삭제 시 다시 복구할 수 없습니다.'}
-        buttonText={'삭제'}
+        text={t('common:confirmDelete')}
+        subText={t('common:unableToRecover')}
+        buttonText={t('common:alert.delete')}
       />
     </>
   );

@@ -104,7 +104,7 @@ const useEventSchedule = (): UseEventScheduleType => {
           if (!data) {
             return;
           }
-          showToast({ type: ToastEnumType.Success, message: t('common:toastMessage.modifiedSuccessfully') });
+          showToast({ type: ToastEnumType.Success, message: t('common:toastMessage.deletedSuccessfully') });
           // TODO 스케쥴 Get API Refetch 수정 사항
           // refetch();
         },

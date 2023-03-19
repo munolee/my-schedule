@@ -20,6 +20,14 @@
   "toastMessage": {
     "inReady": "준비중입니다.",
     "registeredSuccessfully": "성공적으로 등록되었습니다!",
-    "modifiedSuccessfully": "성공적으로 수정되었습니다!"
-  }
+    "modifiedSuccessfully": "성공적으로 수정되었습니다!",
+    "deletedSuccessfully": "성공적으로 삭제되었습니다!"
+  },
+  "alert": {
+    "cancel" : "취소",
+    "confirm": "확인",
+    "delete" : "삭제"
+  },
+  "confirmDelete" : "정말로 삭제하시겠습니까?",
+  "unableToRecover": "일정 삭제 시 다시 복구할 수 없습니다."
 }

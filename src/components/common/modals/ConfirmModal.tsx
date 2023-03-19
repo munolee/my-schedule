@@ -35,7 +35,7 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ modalProps, text, subText, confir
         <ButtonGroup>
           <ButtonBase
             onClick={modalProps.hideModal}
-            text="취소"
+            text={t('common:alert.cancel')}
             width={60}
             height={48}
             textColor={fontColor}
@@ -46,7 +46,7 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ modalProps, text, subText, confir
               confirmMethod();
               modalProps.hideModal();
             }}
-            text={buttonText ?? '확인'}
+            text={buttonText ?? t('common:alert.confirm')}
             width={60}
             height={48}
             textColor={colors.white}
