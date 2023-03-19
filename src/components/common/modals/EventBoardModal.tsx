@@ -17,9 +17,9 @@ interface EventBoardModalProps {
 }
 
 const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
-  const { currentDateMainlyEvent, currentDateHolidayEvent, boardDateTitle, initScheduleValues } = useEventSchedule();
-  const { replace, query } = useRouter();
-  const { date } = query as { date: string };
+  const { currentDateMainlyEvent, currentDateHolidayEvent, boardDateTitle, handleClickEditSchedule } =
+    useEventSchedule();
+  const { replace } = useRouter();
   const { fontSize, modalButton, fontColor } = useTheme();
   const createScheduleModal = useModal();
 
@@ -65,7 +65,15 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
                       <span>{event.eventTitle}</span>
                     </div>
                     <ScheduleButtonGroup>
-                      <ButtonBase type="button" backgroundColor="transparent">
+                      <ButtonBase
+                        type="button"
+                        backgroundColor="transparent"
+                        onClick={() =>
+                          handleClickEditSchedule(event, () => {
+                            createScheduleModal.showModal();
+                          })
+                        }
+                      >
                         <FlatIcon size={fontSize.s20} color={fontColor}>
                           <EditSvg />
                         </FlatIcon>
@@ -87,10 +95,7 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
           </BoardList>
         </ModalContent>
       </ModalBase>
-      <RegisterModal
-        modalProps={createScheduleModal}
-        initSchedule={{ ...initScheduleValues, startDate: date, endDate: date }}
-      />
+      <RegisterModal modalProps={createScheduleModal} />
     </>
   );
 };

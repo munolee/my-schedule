@@ -31,6 +31,7 @@ export interface EventScheduleType {
 }
 
 export type CurrentMonthEventType = EventScheduleType & TopPosition;
+type CbFunctionType = () => void;
 
 interface UseEventScheduleType {
   currentMonthEvent: CurrentMonthEventType[];
@@ -38,7 +39,8 @@ interface UseEventScheduleType {
   currentDateHolidayEvent: EventScheduleType[];
   getEventPaintType: (event: EventScheduleType, date: string) => EventPaintEnum;
   createSchedule: () => UseMutationResult<EventScheduleType, unknown, EventScheduleType>;
-  handleClickDate: (date: string, callback: () => void) => void;
+  handleClickDate: (date: string, callback: CbFunctionType) => void;
+  handleClickEditSchedule: (event: EventScheduleType, callback: CbFunctionType) => void;
   boardDateTitle: string;
   initScheduleValues: EventScheduleType;
 }
@@ -99,6 +101,18 @@ const useEventSchedule = (): UseEventScheduleType => {
     });
   };
 
+  const handleClickEditSchedule = (event: EventScheduleType, callback: () => void) => {
+    replace({
+      pathname: '/',
+      query: {
+        ...query,
+        ...event,
+      },
+    }).then(() => {
+      callback();
+    });
+  };
+
   const getEventPaintType = (event: EventScheduleType, date: string) => {
     const { startDate, endDate } = event;
     if (date === startDate) {
@@ -123,10 +137,11 @@ const useEventSchedule = (): UseEventScheduleType => {
       bgColor: colors.event1,
       typeId: 0,
     };
-    if (date) {
-      return { ...initValues, startDate: date, endDate: date };
-    } else if (eventTitle) {
+
+    if (eventTitle) {
       return { eventTitle, startDate, endDate, bgColor, typeId: Number(typeId) };
+    } else if (date) {
+      return { ...initValues, startDate: date, endDate: date };
     }
     return initValues;
   }, [query]);
@@ -139,6 +154,7 @@ const useEventSchedule = (): UseEventScheduleType => {
     boardDateTitle,
     getEventPaintType,
     handleClickDate,
+    handleClickEditSchedule,
     initScheduleValues,
   };
 };

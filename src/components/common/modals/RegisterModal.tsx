@@ -7,16 +7,14 @@ import FlatIcon from '@components/common/FlatIcon';
 import ButtonBase from '@components/common/buttons/ButtonBase';
 import ModalBase, { ModalEnum } from '@components/common/modals/ModalBase';
 import ScheduleForm from '@components/forms/ScheduleForm';
-import { EventScheduleType } from '@hooks/useEventSchedule';
 import { ModalPropsType } from '@hooks/useModal';
 
 interface RegisterModalProps {
   modalProps: ModalPropsType;
   type?: 'register' | 'edit';
-  initSchedule?: EventScheduleType;
 }
 
-const RegisterModal: FC<RegisterModalProps> = ({ modalProps, type = 'register', initSchedule }) => {
+const RegisterModal: FC<RegisterModalProps> = ({ modalProps, type = 'register' }) => {
   const { fontSize, modalButton } = useTheme();
   const submitRef = useRef<HTMLInputElement | null>(null);
 
@@ -35,7 +33,7 @@ const RegisterModal: FC<RegisterModalProps> = ({ modalProps, type = 'register', 
             </FlatIcon>
           </ButtonBase>
         </ButtonGroup>
-        <ScheduleForm modalProps={modalProps} initSchedule={initSchedule} submitRef={submitRef} />
+        <ScheduleForm modalProps={modalProps} submitRef={submitRef} />
       </ModalContent>
     </ModalBase>
   );
