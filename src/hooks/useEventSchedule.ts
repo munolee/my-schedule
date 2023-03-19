@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { useMutation, UseMutationResult } from 'react-query';
 import { useRecoilValue } from 'recoil';
-import { ScheduleApi, UpdateScheduleParamsType } from '@api/schedule';
+import { DeleteSchedulePramsType, ScheduleApi, UpdateScheduleParamsType } from '@api/schedule';
 import { DATE_FORMAT } from '@constants/format';
 import useToast, { ToastEnumType } from '@hooks/useToast';
 import { currentMonthEventSelector } from '@store/eventSchedule';
@@ -40,8 +40,9 @@ interface UseEventScheduleType {
   getEventPaintType: (event: EventScheduleType, date: string) => EventPaintEnum;
   createSchedule: () => UseMutationResult<EventScheduleType, unknown, EventScheduleType>;
   updateSchedule: () => UseMutationResult<UpdateScheduleParamsType, unknown, UpdateScheduleParamsType>;
+  deleteSchedule: () => UseMutationResult<DeleteSchedulePramsType, unknown, DeleteSchedulePramsType>;
   handleClickDate: (date: string, callback: CbFunctionType) => void;
-  handleClickEditSchedule: (event: EventScheduleType, callback: CbFunctionType) => void;
+  handleClickSchedule: (event: EventScheduleType, callback: CbFunctionType) => void;
   boardDateTitle: string;
   initScheduleValues: EventScheduleType;
 }
@@ -92,6 +93,25 @@ const useEventSchedule = (): UseEventScheduleType => {
     );
   };
 
+  const deleteSchedule = () => {
+    return useMutation(
+      async ({ _id }: DeleteSchedulePramsType) => {
+        const result = await ScheduleApi.deleteSchedule(_id);
+        return result;
+      },
+      {
+        onSuccess: (data) => {
+          if (!data) {
+            return;
+          }
+          showToast({ type: ToastEnumType.Success, message: t('common:toastMessage.modifiedSuccessfully') });
+          // TODO 스케쥴 Get API Refetch 수정 사항
+          // refetch();
+        },
+      }
+    );
+  };
+
   const currentDateMainlyEvent = useMemo(() => {
     const { date } = query;
     if (!date) return [];
@@ -110,7 +130,7 @@ const useEventSchedule = (): UseEventScheduleType => {
     );
   }, [query]);
 
-  const handleClickDate = (date: string, callback: () => void) => {
+  const handleClickDate = (date: string, callback: CbFunctionType) => {
     replace({
       pathname: '/',
       query: {
@@ -121,7 +141,7 @@ const useEventSchedule = (): UseEventScheduleType => {
     });
   };
 
-  const handleClickEditSchedule = (event: EventScheduleType, callback: () => void) => {
+  const handleClickSchedule = (event: EventScheduleType, callback: CbFunctionType) => {
     replace({
       pathname: '/',
       query: {
@@ -168,13 +188,14 @@ const useEventSchedule = (): UseEventScheduleType => {
   return {
     createSchedule,
     updateSchedule,
+    deleteSchedule,
     currentMonthEvent,
     currentDateMainlyEvent,
     currentDateHolidayEvent,
     boardDateTitle,
     getEventPaintType,
     handleClickDate,
-    handleClickEditSchedule,
+    handleClickSchedule,
     initScheduleValues,
   };
 };

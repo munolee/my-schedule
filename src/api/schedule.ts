@@ -8,6 +8,10 @@ export interface UpdateScheduleParamsType {
   params: EventScheduleType;
 }
 
+export interface DeleteSchedulePramsType {
+  _id: string;
+}
+
 export const ScheduleApi = {
   getScheduleList: async (params: string) => {
     const response = await httpRequest.get<EventScheduleType[]>(`/api/schedule?${params}`);
@@ -21,6 +25,11 @@ export const ScheduleApi = {
 
   updateSchedule: async (id: string, params: EventScheduleType) => {
     const response = await httpRequest.put<UpdateScheduleParamsType>(`api/schedule/${id}`, params);
+    return response.data;
+  },
+
+  deleteSchedule: async (id: string) => {
+    const response = await httpRequest.delete<DeleteSchedulePramsType>(`api/schedule/${id}`);
     return response.data;
   },
 };
