@@ -7,6 +7,7 @@ export interface LoginParamsType {
 
 export interface LoginResponseType {
   success: boolean;
+  message: string;
   token: string;
 }
 

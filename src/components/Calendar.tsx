@@ -7,11 +7,12 @@ import ArrowRightSvg from '@assets/ArrowRightSvg';
 import FlatIcon from '@components/common/FlatIcon';
 import Spinner from '@components/common/Spinner';
 import ButtonBase from '@components/common/buttons/ButtonBase';
-import CreateModal from '@components/common/modals/CreateModal';
+import EventBoardModal from '@components/common/modals/EventBoardModal';
+import RegisterModal from '@components/common/modals/RegisterModal';
 import { DATE_FORMAT } from '@constants/format';
 import useCalendar from '@hooks/useCalendar';
 import useEventSchedule, { EventPaintEnum } from '@hooks/useEventSchedule';
-import { ModalPropsType } from '@hooks/useModal';
+import useModal, { ModalPropsType } from '@hooks/useModal';
 
 interface CalendarProps {
   createScheduleModalProps: ModalPropsType;
@@ -19,18 +20,18 @@ interface CalendarProps {
 
 const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
   const {
-    dayOfWeek,
+    isLoading,
+    scheduleRefetch,
     calendarTitleDate,
     currentMonthWeeks,
-    handlePrevMonth,
-    handleNextMonth,
-    handleTodayMonth,
+    handleClickMonth,
     isSameDate,
     isSameMonth,
   } = useCalendar();
-  const { isLoading, currentMonthEvent, getEventPaintType, createSchedule } = useEventSchedule();
+  const { currentMonthEvent, getEventPaintType, handleClickDate } = useEventSchedule();
   const { fontColor, colors, calendarBackground, fontSize } = useTheme();
   const { t } = useTranslation();
+  const eventBoardModal = useModal();
 
   return (
     <>
@@ -41,7 +42,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
           </DateLabel>
           <MonthButtonGroup>
             <ButtonBase
-              onClick={handlePrevMonth}
+              onClick={() => handleClickMonth('prev')}
               borderColor={colors.gray040}
               backgroundColor={calendarBackground}
               buttonStyle={{ padding: 0, borderRadius: '0.5rem 0 0 0.5rem' }}
@@ -51,7 +52,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
               </FlatIcon>
             </ButtonBase>
             <ButtonBase
-              onClick={handleTodayMonth}
+              onClick={() => handleClickMonth('today')}
               borderColor={colors.gray040}
               backgroundColor={calendarBackground}
               buttonStyle={{ borderRadius: '0' }}
@@ -59,7 +60,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
               <span>{t('common:today')}</span>
             </ButtonBase>
             <ButtonBase
-              onClick={handleNextMonth}
+              onClick={() => handleClickMonth('next')}
               borderColor={colors.gray040}
               backgroundColor={calendarBackground}
               buttonStyle={{ padding: 0, borderRadius: '0 0.5rem 0.5rem 0' }}
@@ -73,9 +74,11 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
         <CalendarTable>
           <thead>
             <tr>
-              {dayOfWeek.map((day) => (
-                <th key={day}>{day}</th>
-              ))}
+              {t('dayOfWeek')
+                .split(', ')
+                .map((day) => (
+                  <th key={day}>{day}</th>
+                ))}
             </tr>
           </thead>
           <tbody>
@@ -87,7 +90,11 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
                     isToday={isSameDate(date)}
                     isEmpty={!isSameMonth(date)}
                     weekLength={currentMonthWeeks.length}
-                    onClick={() => console.log('set')}
+                    onClick={() =>
+                      handleClickDate(date.format(DATE_FORMAT.BASIC_FORMAT), () => {
+                        eventBoardModal.showModal();
+                      })
+                    }
                   >
                     <DateText>{date.date()}</DateText>
                     <StyledEventList>
@@ -113,7 +120,8 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
         </CalendarTable>
         {isLoading && <Spinner />}
       </StyledCalendar>
-      <CreateModal modalProps={createScheduleModalProps} mutateMethod={createSchedule} />
+      <RegisterModal modalProps={createScheduleModalProps} />
+      <EventBoardModal modalProps={eventBoardModal} />
     </>
   );
 };

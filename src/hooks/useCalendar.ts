@@ -1,24 +1,27 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import moment, { Moment } from 'moment';
 import { useTranslation } from 'next-i18next';
-import { useRecoilState } from 'recoil';
+import { useQuery } from 'react-query';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { ScheduleApi } from '@api/schedule';
 import { DATE_FORMAT } from '@constants/format';
 import { currentTimeAtom } from '@store/currentTime';
+import { eventScheduleAtom } from '@store/eventSchedule';
 
 interface UseCalendarType {
+  isLoading: boolean;
+  scheduleRefetch: () => void;
   currentMonthWeeks: Moment[][];
   calendarTitleDate: string;
-  dayOfWeek: string[];
-  handlePrevMonth: () => void;
-  handleNextMonth: () => void;
-  handleTodayMonth: () => void;
+  handleClickMonth: (type: 'prev' | 'next' | 'today') => void;
   isSameDate: (date: Moment) => boolean;
   isSameMonth: (date: Moment) => boolean;
 }
 
 const useCalendar = (): UseCalendarType => {
   const [currentTime, setCurrentTime] = useRecoilState(currentTimeAtom);
-  const { t, i18n } = useTranslation('common');
+  const setEventSchedule = useSetRecoilState(eventScheduleAtom);
+  const { i18n } = useTranslation('common');
 
   const currentMonthWeeks = useMemo(() => {
     const startWeek = currentTime.clone().startOf('month').week();
@@ -34,12 +37,39 @@ const useCalendar = (): UseCalendarType => {
     );
   }, [currentTime]);
 
-  const calendarTitleDate = useMemo(() => {
-    if (i18n.language === 'ko') {
-      return currentTime.format(DATE_FORMAT.TITLE_FORMAT);
+  const { isLoading, refetch: scheduleRefetch } = useQuery(
+    ['getSchedule', currentTime.year()],
+    async () => {
+      const response = ScheduleApi.getScheduleList(`year=${currentTime.year()}`);
+      return response;
+    },
+    {
+      onSuccess: (data) => {
+        if (!data) {
+          return;
+        }
+        setEventSchedule(data);
+      },
     }
-    return currentTime.format(DATE_FORMAT.TITLE_FORMAT_EN);
+  );
+
+  const calendarTitleDate = useMemo(() => {
+    return currentTime.format(i18n.language === 'ko' ? DATE_FORMAT.TITLE_FORMAT : DATE_FORMAT.TITLE_FORMAT_EN);
   }, [currentTime]);
+
+  const handleClickMonth = useCallback(
+    (type: 'prev' | 'next' | 'today') => {
+      let currentMoment = moment();
+      if (type === 'prev') {
+        currentMoment = currentTime.clone().subtract(1, 'month');
+      } else if (type === 'next') {
+        const lastDayOfMonth = currentTime.endOf('month');
+        currentMoment = lastDayOfMonth.add(1, 'day').startOf('month');
+      }
+      setCurrentTime(moment(currentMoment));
+    },
+    [currentTime, setCurrentTime]
+  );
 
   const isSameDate = (date: Moment) => {
     return date.format(DATE_FORMAT.BASIC_FORMAT) === moment().format(DATE_FORMAT.BASIC_FORMAT);
@@ -49,29 +79,12 @@ const useCalendar = (): UseCalendarType => {
     return date.format(DATE_FORMAT.YEAR_MONTH_FORMAT) === currentTime.format(DATE_FORMAT.YEAR_MONTH_FORMAT);
   };
 
-  const handleNextMonth = () => {
-    const lastDayOfMonth = currentTime.endOf('month');
-    const firstDayOfNextMonth = lastDayOfMonth.add(1, 'day').startOf('month');
-    setCurrentTime(moment(firstDayOfNextMonth));
-  };
-
-  const handlePrevMonth = () => {
-    const firstDayOfPrevMonth = currentTime.clone().subtract(1, 'month');
-    setCurrentTime(moment(firstDayOfPrevMonth));
-  };
-
-  const handleTodayMonth = () => {
-    setCurrentTime(moment());
-  };
-
-  const dayOfWeek = t('dayOfWeek').split(', ');
   return {
+    isLoading,
+    scheduleRefetch,
     currentMonthWeeks,
     calendarTitleDate,
-    dayOfWeek,
-    handlePrevMonth,
-    handleNextMonth,
-    handleTodayMonth,
+    handleClickMonth,
     isSameDate,
     isSameMonth,
   };

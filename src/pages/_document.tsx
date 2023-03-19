@@ -7,6 +7,7 @@ const Document = () => {
       <title>My Schedule</title>
       <body>
         <Main />
+        <div id="modal-root" />
         <NextScript />
       </body>
     </Html>
