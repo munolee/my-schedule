@@ -20,6 +20,14 @@
   "toastMessage": {
     "inReady": "In Ready.",
     "registeredSuccessfully": "Registered Successfully!",
-    "modifiedSuccessfully": "Modified Successfully!"
-  }
+    "modifiedSuccessfully": "Modified Successfully!",
+    "deletedSuccessfully": "Deleted Successfully!"
+  },
+  "alert": {
+    "cancel" : "Cancel",
+    "confirm": "Confirm",
+    "delete" : "Delete"
+  },
+  "confirmDelete" : "Are you sure you want to delete it?",
+  "unableToRecover": "If you delete the schedule, you cannot recover it again."
 }

@@ -1,6 +1,7 @@
-import { FC, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
 import CloseSvg from '@assets/CloseSvg';
 import ConfirmSvg from '@assets/ConfirmSvg';
 import FlatIcon from '@components/common/FlatIcon';
@@ -15,8 +16,16 @@ interface RegisterModalProps {
 }
 
 const RegisterModal: FC<RegisterModalProps> = ({ modalProps, type = 'register' }) => {
-  const { fontSize, modalButton } = useTheme();
   const submitRef = useRef<HTMLInputElement | null>(null);
+  const { fontSize, modalButton } = useTheme();
+  const { replace, query } = useRouter();
+
+  useEffect(() => {
+    const { date } = query;
+    if (!modalProps.isShow) {
+      replace({ pathname: '/', query: { date: date } });
+    }
+  }, [modalProps.isShow]);
 
   return (
     <ModalBase modalProps={modalProps} modalType={ModalEnum.SecondBottomSheet}>

@@ -2,13 +2,16 @@ import { FC, useEffect } from 'react';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import DeleteSvg from '@assets/DeleteSvg';
 import EditSvg from '@assets/EditSvg';
 import PlusSvg from '@assets/PlusSvg';
 import FlatIcon from '@components/common/FlatIcon';
 import ButtonBase from '@components/common/buttons/ButtonBase';
+import ConfirmModal from '@components/common/modals/ConfirmModal';
 import ModalBase, { ModalEnum } from '@components/common/modals/ModalBase';
 import RegisterModal from '@components/common/modals/RegisterModal';
+import useScheduleMutate from '@hooks/queries/useScheduleMutate';
 import useEventSchedule from '@hooks/useEventSchedule';
 import useModal, { ModalPropsType } from '@hooks/useModal';
 
@@ -17,11 +20,16 @@ interface EventBoardModalProps {
 }
 
 const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
-  const { currentDateMainlyEvent, currentDateHolidayEvent, boardDateTitle, handleClickEditSchedule } =
-    useEventSchedule();
-  const { replace } = useRouter();
-  const { fontSize, modalButton, fontColor } = useTheme();
+  const { currentDateMainlyEvent, currentDateHolidayEvent, boardDateTitle, handleClickSchedule } = useEventSchedule();
+  const { deleteSchedule } = useScheduleMutate();
+  const { mutateAsync: deleteMutation } = deleteSchedule();
+
   const createScheduleModal = useModal();
+  const confirmModal = useModal();
+  const { t } = useTranslation();
+  const { replace, query } = useRouter();
+  const { _id } = query;
+  const { fontSize, modalButton, fontColor } = useTheme();
 
   useEffect(() => {
     if (!modalProps.isShow) {
@@ -69,7 +77,7 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
                         type="button"
                         backgroundColor="transparent"
                         onClick={() =>
-                          handleClickEditSchedule(event, () => {
+                          handleClickSchedule(event, () => {
                             createScheduleModal.showModal();
                           })
                         }
@@ -78,7 +86,15 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
                           <EditSvg />
                         </FlatIcon>
                       </ButtonBase>
-                      <ButtonBase type="button" backgroundColor="transparent">
+                      <ButtonBase
+                        type="button"
+                        backgroundColor="transparent"
+                        onClick={() => {
+                          handleClickSchedule(event, () => {
+                            confirmModal.showModal();
+                          });
+                        }}
+                      >
                         <FlatIcon size={fontSize.s16} color={fontColor}>
                           <DeleteSvg />
                         </FlatIcon>
@@ -95,7 +111,19 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
           </BoardList>
         </ModalContent>
       </ModalBase>
-      <RegisterModal modalProps={createScheduleModal} type="edit" />
+      <RegisterModal modalProps={createScheduleModal} type={_id ? 'edit' : 'register'} />
+      <ConfirmModal
+        modalProps={confirmModal}
+        confirmMethod={async () => {
+          if (!_id) {
+            return;
+          }
+          await deleteMutation({ _id: _id as string });
+        }}
+        text={t('common:confirmDelete')}
+        subText={t('common:unableToRecover')}
+        buttonText={t('common:alert.delete')}
+      />
     </>
   );
 };

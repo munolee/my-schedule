@@ -10,6 +10,7 @@ import ButtonBase from '@components/common/buttons/ButtonBase';
 import EventBoardModal from '@components/common/modals/EventBoardModal';
 import RegisterModal from '@components/common/modals/RegisterModal';
 import { DATE_FORMAT } from '@constants/format';
+import useScheduleListQuery from '@hooks/queries/useScheduleListQuery';
 import useCalendar from '@hooks/useCalendar';
 import useEventSchedule, { EventPaintEnum } from '@hooks/useEventSchedule';
 import useModal, { ModalPropsType } from '@hooks/useModal';
@@ -19,19 +20,14 @@ interface CalendarProps {
 }
 
 const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
-  const {
-    isLoading,
-    scheduleRefetch,
-    calendarTitleDate,
-    currentMonthWeeks,
-    handleClickMonth,
-    isSameDate,
-    isSameMonth,
-  } = useCalendar();
+  const { calendarTitleDate, currentMonthWeeks, handleClickMonth, isSameDate, isSameMonth } = useCalendar();
   const { currentMonthEvent, getEventPaintType, handleClickDate } = useEventSchedule();
+  const { useGetScheduleList } = useScheduleListQuery();
+  const { isLoading } = useGetScheduleList();
+
+  const eventBoardModal = useModal();
   const { fontColor, colors, calendarBackground, fontSize } = useTheme();
   const { t } = useTranslation();
-  const eventBoardModal = useModal();
 
   return (
     <>
