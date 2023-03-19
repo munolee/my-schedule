@@ -20,7 +20,7 @@ const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, type, submitRef }) =>
   const { t } = useTranslation();
   const { colors } = useTheme();
   const { query } = useRouter();
-  const [selectBgColor, setSelectBgColor] = useState<string>(colors.event1);
+  const [selectBgColor, setSelectBgColor] = useState<string>(initScheduleValues.bgColor || colors.event1);
 
   const {
     register,

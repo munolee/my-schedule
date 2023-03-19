@@ -158,6 +158,7 @@ const useEventSchedule = (): UseEventScheduleType => {
       typeId: 0,
     };
     if (_id) {
+      console.log(bgColor);
       return { _id, eventTitle, startDate, endDate, bgColor, typeId: Number(typeId) };
     } else if (date) {
       return { ...initValues, startDate: date, endDate: date };
