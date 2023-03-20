@@ -10,6 +10,7 @@ import ButtonBase from '@components/common/buttons/ButtonBase';
 import EventBoardModal from '@components/common/modals/EventBoardModal';
 import RegisterModal from '@components/common/modals/RegisterModal';
 import { DATE_FORMAT } from '@constants/format';
+import useHolidayListQuery from '@hooks/queries/useHolidayListQuery';
 import useScheduleListQuery from '@hooks/queries/useScheduleListQuery';
 import useCalendar from '@hooks/useCalendar';
 import useEventSchedule, { EventPaintEnum } from '@hooks/useEventSchedule';
@@ -22,8 +23,10 @@ interface CalendarProps {
 const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
   const { calendarTitleDate, currentMonthWeeks, handleClickMonth, isSameDate, isSameMonth } = useCalendar();
   const { currentMonthEvent, getEventPaintType, handleClickDate } = useEventSchedule();
+  const { useGetHolidayList } = useHolidayListQuery();
+  const { isLoading: isHolidayLoading } = useGetHolidayList();
   const { useGetScheduleList } = useScheduleListQuery();
-  const { isLoading } = useGetScheduleList();
+  const { isLoading: isScheduleLoading } = useGetScheduleList();
 
   const eventBoardModal = useModal();
   const { fontColor, colors, calendarBackground, fontSize } = useTheme();
@@ -51,7 +54,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
               onClick={() => handleClickMonth('today')}
               borderColor={colors.gray040}
               backgroundColor={calendarBackground}
-              buttonStyle={{ borderRadius: '0' }}
+              buttonStyle={{ borderRadius: '0', fontWeight: 500 }}
             >
               <span>{t('common:today')}</span>
             </ButtonBase>
@@ -114,7 +117,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
             ))}
           </tbody>
         </CalendarTable>
-        {isLoading && <Spinner />}
+        {isHolidayLoading && <Spinner />}
       </StyledCalendar>
       <RegisterModal modalProps={createScheduleModalProps} />
       <EventBoardModal modalProps={eventBoardModal} />

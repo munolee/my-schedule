@@ -21,13 +21,17 @@ const useAuthLogin = () => {
             return;
           }
           saveToken(response?.token);
-          push('/');
+          // push('/');
+          window.location.href = '/';
         },
       }
     );
   };
 
   const hasSignedIn = () => {
+    if (typeof window === 'undefined') {
+      return false;
+    }
     const token = window.localStorage.getItem('user_token');
     return !!token;
   };

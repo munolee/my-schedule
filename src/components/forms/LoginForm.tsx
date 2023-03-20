@@ -119,7 +119,7 @@ const LoginForm: FC = () => {
 };
 
 const LoginWrapper = styled.div`
-  height: 100vh;
+  height: 80vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -139,7 +139,7 @@ const GuestLoginButtonGroup = styled.div<{ isShow: boolean }>`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.8rem;
   visibility: ${({ isShow }) => (isShow ? 'hidden' : 'visible')};
   opacity: ${({ isShow }) => (isShow ? '0' : '1')};
   transform: ${({ isShow }) => (isShow ? 'translate3d(0, 0, 0)' : 'translate3d(0, 10.4rem, 0)')};

@@ -25,7 +25,7 @@ const BottomNavigation: FC<BottomNavigationProps> = ({ createScheduleModalProps 
   return (
     <StyledBottomNavigation>
       <NavigationList>
-        <MenuItem isActive={pathname === '/'}>
+        <MenuItem isActive={pathname === '/'} onClick={() => push('/')}>
           <FlatIcon size={fontSize.s22} color={fontColor}>
             <CalendarSvg />
           </FlatIcon>

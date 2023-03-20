@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { useRecoilValue } from 'recoil';
 import { DATE_FORMAT } from '@constants/format';
-import useScheduleMutate from '@hooks/queries/useScheduleMutate';
 import { currentMonthEventSelector } from '@store/eventSchedule';
 
 export enum EventPaintEnum {
