@@ -16,6 +16,7 @@ const queryClient = new QueryClient({
     queries: {
       notifyOnChangeProps: 'tracked',
       refetchOnWindowFocus: false,
+      retry: 1,
     },
   },
 });

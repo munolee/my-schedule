@@ -1,13 +1,10 @@
 import { useRouter } from 'next/router';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { AuthApi, LoginParamsType } from '@api/auth';
 
 const useAuthLogin = () => {
+  const queryClient = useQueryClient();
   const { push } = useRouter();
-
-  const saveToken = (token: string) => {
-    window.localStorage.setItem('user_token', token);
-  };
 
   const userLogin = () => {
     return useMutation(
@@ -28,6 +25,25 @@ const useAuthLogin = () => {
     );
   };
 
+  const userLogout = () => {
+    return useMutation(
+      async () => {
+        const result = await AuthApi.userLogout();
+        return result;
+      },
+      {
+        onSuccess: (response) => {
+          if (!response.success) {
+            return;
+          }
+          window.localStorage.removeItem('user_token');
+          queryClient.clear();
+          push('/login');
+        },
+      }
+    );
+  };
+
   const hasSignedIn = () => {
     if (typeof window === 'undefined') {
       return false;
@@ -36,8 +52,13 @@ const useAuthLogin = () => {
     return !!token;
   };
 
+  const saveToken = (token: string) => {
+    window.localStorage.setItem('user_token', token);
+  };
+
   return {
     userLogin,
+    userLogout,
     hasSignedIn,
   };
 };

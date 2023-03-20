@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 const httpRequest = axios.create({
-  baseURL: process.env.API_DOMAIN || 'https://schdule-express.vercel.app',
+  baseURL: process.env.API_DOMAIN,
   headers: {
     'Content-Type': 'application/json',
     'Cache-Control': 'no-cache',
