@@ -12,7 +12,7 @@ import useAuthLogin from '@hooks/useAuthLogin';
 const LoginForm: FC = () => {
   const [isShowLoginForm, setIsShowLoginForm] = useState<boolean>(false);
   const { userLogin } = useAuthLogin();
-  const { mutateAsync } = userLogin();
+  const { mutateAsync: loginMutation } = userLogin();
   const { t } = useTranslation();
   const { colors, fontColor, fontSize } = useTheme();
 
@@ -27,8 +27,9 @@ const LoginForm: FC = () => {
   });
 
   const onSubmit = async (data: FieldValues | LoginParamsType) => {
-    await mutateAsync(data as LoginParamsType);
-    reset();
+    await loginMutation(data as LoginParamsType).then(() => {
+      reset();
+    });
   };
 
   return (
