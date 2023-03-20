@@ -12,8 +12,10 @@ import ConfirmModal from '@components/common/modals/ConfirmModal';
 import ModalBase, { ModalEnum } from '@components/common/modals/ModalBase';
 import RegisterModal from '@components/common/modals/RegisterModal';
 import useScheduleMutate from '@hooks/queries/useScheduleMutate';
+import useAuthLogin from '@hooks/useAuthLogin';
 import useEventSchedule from '@hooks/useEventSchedule';
 import useModal, { ModalPropsType } from '@hooks/useModal';
+import useToast, { ToastEnumType } from '@hooks/useToast';
 
 interface EventBoardModalProps {
   modalProps: ModalPropsType;
@@ -23,6 +25,7 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
   const { currentDateMainlyEvent, currentDateHolidayEvent, boardDateTitle, handleClickSchedule } = useEventSchedule();
   const { deleteSchedule } = useScheduleMutate();
   const { mutateAsync: deleteMutation } = deleteSchedule();
+  const { isLoggedIn } = useAuthLogin();
 
   const createScheduleModal = useModal();
   const confirmModal = useModal();
@@ -30,6 +33,7 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
   const { replace, query } = useRouter();
   const { _id } = query;
   const { fontSize, modalButton, fontColor } = useTheme();
+  const { showToast } = useToast();
 
   useEffect(() => {
     if (!modalProps.isShow) {
@@ -43,7 +47,17 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
         <ModalContent>
           <ButtonGroup>
             <StyledDate>{boardDateTitle}</StyledDate>
-            <ButtonBase type="button" onClick={() => createScheduleModal.showModal()} backgroundColor="transparent">
+            <ButtonBase
+              type="button"
+              onClick={() => {
+                if (!isLoggedIn) {
+                  showToast({ type: ToastEnumType.Error, message: t('common:toastMessage.afterLoggingIn') });
+                  return;
+                }
+                createScheduleModal.showModal();
+              }}
+              backgroundColor="transparent"
+            >
               <FlatIcon size={fontSize.s30} color={modalButton}>
                 <PlusSvg />
               </FlatIcon>
@@ -51,7 +65,7 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
           </ButtonGroup>
           {currentDateHolidayEvent.length > 0 && (
             <BoardList>
-              <BoardTitle>공휴일</BoardTitle>
+              <BoardTitle>{t('common:holiday')}</BoardTitle>
               <BoardScheduleList>
                 {currentDateHolidayEvent.map((event, index) => (
                   <BoardScheduleItem key={index}>
@@ -63,7 +77,7 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
             </BoardList>
           )}
           <BoardList>
-            <BoardTitle>주요 일정</BoardTitle>
+            <BoardTitle>{t('common:importantSchedule')}</BoardTitle>
             <BoardScheduleList>
               {currentDateMainlyEvent.length > 0 ? (
                 currentDateMainlyEvent.map((event, index) => (

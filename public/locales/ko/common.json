@@ -4,6 +4,26 @@
   "userName": "사용자 이름",
   "password": "비밀번호",
   "login": "로그인하기",
+  "today": "오늘",
+  "holiday": "공휴일",
+  "importantSchedule": "주요 일정",
+  "scheduleTitle": "일정 제목",
+  "dayOfWeek" : "일, 월, 화, 수, 목, 금, 토",
+  "confirmDelete" : "정말로 삭제하시겠습니까?",
+  "unableToRecover": "일정 삭제 시 다시 복구할 수 없습니다.",
+  "NoSchedule": "일정이 없습니다.",
+  "toastMessage": {
+    "inReady": "준비중입니다.",
+    "registeredSuccessfully": "성공적으로 등록되었습니다!",
+    "modifiedSuccessfully": "성공적으로 수정되었습니다!",
+    "deletedSuccessfully": "성공적으로 삭제되었습니다!",
+    "afterLoggingIn": "로그인 후 일정 등록이 가능합니다."
+  },
+  "alert": {
+    "cancel" : "취소",
+    "confirm": "확인",
+    "delete" : "삭제"
+  },
   "errorMessage": {
     "idMinLength" : "사용자 이름은 최소 4글자 이상 입력해주세요.",
     "idMaxLength" : "사용자 이름은 최대 12글자 이하로 입력해주세요.",
@@ -13,21 +33,5 @@
     "titleMaxLength" : "일정 제목은 최대 10글자 이하로 입력해주세요.",
     "selectStartDate" : "일정 시작일을 선택해주세요.",
     "selectEndDate" : "일정 종료일을 선택해주세요."
-  },
-  "today": "오늘",
-  "scheduleTitle": "일정 제목",
-  "dayOfWeek" : "일, 월, 화, 수, 목, 금, 토",
-  "toastMessage": {
-    "inReady": "준비중입니다.",
-    "registeredSuccessfully": "성공적으로 등록되었습니다!",
-    "modifiedSuccessfully": "성공적으로 수정되었습니다!",
-    "deletedSuccessfully": "성공적으로 삭제되었습니다!"
-  },
-  "alert": {
-    "cancel" : "취소",
-    "confirm": "확인",
-    "delete" : "삭제"
-  },
-  "confirmDelete" : "정말로 삭제하시겠습니까?",
-  "unableToRecover": "일정 삭제 시 다시 복구할 수 없습니다."
+  }
 }

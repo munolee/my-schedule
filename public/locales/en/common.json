@@ -4,6 +4,26 @@
   "userName": "Username",
   "password": "Password",
   "login": "Login",
+  "today": "Today",
+  "holiday": "Holiday",
+  "importantSchedule": "Important Schedule",
+  "scheduleTitle": "Schedule Title",
+  "dayOfWeek" : "Sun, Mon, Tue, Wed, Thu, Fri, Sat",
+  "confirmDelete" : "Are you sure you want to delete it?",
+  "unableToRecover": "If you delete the schedule, you cannot recover it again.",
+  "NoSchedule": "There is no schedule.",
+  "toastMessage": {
+    "inReady": "In Ready.",
+    "registeredSuccessfully": "Registered Successfully!",
+    "modifiedSuccessfully": "Modified Successfully!",
+    "deletedSuccessfully": "Deleted Successfully!",
+    "afterLoggingIn": "You can register your schedule after logging in."
+  },
+  "alert": {
+    "cancel" : "Cancel",
+    "confirm": "Confirm",
+    "delete" : "Delete"
+  },
   "errorMessage": {
     "idMinLength" : "Please enter at least 4 characters for the user name.",
     "idMaxLength" : "Please enter a maximum of 12 characters for your user name.",
@@ -13,21 +33,5 @@
     "titleMaxLength" : "Please enter a maximum of 10 characters for the schedule title.",
     "selectStartDate" : "Please select a schedule start date.",
     "selectEndDate" : "Please select the end date of the schedule."
-  },
-  "today": "Today",
-  "scheduleTitle": "Schedule Title",
-  "dayOfWeek" : "Sun, Mon, Tue, Wed, Thu, Fri, Sat",
-  "toastMessage": {
-    "inReady": "In Ready.",
-    "registeredSuccessfully": "Registered Successfully!",
-    "modifiedSuccessfully": "Modified Successfully!",
-    "deletedSuccessfully": "Deleted Successfully!"
-  },
-  "alert": {
-    "cancel" : "Cancel",
-    "confirm": "Confirm",
-    "delete" : "Delete"
-  },
-  "confirmDelete" : "Are you sure you want to delete it?",
-  "unableToRecover": "If you delete the schedule, you cannot recover it again."
+  }
 }

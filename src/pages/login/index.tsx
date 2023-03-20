@@ -32,6 +32,6 @@ const StyledContainer = styled.div`
 
 export const getStaticProps: GetStaticProps = async ({ locale = 'ko' }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ['common', 'header'])),
+    ...(await serverSideTranslations(locale, ['common', 'navigation'])),
   },
 });

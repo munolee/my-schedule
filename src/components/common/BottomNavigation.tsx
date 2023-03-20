@@ -21,9 +21,9 @@ const BottomNavigation: FC<BottomNavigationProps> = ({ createScheduleModalProps 
 
   const { fontColor, fontSize } = useTheme();
   const { t } = useTranslation();
+
   const { pathname, push } = useRouter();
   const { showToast } = useToast();
-
   return (
     <StyledBottomNavigation>
       <NavigationList>
@@ -31,7 +31,7 @@ const BottomNavigation: FC<BottomNavigationProps> = ({ createScheduleModalProps 
           <FlatIcon size={fontSize.s22} color={fontColor}>
             <CalendarSvg />
           </FlatIcon>
-          <MenuTitle>{t('header:fullSchedule')}</MenuTitle>
+          <MenuTitle>{t('navigation:fullSchedule')}</MenuTitle>
         </MenuItem>
         {/* TODO 메모 기능 추가 사항 */}
         {/*<MenuItem*/}
@@ -41,12 +41,12 @@ const BottomNavigation: FC<BottomNavigationProps> = ({ createScheduleModalProps 
         {/*  <FlatIcon size={fontSize.s22} color={fontColor}>*/}
         {/*    <MemoSvg />*/}
         {/*  </FlatIcon>*/}
-        {/*  <MenuTitle>{t('header:scheduleMemo')}</MenuTitle>*/}
+        {/*  <MenuTitle>{t('navigation:scheduleMemo')}</MenuTitle>*/}
         {/*</MenuItem>*/}
         <MenuItem
           onClick={() => {
             if (!isLoggedIn) {
-              showToast({ type: ToastEnumType.Error, message: '로그인이 필요합니다.' });
+              showToast({ type: ToastEnumType.Error, message: t('common:toastMessage.afterLoggingIn') });
               return;
             }
             createScheduleModalProps?.showModal();
@@ -55,7 +55,7 @@ const BottomNavigation: FC<BottomNavigationProps> = ({ createScheduleModalProps 
           <FlatIcon size={fontSize.s22} color={fontColor}>
             <PlusRoundSvg />
           </FlatIcon>
-          <MenuTitle>일정 등록</MenuTitle>
+          <MenuTitle>{t('navigation:registerSchedule')}</MenuTitle>
         </MenuItem>
         <MenuItem
           isActive={pathname === '/login'}
@@ -70,7 +70,7 @@ const BottomNavigation: FC<BottomNavigationProps> = ({ createScheduleModalProps 
           <FlatIcon size={fontSize.s22} color={fontColor}>
             <UserSvg />
           </FlatIcon>
-          <MenuTitle>{isLoggedIn ? '로그아웃' : '로그인'}</MenuTitle>
+          <MenuTitle>{isLoggedIn ? t('navigation:logout') : t('navigation:login')}</MenuTitle>
         </MenuItem>
       </NavigationList>
     </StyledBottomNavigation>
