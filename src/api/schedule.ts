@@ -12,9 +12,22 @@ export interface DeleteSchedulePramsType {
   _id: string;
 }
 
+interface EventScheduleResponseType {
+  data: {
+    success: boolean;
+    message: string;
+    data: EventScheduleType[];
+  };
+}
+
 export const ScheduleApi = {
-  getScheduleList: async (params: string) => {
-    const response = await httpRequest.get<EventScheduleType[]>(`/api/schedule?${params}`);
+  getHolidayList: async (params: string) => {
+    const response = await httpRequest.get<EventScheduleType[], EventScheduleResponseType>(`/api/holiday?${params}`);
+    return response.data;
+  },
+
+  getScheduleList: async () => {
+    const response = await httpRequest.get<EventScheduleType[], EventScheduleResponseType>(`/api/schedule`);
     return response.data;
   },
 

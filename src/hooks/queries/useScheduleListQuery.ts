@@ -1,26 +1,27 @@
 import { useQuery } from 'react-query';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { ScheduleApi } from '@api/schedule';
-import { currentTimeAtom } from '@store/currentTime';
+import useAuthLogin from '@hooks/useAuthLogin';
 import { eventScheduleAtom } from '@store/eventSchedule';
 
 const useScheduleListQuery = () => {
-  const currentTime = useRecoilValue(currentTimeAtom);
   const setEventSchedule = useSetRecoilState(eventScheduleAtom);
+  const { isLoggedIn } = useAuthLogin();
 
   const useGetScheduleList = () => {
     const { isLoading } = useQuery(
-      ['getSchedule', currentTime.year()],
+      ['getSchedule'],
       async () => {
-        const response = ScheduleApi.getScheduleList(`year=${currentTime.year()}`);
+        const response = ScheduleApi.getScheduleList();
         return response;
       },
       {
+        enabled: isLoggedIn,
         onSuccess: (data) => {
           if (!data) {
             return;
           }
-          setEventSchedule(data);
+          setEventSchedule(data.data);
         },
       }
     );

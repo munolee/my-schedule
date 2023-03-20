@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Calendar from '@components/Calendar';
+import BottomNavigation from '@components/common/BottomNavigation';
 import Header from '@components/common/Header';
-import GlobalButtonGroup from '@components/common/buttons/GlobalButtonGroup';
 import useModal from '@hooks/useModal';
 
 interface PageHomeProps {
@@ -15,11 +15,11 @@ const PageHome: FC<PageHomeProps> = ({ toggleTheme }) => {
   const createScheduleModal = useModal();
   return (
     <>
-      <Header />
+      <Header toggleTheme={toggleTheme} />
       <HomeContainer>
         <Calendar createScheduleModalProps={createScheduleModal} />
       </HomeContainer>
-      <GlobalButtonGroup toggleTheme={toggleTheme} modalProps={createScheduleModal} />
+      <BottomNavigation createScheduleModalProps={createScheduleModal} />
     </>
   );
 };
@@ -33,6 +33,6 @@ const HomeContainer = styled.div`
 
 export const getStaticProps: GetStaticProps = async ({ locale = 'ko' }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ['common', 'header'])),
+    ...(await serverSideTranslations(locale, ['common', 'navigation'])),
   },
 });

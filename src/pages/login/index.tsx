@@ -2,20 +2,24 @@ import { FC } from 'react';
 import styled from '@emotion/styled';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import GlobalButtonGroup from '@components/common/buttons/GlobalButtonGroup';
+import BottomNavigation from '@components/common/BottomNavigation';
+import Header from '@components/common/Header';
 import LoginForm from '@components/forms/LoginForm';
+import useModal from '@hooks/useModal';
 
 interface PageLoginProps {
   toggleTheme: () => void;
 }
 
 const PageLogin: FC<PageLoginProps> = ({ toggleTheme }) => {
+  const createScheduleModal = useModal();
   return (
     <>
+      <Header toggleTheme={toggleTheme} />
       <StyledContainer>
         <LoginForm />
       </StyledContainer>
-      <GlobalButtonGroup toggleTheme={toggleTheme} />
+      <BottomNavigation createScheduleModalProps={createScheduleModal} />
     </>
   );
 };
@@ -28,6 +32,6 @@ const StyledContainer = styled.div`
 
 export const getStaticProps: GetStaticProps = async ({ locale = 'ko' }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ['common', 'header'])),
+    ...(await serverSideTranslations(locale, ['common', 'navigation'])),
   },
 });
