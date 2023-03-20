@@ -11,7 +11,6 @@ import EventBoardModal from '@components/common/modals/EventBoardModal';
 import RegisterModal from '@components/common/modals/RegisterModal';
 import { DATE_FORMAT } from '@constants/format';
 import useScheduleListQuery from '@hooks/queries/useScheduleListQuery';
-import useAuthLogin from '@hooks/useAuthLogin';
 import useCalendar from '@hooks/useCalendar';
 import useEventSchedule, { EventPaintEnum } from '@hooks/useEventSchedule';
 import useModal, { ModalPropsType } from '@hooks/useModal';
@@ -25,9 +24,6 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
   const { currentMonthEvent, getEventPaintType, handleClickDate } = useEventSchedule();
   const { useGetScheduleList } = useScheduleListQuery();
   const { isLoading } = useGetScheduleList();
-
-  const { userLogout } = useAuthLogin();
-  const { mutateAsync } = userLogout();
 
   const eventBoardModal = useModal();
   const { fontColor, colors, calendarBackground, fontSize } = useTheme();
@@ -52,7 +48,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
               </FlatIcon>
             </ButtonBase>
             <ButtonBase
-              onClick={() => mutateAsync()}
+              onClick={() => handleClickMonth('today')}
               borderColor={colors.gray040}
               backgroundColor={calendarBackground}
               buttonStyle={{ borderRadius: '0' }}
