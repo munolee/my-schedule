@@ -27,8 +27,14 @@ const useAuthLogin = () => {
     );
   };
 
+  const hasSignedIn = () => {
+    const token = window.localStorage.getItem('user_token');
+    return !!token;
+  };
+
   return {
     userLogin,
+    hasSignedIn,
   };
 };
 

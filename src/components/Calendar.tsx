@@ -140,7 +140,7 @@ const DateLabel = styled.div`
   margin-left: 0.8rem;
 
   h2 {
-    font-size: ${({ theme }) => theme.fontSize.s16};
+    font-size: ${({ theme }) => theme.fontSize.s18};
     font-weight: 500;
     color: ${({ theme }) => theme.fontColor};
   }
