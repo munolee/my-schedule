@@ -14,16 +14,16 @@ const Header: FC<HeaderProps> = ({ toggleTheme }) => {
 
   return (
     <StyledHeader>
-      <HeaderMenuItem bgColor={'transparent'}>
+      <HeaderItem bgColor={'transparent'}>
         <FlatIcon size={fontSize.s26} color={fontColor}>
           <HamburgerSvg />
         </FlatIcon>
-      </HeaderMenuItem>
-      <HeaderMenuItem onClick={toggleTheme} bgColor={calendarBackground}>
+      </HeaderItem>
+      <HeaderItem onClick={toggleTheme} bgColor={calendarBackground}>
         <FlatIcon size={fontSize.s26} color={fontColor}>
           <NightSvg />
         </FlatIcon>
-      </HeaderMenuItem>
+      </HeaderItem>
     </StyledHeader>
   );
 };
@@ -40,7 +40,7 @@ const StyledHeader = styled.div`
   align-items: center;
 `;
 
-const HeaderMenuItem = styled.div<{ bgColor?: string }>`
+const HeaderItem = styled.div<{ bgColor?: string }>`
   padding: 0.4rem;
   display: flex;
   flex-direction: column;

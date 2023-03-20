@@ -6,7 +6,7 @@ import { eventScheduleAtom } from '@store/eventSchedule';
 
 const useScheduleListQuery = () => {
   const setEventSchedule = useSetRecoilState(eventScheduleAtom);
-  const { hasSignedIn } = useAuthLogin();
+  const { isLoggedIn } = useAuthLogin();
 
   const useGetScheduleList = () => {
     const { isLoading } = useQuery(
@@ -16,7 +16,7 @@ const useScheduleListQuery = () => {
         return response;
       },
       {
-        enabled: hasSignedIn(),
+        enabled: isLoggedIn,
         onSuccess: (data) => {
           if (!data) {
             return;

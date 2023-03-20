@@ -16,11 +16,13 @@ interface BottomNavigationProps {
 }
 
 const BottomNavigation: FC<BottomNavigationProps> = ({ createScheduleModalProps }) => {
+  const { userLogout, isLoggedIn } = useAuthLogin();
+  const { mutateAsync: logoutMutation } = userLogout();
+
   const { fontColor, fontSize } = useTheme();
   const { t } = useTranslation();
   const { pathname, push } = useRouter();
   const { showToast } = useToast();
-  const { hasSignedIn } = useAuthLogin();
 
   return (
     <StyledBottomNavigation>
@@ -36,14 +38,14 @@ const BottomNavigation: FC<BottomNavigationProps> = ({ createScheduleModalProps 
         {/*  isActive={false}*/}
         {/*  onClick={() => showToast({ type: ToastEnumType.Error, message: t('common:toastMessage.inReady') })}*/}
         {/*>*/}
-        {/*  <FlatIcon size={fontSize.s24} color={fontColor}>*/}
+        {/*  <FlatIcon size={fontSize.s22} color={fontColor}>*/}
         {/*    <MemoSvg />*/}
         {/*  </FlatIcon>*/}
         {/*  <MenuTitle>{t('header:scheduleMemo')}</MenuTitle>*/}
         {/*</MenuItem>*/}
         <MenuItem
           onClick={() => {
-            if (!hasSignedIn()) {
+            if (!isLoggedIn) {
               showToast({ type: ToastEnumType.Error, message: '로그인이 필요합니다.' });
               return;
             }
@@ -58,13 +60,17 @@ const BottomNavigation: FC<BottomNavigationProps> = ({ createScheduleModalProps 
         <MenuItem
           isActive={pathname === '/login'}
           onClick={() => {
+            if (isLoggedIn) {
+              logoutMutation();
+              return;
+            }
             push('/login');
           }}
         >
           <FlatIcon size={fontSize.s22} color={fontColor}>
             <UserSvg />
           </FlatIcon>
-          <MenuTitle>로그인</MenuTitle>
+          <MenuTitle>{isLoggedIn ? '로그아웃' : '로그인'}</MenuTitle>
         </MenuItem>
       </NavigationList>
     </StyledBottomNavigation>

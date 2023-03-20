@@ -1,8 +1,10 @@
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useMutation, useQueryClient } from 'react-query';
 import { AuthApi, LoginParamsType } from '@api/auth';
 
 const useAuthLogin = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const { push } = useRouter();
 
@@ -18,7 +20,6 @@ const useAuthLogin = () => {
             return;
           }
           saveToken(response?.token);
-          // push('/');
           window.location.href = '/';
         },
       }
@@ -44,13 +45,18 @@ const useAuthLogin = () => {
     );
   };
 
-  const hasSignedIn = () => {
-    if (typeof window === 'undefined') {
-      return false;
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const token = window.localStorage.getItem('user_token');
+      setIsLoggedIn(!!token);
     }
-    const token = window.localStorage.getItem('user_token');
-    return !!token;
-  };
+  }, []);
+
+  // const hasSignedIn = () => {
+  //   if (typeof window === 'undefined') {
+  //     return false;
+  //   }
+  // };
 
   const saveToken = (token: string) => {
     window.localStorage.setItem('user_token', token);
@@ -59,7 +65,7 @@ const useAuthLogin = () => {
   return {
     userLogin,
     userLogout,
-    hasSignedIn,
+    isLoggedIn,
   };
 };
 
