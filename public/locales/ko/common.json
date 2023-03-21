@@ -4,6 +4,8 @@
   "userName": "사용자 이름",
   "password": "비밀번호",
   "login": "로그인하기",
+  "guestUser": "게스트 계정",
+  "loginIsRequired" : "로그인이 필요합니다.",
   "today": "오늘",
   "holiday": "공휴일",
   "importantSchedule": "주요 일정",
@@ -11,7 +13,7 @@
   "dayOfWeek" : "일, 월, 화, 수, 목, 금, 토",
   "confirmDelete" : "정말로 삭제하시겠습니까?",
   "unableToRecover": "일정 삭제 시 다시 복구할 수 없습니다.",
-  "NoSchedule": "일정이 없습니다.",
+  "noSchedule": "일정이 없습니다.",
   "toastMessage": {
     "inReady": "준비중입니다.",
     "registeredSuccessfully": "성공적으로 등록되었습니다!",

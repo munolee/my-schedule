@@ -4,6 +4,8 @@
   "userName": "ユーザー名",
   "password": "パスワード",
   "login": "ログインする",
+  "guestUser": "ゲストアカウント",
+  "loginIsRequired" : "ログインが必要です。",
   "today": "今日",
   "holiday": "祝日",
   "importantSchedule": "重要な日程",
@@ -11,7 +13,7 @@
   "dayOfWeek" : "日, 月, 火, 水, 木, 金, 土",
   "confirmDelete" : "本当に削除しますか？",
   "unableToRecover" : "スケジュールを削除すると、再復旧できません。",
-  "NoSchedule": "ここに日程がありません。",
+  "noSchedule": "ここに日程がありません。",
   "toastMessage": {
     "inReady": "準備中です。",
     "registeredSuccessfully": "登録に成功しました！",

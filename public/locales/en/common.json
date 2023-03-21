@@ -4,6 +4,8 @@
   "userName": "Username",
   "password": "Password",
   "login": "Login",
+  "guestUser": "Guest User",
+  "loginIsRequired" : "Login is required.",
   "today": "Today",
   "holiday": "Holiday",
   "importantSchedule": "Important Schedule",
@@ -11,7 +13,7 @@
   "dayOfWeek" : "Sun, Mon, Tue, Wed, Thu, Fri, Sat",
   "confirmDelete" : "Are you sure you want to delete it?",
   "unableToRecover": "If you delete the schedule, you cannot recover it again.",
-  "NoSchedule": "There is no schedule.",
+  "noSchedule": "There is no schedule.",
   "toastMessage": {
     "inReady": "In Ready.",
     "registeredSuccessfully": "Registered Successfully!",

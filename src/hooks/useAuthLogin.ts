@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'next-i18next';
 import { useMutation, useQueryClient } from 'react-query';
 import { AuthApi, LoginParamsType } from '@api/auth';
 
 const useAuthLogin = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   const userLogin = () => {
@@ -18,6 +20,7 @@ const useAuthLogin = () => {
             return;
           }
           saveToken(response?.token);
+          saveUserId(response?.userId);
           location.href = '/';
         },
       }
@@ -50,8 +53,20 @@ const useAuthLogin = () => {
     }
   }, []);
 
+  const getUserInfo = () => {
+    const userInfo = window.localStorage.getItem('user_id');
+    if (userInfo === process.env.GUEST_ID) {
+      return t('common:guestUser');
+    }
+    return userInfo;
+  };
+
   const saveToken = (token: string) => {
     window.localStorage.setItem('user_token', token);
+  };
+
+  const saveUserId = (info: string) => {
+    window.localStorage.setItem('user_id', info);
   };
 
   const removeToken = () => {
@@ -62,6 +77,7 @@ const useAuthLogin = () => {
     userLogin,
     userLogout,
     isLoggedIn,
+    getUserInfo,
   };
 };
 

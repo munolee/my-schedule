@@ -118,7 +118,7 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
                 ))
               ) : (
                 <BoardScheduleItem>
-                  <span>일정이 없습니다.</span>
+                  <span>{t('common:noSchedule')}</span>
                 </BoardScheduleItem>
               )}
             </BoardScheduleList>

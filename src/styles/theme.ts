@@ -93,7 +93,7 @@ const Theme: ThemeGroup = {
     calendarBackground: Colors.white,
     calendarBorder: Colors.gray020,
     modalButton: Colors.gray070,
-    sideBar: Colors.gray090,
+    sideBar: Colors.white,
     ...palette,
   },
   dark: {
