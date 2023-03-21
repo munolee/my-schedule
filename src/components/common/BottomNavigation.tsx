@@ -21,9 +21,9 @@ const BottomNavigation: FC<BottomNavigationProps> = ({ createScheduleModalProps 
 
   const { fontColor, fontSize } = useTheme();
   const { t } = useTranslation();
-
   const { pathname, push } = useRouter();
   const { showToast } = useToast();
+
   return (
     <StyledBottomNavigation>
       <NavigationList>

@@ -1,9 +1,10 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import HamburgerSvg from '@assets/HamburgerSvg';
 import NightSvg from '@assets/NightSvg';
 import FlatIcon from '@components/common/FlatIcon';
+import SideBar from '@components/common/SideBar';
 
 interface HeaderProps {
   toggleTheme: () => void;
@@ -11,10 +12,11 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ toggleTheme }) => {
   const { fontColor, fontSize, calendarBackground } = useTheme();
+  const [isSideBarOpen, setIsSideBarOpen] = useState<boolean>(false);
 
   return (
     <StyledHeader>
-      <HeaderItem bgColor={'transparent'}>
+      <HeaderItem onClick={() => setIsSideBarOpen((prev) => !prev)} bgColor={'transparent'}>
         <FlatIcon size={fontSize.s26} color={fontColor}>
           <HamburgerSvg />
         </FlatIcon>
@@ -24,6 +26,7 @@ const Header: FC<HeaderProps> = ({ toggleTheme }) => {
           <NightSvg />
         </FlatIcon>
       </HeaderItem>
+      <SideBar isOpen={isSideBarOpen} setIsOpen={setIsSideBarOpen} />
     </StyledHeader>
   );
 };

@@ -144,6 +144,7 @@ const ModalContainer = styled.div<{ isShow: boolean; modalType: ModalEnum }>`
 `;
 
 const Background = styled.div<{ isShow: boolean }>`
+  z-index: 9;
   width: 100%;
   height: 100%;
   position: fixed;
