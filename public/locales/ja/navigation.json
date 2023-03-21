@@ -1,7 +1,11 @@
 {
-  "fullSchedule": "全体日程",
-  "scheduleMemo": "日程メモ",
-  "registerSchedule": "日程登録",
+  "fullSchedule": "フルスケジュール",
+  "scheduleMemo": "スケジュールメモ",
+  "registerSchedule": "スケジュール登録",
   "login": "ログ・イン",
-  "logout": "ログアウト"
+  "logout": "ログアウト",
+  "language": "げんご",
+  "korean": "韓国語",
+  "english": "英語",
+  "japanese": "日本語"
 }

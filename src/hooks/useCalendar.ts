@@ -33,7 +33,7 @@ const useCalendar = (): UseCalendarType => {
 
   const calendarTitleDate = useMemo(() => {
     return currentTime.format(i18n.language === 'ko' ? DATE_FORMAT.TITLE_FORMAT : DATE_FORMAT.TITLE_FORMAT_EN);
-  }, [currentTime]);
+  }, [currentTime, i18n]);
 
   const handleClickMonth = useCallback(
     (type: 'prev' | 'next' | 'today') => {

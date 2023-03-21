@@ -3,5 +3,9 @@
   "scheduleMemo": "Schedule Memo",
   "registerSchedule": "Add Schedule",
   "login": "Login",
-  "logout": "Logout"
+  "logout": "Logout",
+  "language": "Language",
+  "korean": "Korean",
+  "english": "English",
+  "japanese": "Japanese"
 }

@@ -9,6 +9,7 @@ export interface LoginResponseType {
   success: boolean;
   message: string;
   token: string;
+  userId: string;
 }
 
 const { httpRequest } = AxiosInstance();

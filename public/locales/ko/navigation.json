@@ -3,5 +3,9 @@
   "scheduleMemo": "일정 메모",
   "registerSchedule": "일정 등록",
   "login": "로그인",
-  "logout": "로그아웃"
+  "logout": "로그아웃",
+  "language": "언어",
+  "korean": "한국어",
+  "english": "영어",
+  "japanese": "일본어"
 }

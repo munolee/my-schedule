@@ -7,6 +7,7 @@ export const Colors = {
   gray060: '#4c4c4c',
   gray070: '#333333',
   gray080: '#232323',
+  gray090: '#201f21',
 
   red010: '#ff7272', // 일정 생성 버튼
   red020: '#ff0d37', // 모달 에러 메시지, 일요일 폰트 색상
@@ -76,6 +77,7 @@ export type ThemeType = {
   calendarBackground: string;
   calendarBorder: string;
   modalButton: string;
+  sideBar: string;
 } & PaletteType;
 
 interface ThemeGroup {
@@ -91,6 +93,7 @@ const Theme: ThemeGroup = {
     calendarBackground: Colors.white,
     calendarBorder: Colors.gray020,
     modalButton: Colors.gray070,
+    sideBar: Colors.white,
     ...palette,
   },
   dark: {
@@ -100,6 +103,7 @@ const Theme: ThemeGroup = {
     calendarBackground: Colors.CalendarDark,
     calendarBorder: Colors.gray080,
     modalButton: Colors.blue010,
+    sideBar: Colors.gray090,
     ...palette,
   },
 };
