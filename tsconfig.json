@@ -7,6 +7,7 @@
       "dom.iterable",
       "esnext"
     ],
+    "types": ["cypress", "node"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -49,7 +50,7 @@
       "@assets/*": [
         "src/assets/*"
       ]
-    },
+    }
   },
   "include": [
     "next-env.d.ts",
