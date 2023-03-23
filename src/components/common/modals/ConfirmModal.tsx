@@ -32,7 +32,7 @@ const ConfirmModal: FC<ConfirmModalProps> = ({ modalProps, text, subText, confir
       <ModalContent>
         <ConfirmText>{text}</ConfirmText>
         {subText && <ConfirmSubText>{subText}</ConfirmSubText>}
-        <ButtonGroup>
+        <ButtonGroup data-cy="confirm-modal-button-group">
           <ButtonBase
             onClick={modalProps.hideModal}
             text={t('common:alert.cancel')}

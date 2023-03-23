@@ -16,7 +16,11 @@ const Header: FC<HeaderProps> = ({ toggleTheme }) => {
 
   return (
     <StyledHeader>
-      <HeaderItem onClick={() => setIsSideBarOpen((prev) => !prev)} bgColor={'transparent'}>
+      <HeaderItem
+        onClick={() => setIsSideBarOpen((prev) => !prev)}
+        bgColor={'transparent'}
+        data-cy="login-header-sidebar-button"
+      >
         <FlatIcon size={fontSize.s26} color={fontColor}>
           <HamburgerSvg />
         </FlatIcon>

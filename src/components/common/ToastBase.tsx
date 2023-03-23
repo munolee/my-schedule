@@ -13,7 +13,7 @@ const ToastBase: FC = () => {
   }, [toastMessage]);
 
   return (
-    <ToastContainer>
+    <ToastContainer data-cy="toast-content-wrap">
       {toastMessage.map((toast, index) => (
         <ToastContent key={index} type={toast.type}>
           <StyledText>{toast.message}</StyledText>
