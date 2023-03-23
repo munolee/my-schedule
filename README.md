@@ -6,9 +6,11 @@
 
 ## 사용 기술 
 
-|   Next.js  | TypeScript |   React  |  React-Query | Emotion.js | Github Actions |  Vercel |  
-| :--------: | :--------: | :------: |    :-----:   |  :-----:   |    :-----:     | :-----: |  
-|  <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566879300/noticon/fvty9lnsbjol5lq9u3by.svg" width="60" height="60" /> |  <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566913457/noticon/eh4d0dnic4n1neth3fui.png" width="60" height="60" /> |  <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566557331/noticon/d5hqar2idkoefh6fjtpu.png" width="60" height="60" /> |  <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1669720599/noticon/xg13hlex6bu8mu182b5y.png" width="60" height="60" /> |  <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1606640723/noticon/ahdafbo604qrqaw3tcbf.png" width="60" height="60" /> |  <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1673248072/noticon/uj1sljza7nnsj0lpilwk.png" width="60" height="60" /> |  <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1679312641/noticon/rx8rni4npifrbo9ckxmt.png" width="60" height="60" /> |
+|   Next.js  | TypeScript |   React  |  React-Query |  Recoil | Emotion.js |  Cypress | Github Actions |  Vercel |  
+| :--------: | :--------: | :------: |    :-----:   | :-----: |  :-----:   |  :-----: |     :-----:    | :-----: |  
+|  <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566879300/noticon/fvty9lnsbjol5lq9u3by.svg" width="60" height="60" /> |  <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566913457/noticon/eh4d0dnic4n1neth3fui.png" width="60" height="60" /> |  <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566557331/noticon/d5hqar2idkoefh6fjtpu.png" width="60" height="60" /> |  <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1669720599/noticon/xg13hlex6bu8mu182b5y.png" width="60" height="60" /> |  <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1641952185/noticon/a9qgcuhj0enmzobh68cf.png" width="60" height="60" /> |  <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1606640723/noticon/ahdafbo604qrqaw3tcbf.png" width="60" height="60" /> |  <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1679568282/noticon/wryujqxq9ss8lpxgfd4b.png" width="60" height="60" /> |  <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1673248072/noticon/uj1sljza7nnsj0lpilwk.png" width="60" height="60" /> |  <img src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1679312641/noticon/rx8rni4npifrbo9ckxmt.png" width="60" height="60" /> |
+
+
 
 <br>
 
