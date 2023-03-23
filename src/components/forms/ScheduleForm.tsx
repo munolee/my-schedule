@@ -50,9 +50,10 @@ const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, type, submitRef }) =>
 
   const eventBgColors = [colors.event1, colors.event2, colors.event3, colors.event4, colors.event5];
   return (
-    <StyledForm onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+    <StyledForm data-cy="schedule-wrap-form" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
       <div>
         <input
+          id="event-title"
           type="text"
           placeholder={t('common:scheduleTitle')}
           autoFocus
@@ -72,6 +73,7 @@ const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, type, submitRef }) =>
       </div>
       <div>
         <input
+          id="event-start-date"
           type="date"
           placeholder="startDate"
           {...register('startDate', {
@@ -83,6 +85,7 @@ const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, type, submitRef }) =>
       </div>
       <div>
         <input
+          id="event-end-date"
           type="date"
           placeholder="endDate"
           {...register('endDate', {
@@ -97,6 +100,7 @@ const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, type, submitRef }) =>
         <ColorPickerFiled>
           {eventBgColors.map((color) => (
             <ColorPicker
+              data-cy="schedule-form-color"
               key={color}
               active={selectBgColor === color}
               color={color}

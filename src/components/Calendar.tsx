@@ -36,10 +36,10 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
     <>
       <StyledCalendar>
         <CalendarTopBar>
-          <DateLabel>
+          <DateLabel data-cy="calendar-title-date">
             <h2>{calendarTitleDate}</h2>
           </DateLabel>
-          <MonthButtonGroup>
+          <MonthButtonGroup data-cy="calendar-month-button-group">
             <ButtonBase
               onClick={() => handleClickMonth('prev')}
               borderColor={colors.gray040}
@@ -51,6 +51,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
               </FlatIcon>
             </ButtonBase>
             <ButtonBase
+              data-cy="calendar-today-button"
               onClick={() => handleClickMonth('today')}
               borderColor={colors.gray040}
               backgroundColor={calendarBackground}
@@ -59,6 +60,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
               <span>{t('common:today')}</span>
             </ButtonBase>
             <ButtonBase
+              data-cy="calendar-next-button"
               onClick={() => handleClickMonth('next')}
               borderColor={colors.gray040}
               backgroundColor={calendarBackground}
@@ -86,6 +88,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
                 {week.map((date, j) => (
                   <CalendarDate
                     key={j}
+                    data-cy={isSameDate(date) && 'calendar-date-td'}
                     isToday={isSameDate(date)}
                     isEmpty={!isSameMonth(date)}
                     weekLength={currentMonthWeeks.length}

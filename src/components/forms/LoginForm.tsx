@@ -46,7 +46,7 @@ const LoginForm: FC = () => {
             </FlatIcon>
           </ButtonBase>
         )}
-        <GuestLoginButtonGroup isShow={isShowLoginForm}>
+        <GuestLoginButtonGroup isShow={isShowLoginForm} data-cy="login-form-button-group">
           <ButtonBase
             width={280}
             height={60}
@@ -64,9 +64,15 @@ const LoginForm: FC = () => {
             onClick={() => setIsShowLoginForm((prev) => !prev)}
           />
         </GuestLoginButtonGroup>
-        <StyledForm onSubmit={handleSubmit(onSubmit)} autoComplete="off" isShow={isShowLoginForm}>
+        <StyledForm
+          data-cy="login-wrap-form"
+          onSubmit={handleSubmit(onSubmit)}
+          autoComplete="off"
+          isShow={isShowLoginForm}
+        >
           <div>
             <input
+              id="username"
               type="text"
               placeholder={t('common:userName')}
               autoFocus
@@ -77,7 +83,7 @@ const LoginForm: FC = () => {
                   message: t('common:errorMessage.idMinLength'),
                 },
                 maxLength: {
-                  value: 12,
+                  value: 20,
                   message: t('common:errorMessage.idMaxLength'),
                 },
               })}
@@ -86,6 +92,7 @@ const LoginForm: FC = () => {
           </div>
           <div>
             <input
+              id="password"
               type="password"
               placeholder={t('common:password')}
               autoFocus

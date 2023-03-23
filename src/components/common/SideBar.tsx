@@ -31,7 +31,7 @@ const SideBar: FC<SideBarProps> = ({ isOpen, setIsOpen }) => {
     <>
       <StyledSideBar isOpen={isOpen}>
         <TopContent>
-          <TopUserInfo>
+          <TopUserInfo data-cy="login-sidebar-user-info">
             <span>{isLoggedIn ? getUserInfo() : t('common:loginIsRequired')}</span>
           </TopUserInfo>
           <ButtonBase

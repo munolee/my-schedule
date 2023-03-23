@@ -46,7 +46,9 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
       <ModalBase modalProps={modalProps} modalType={ModalEnum.BottomSheet}>
         <ModalContent>
           <ButtonGroup>
-            <StyledDate>{boardDateTitle}</StyledDate>
+            <StyledDate data-cy="calendar-modal-title-date">
+              <h2>{boardDateTitle}</h2>
+            </StyledDate>
             <ButtonBase
               type="button"
               onClick={() => {
@@ -86,7 +88,7 @@ const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
                       <EventCircle bgColor={event.bgColor} />
                       <span>{event.eventTitle}</span>
                     </div>
-                    <ScheduleButtonGroup>
+                    <ScheduleButtonGroup data-cy="schedule-modal-button-group">
                       <ButtonBase
                         type="button"
                         backgroundColor="transparent"
@@ -161,9 +163,12 @@ const StyledDate = styled.div`
   padding: 0 1.2rem;
   display: flex;
   align-items: center;
-  font-size: ${({ theme }) => theme.fontSize.s18};
-  font-weight: 500;
-  color: ${({ theme }) => theme.modalButton};
+
+  h2 {
+    font-size: ${({ theme }) => theme.fontSize.s18};
+    font-weight: 500;
+    color: ${({ theme }) => theme.modalButton};
+  }
 `;
 
 const ButtonGroup = styled.div`

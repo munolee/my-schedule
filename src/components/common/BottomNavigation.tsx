@@ -44,6 +44,7 @@ const BottomNavigation: FC<BottomNavigationProps> = ({ createScheduleModalProps 
         {/*  <MenuTitle>{t('navigation:scheduleMemo')}</MenuTitle>*/}
         {/*</MenuItem>*/}
         <MenuItem
+          data-cy="schedule-register-button"
           onClick={() => {
             if (!isLoggedIn) {
               showToast({ type: ToastEnumType.Error, message: t('common:toastMessage.afterLoggingIn') });
@@ -58,6 +59,7 @@ const BottomNavigation: FC<BottomNavigationProps> = ({ createScheduleModalProps 
           <MenuTitle>{t('navigation:registerSchedule')}</MenuTitle>
         </MenuItem>
         <MenuItem
+          data-cy="login-path-button"
           isActive={pathname === '/login'}
           onClick={() => {
             if (isLoggedIn) {

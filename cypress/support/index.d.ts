@@ -8,6 +8,7 @@ declare global {
        * @example cy.dataCy('greeting')
        */
       dataCy(value: string): Chainable<JQuery<HTMLElement>>;
+      login(username?: string, password?: string, validate: boolean = false): void;
     }
   }
 }
