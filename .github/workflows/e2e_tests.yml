@@ -14,3 +14,7 @@ jobs:
           build: yarn build
           start: yarn start
           wait-on: "http://localhost:3000"
+        env:
+          API_DOMAIN: ${{ secrets.API_DOMAIN }}
+          GUEST_ID: ${{ secrets.GUEST_ID }}
+          GUEST_PW: ${{ secrets.GUEST_PW }}
