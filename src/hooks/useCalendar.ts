@@ -19,8 +19,11 @@ const useCalendar = (): UseCalendarType => {
 
   const currentMonthWeeks = useMemo(() => {
     const startWeek = currentTime.clone().startOf('month').week();
-    const endWeek = currentTime.clone().endOf('month').week();
-    return Array.from({ length: Math.abs(endWeek - startWeek + 1) }, (_, week) =>
+    let endWeek = currentTime.clone().endOf('month').week();
+    if (endWeek < startWeek) {
+      endWeek = currentTime.clone().endOf('month').subtract(1, 'week').week() + 1;
+    }
+    return Array.from({ length: endWeek - startWeek + 1 }, (_, week) =>
       Array.from({ length: 7 }, (_, i) =>
         currentTime
           .clone()
