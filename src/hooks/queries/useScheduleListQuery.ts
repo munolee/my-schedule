@@ -1,15 +1,12 @@
 import { useQuery } from 'react-query';
-import { useSetRecoilState } from 'recoil';
 import { ScheduleApi } from '@api/schedule';
 import useAuthLogin from '@hooks/useAuthLogin';
-import { eventScheduleAtom } from '@store/eventSchedule';
 
 const useScheduleListQuery = () => {
-  const setEventSchedule = useSetRecoilState(eventScheduleAtom);
   const { isLoggedIn } = useAuthLogin();
 
   const useGetScheduleList = () => {
-    const { isLoading } = useQuery(
+    const { isLoading, data } = useQuery(
       ['getSchedule'],
       async () => {
         const response = ScheduleApi.getScheduleList();
@@ -17,16 +14,11 @@ const useScheduleListQuery = () => {
       },
       {
         enabled: isLoggedIn,
-        onSuccess: (data) => {
-          if (!data) {
-            return;
-          }
-          setEventSchedule(data.data);
-        },
       }
     );
     return {
       isLoading,
+      scheduleList: data?.data || [],
     };
   };
 

@@ -10,11 +10,10 @@ import ButtonBase from '@components/common/buttons/ButtonBase';
 import EventBoardModal from '@components/common/modals/EventBoardModal';
 import RegisterModal from '@components/common/modals/RegisterModal';
 import { DATE_FORMAT } from '@constants/format';
-import useHolidayListQuery from '@hooks/queries/useHolidayListQuery';
-import useScheduleListQuery from '@hooks/queries/useScheduleListQuery';
 import useCalendar from '@hooks/useCalendar';
 import useEventSchedule, { EventPaintEnum } from '@hooks/useEventSchedule';
 import useModal, { ModalPropsType } from '@hooks/useModal';
+import useMonthEvent from '@hooks/useMonthEvent';
 
 interface CalendarProps {
   createScheduleModalProps: ModalPropsType;
@@ -22,11 +21,8 @@ interface CalendarProps {
 
 const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
   const { calendarTitleDate, currentMonthWeeks, handleClickMonth, isSameDate, isSameMonth } = useCalendar();
-  const { currentMonthEvent, getEventPaintType, handleClickDate } = useEventSchedule();
-  const { useGetHolidayList } = useHolidayListQuery();
-  const { isLoading: isHolidayLoading } = useGetHolidayList();
-  const { useGetScheduleList } = useScheduleListQuery();
-  const { isLoading: isScheduleLoading } = useGetScheduleList();
+  const { getEventPaintType, handleClickDate } = useEventSchedule();
+  const { isLoading, currentMonthEvent } = useMonthEvent();
 
   const eventBoardModal = useModal();
   const { fontColor, colors, calendarBackground, fontSize } = useTheme();
@@ -120,7 +116,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
             ))}
           </tbody>
         </CalendarTable>
-        {isHolidayLoading && <Spinner />}
+        {isLoading && <Spinner />}
       </StyledCalendar>
       <RegisterModal modalProps={createScheduleModalProps} />
       <EventBoardModal modalProps={eventBoardModal} />

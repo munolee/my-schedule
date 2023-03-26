@@ -17,6 +17,7 @@ const queryClient = new QueryClient({
       notifyOnChangeProps: 'tracked',
       refetchOnWindowFocus: false,
       retry: 1,
+      staleTime: 1000 * 60,
     },
   },
 });
