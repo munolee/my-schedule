@@ -15,6 +15,7 @@ import useScheduleMutate from '@hooks/queries/useScheduleMutate';
 import useAuthLogin from '@hooks/useAuthLogin';
 import useEventSchedule from '@hooks/useEventSchedule';
 import useModal, { ModalPropsType } from '@hooks/useModal';
+import useMonthEvent from '@hooks/useMonthEvent';
 import useToast, { ToastEnumType } from '@hooks/useToast';
 
 interface EventBoardModalProps {
@@ -22,7 +23,9 @@ interface EventBoardModalProps {
 }
 
 const EventBoardModal: FC<EventBoardModalProps> = ({ modalProps }) => {
-  const { currentDateMainlyEvent, currentDateHolidayEvent, boardDateTitle, handleClickSchedule } = useEventSchedule();
+  const { boardDateTitle, handleClickSchedule } = useEventSchedule();
+  const { currentDateMainlyEvent, currentDateHolidayEvent } = useMonthEvent();
+
   const { deleteSchedule } = useScheduleMutate();
   const { mutateAsync: deleteMutation } = deleteSchedule();
   const { isLoggedIn } = useAuthLogin();
