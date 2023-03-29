@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Colors } from '@styles/theme';
 
-export enum Theme {
+export const enum Theme {
   Light = 'light',
   Dark = 'dark',
 }
@@ -11,7 +11,7 @@ interface UseThemeType {
   toggleTheme: () => void;
 }
 
-const useTheme = (): UseThemeType => {
+const useAppTheme = (): UseThemeType => {
   const [theme, setTheme] = useState<Theme>(Theme.Light);
 
   useEffect(() => {
@@ -35,7 +35,10 @@ const useTheme = (): UseThemeType => {
     setTheme((prevTheme) => (prevTheme === Theme.Dark ? Theme.Light : Theme.Dark));
   }, []);
 
-  return { theme, toggleTheme };
+  return {
+    theme,
+    toggleTheme,
+  };
 };
 
-export default useTheme;
+export default useAppTheme;

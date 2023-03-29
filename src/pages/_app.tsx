@@ -6,7 +6,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
 import ToastBase from '@components/common/ToastBase';
 import Layout from '@components/layout';
-import useTheme from '@hooks/useTheme';
+import useAppTheme from '@hooks/useAppTheme';
 import { GlobalStyle } from '@styles/globalStyle';
 import { ResetStyle } from '@styles/resetStyle';
 import { default as Theme } from '@styles/theme';
@@ -23,7 +23,7 @@ const queryClient = new QueryClient({
 });
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useAppTheme();
 
   return (
     <QueryClientProvider client={queryClient}>

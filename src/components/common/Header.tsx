@@ -25,6 +25,7 @@ const Header: FC<HeaderProps> = ({ toggleTheme }) => {
           <HamburgerSvg />
         </FlatIcon>
       </HeaderItem>
+      {/*<ToggleBase size={30} toggle={theme === Theme.Light} setToggle={toggleTheme} />*/}
       <HeaderItem onClick={toggleTheme} bgColor={calendarBackground}>
         <FlatIcon size={fontSize.s26} color={fontColor}>
           <NightSvg />
