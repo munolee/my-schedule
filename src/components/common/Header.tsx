@@ -5,12 +5,14 @@ import HamburgerSvg from '@assets/HamburgerSvg';
 import NightSvg from '@assets/NightSvg';
 import FlatIcon from '@components/common/FlatIcon';
 import SideBar from '@components/common/SideBar';
+import { Theme } from '@hooks/useAppTheme';
 
 interface HeaderProps {
+  theme: Theme;
   toggleTheme: () => void;
 }
 
-const Header: FC<HeaderProps> = ({ toggleTheme }) => {
+const Header: FC<HeaderProps> = ({ theme, toggleTheme }) => {
   const { fontColor, fontSize, calendarBackground } = useTheme();
   const [isSideBarOpen, setIsSideBarOpen] = useState<boolean>(false);
 

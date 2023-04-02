@@ -12,10 +12,10 @@ import { ModalPropsType } from '@hooks/useModal';
 import useToast, { ToastEnumType } from '@hooks/useToast';
 
 interface BottomNavigationProps {
-  createScheduleModalProps?: ModalPropsType;
+  createScheduleModal?: ModalPropsType;
 }
 
-const BottomNavigation: FC<BottomNavigationProps> = ({ createScheduleModalProps }) => {
+const BottomNavigation: FC<BottomNavigationProps> = ({ createScheduleModal }) => {
   const { userLogout, isLoggedIn } = useAuthLogin();
   const { mutateAsync: logoutMutation } = userLogout();
 
@@ -50,7 +50,7 @@ const BottomNavigation: FC<BottomNavigationProps> = ({ createScheduleModalProps 
               showToast({ type: ToastEnumType.Error, message: t('common:toastMessage.afterLoggingIn') });
               return;
             }
-            createScheduleModalProps?.showModal();
+            createScheduleModal?.showModal();
           }}
         >
           <FlatIcon size={fontSize.s22} color={fontColor}>

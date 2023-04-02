@@ -3,24 +3,17 @@ import styled from '@emotion/styled';
 import { GetStaticProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Calendar from '@components/Calendar';
-import BottomNavigation from '@components/common/BottomNavigation';
-import Header from '@components/common/Header';
-import useModal from '@hooks/useModal';
+import { ModalPropsType } from '@hooks/useModal';
 
 interface PageHomeProps {
-  toggleTheme: () => void;
+  createScheduleModal: ModalPropsType;
 }
 
-const PageHome: FC<PageHomeProps> = ({ toggleTheme }) => {
-  const createScheduleModal = useModal();
+const PageHome: FC<PageHomeProps> = ({ createScheduleModal }) => {
   return (
-    <>
-      <Header toggleTheme={toggleTheme} />
-      <HomeContainer>
-        <Calendar createScheduleModalProps={createScheduleModal} />
-      </HomeContainer>
-      <BottomNavigation createScheduleModalProps={createScheduleModal} />
-    </>
+    <HomeContainer>
+      <Calendar createScheduleModal={createScheduleModal} />
+    </HomeContainer>
   );
 };
 
