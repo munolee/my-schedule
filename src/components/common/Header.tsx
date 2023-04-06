@@ -5,6 +5,7 @@ import HamburgerSvg from '@assets/HamburgerSvg';
 import NightSvg from '@assets/NightSvg';
 import FlatIcon from '@components/common/FlatIcon';
 import SideBar from '@components/common/SideBar';
+import ToggleBase from '@components/common/ToggleBase';
 import { Theme } from '@hooks/useAppTheme';
 
 interface HeaderProps {
@@ -13,26 +14,26 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ theme, toggleTheme }) => {
-  const { fontColor, fontSize, calendarBackground } = useTheme();
+  const { fontColor, fontSize } = useTheme();
   const [isSideBarOpen, setIsSideBarOpen] = useState<boolean>(false);
 
   return (
     <StyledHeader>
-      <HeaderItem
-        onClick={() => setIsSideBarOpen((prev) => !prev)}
-        bgColor={'transparent'}
-        data-cy="login-header-sidebar-button"
-      >
+      <HeaderItem onClick={() => setIsSideBarOpen((prev) => !prev)} data-cy="login-header-sidebar-button">
         <FlatIcon size={fontSize.s26} color={fontColor}>
           <HamburgerSvg />
         </FlatIcon>
       </HeaderItem>
-      {/*<ToggleBase size={30} toggle={theme === Theme.Light} setToggle={toggleTheme} />*/}
-      <HeaderItem onClick={toggleTheme} bgColor={calendarBackground}>
-        <FlatIcon size={fontSize.s26} color={fontColor}>
-          <NightSvg />
-        </FlatIcon>
-      </HeaderItem>
+      <ToggleBase
+        size={30}
+        toggle={theme === Theme.Light}
+        setToggle={toggleTheme}
+        renderContent={
+          <FlatIcon size={fontSize.s26} color={fontColor}>
+            <NightSvg />
+          </FlatIcon>
+        }
+      />
       <SideBar isOpen={isSideBarOpen} setIsOpen={setIsSideBarOpen} />
     </StyledHeader>
   );
@@ -50,7 +51,7 @@ const StyledHeader = styled.div`
   align-items: center;
 `;
 
-const HeaderItem = styled.div<{ bgColor?: string }>`
+const HeaderItem = styled.div`
   padding: 0.4rem;
   display: flex;
   flex-direction: column;
@@ -59,8 +60,7 @@ const HeaderItem = styled.div<{ bgColor?: string }>`
   text-align: center;
   cursor: pointer;
   border-radius: 20rem;
-  background-color: ${({ bgColor }) => bgColor};
-  box-shadow: ${({ bgColor }) => (bgColor === 'transparent' ? 'none' : '0 0 1rem 0 rgba(0, 0, 0, 0.05)')};
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.05);
 
   &:active {
     background-color: rgba(0, 0, 0, 0.05);
