@@ -32,7 +32,7 @@
     "pwMinLength" : "パスワードは最低5文字以上入力してください。",
     "pwMaxLength" : "パスワードは最大16文字以下で入力してください。",
     "titleMinLength" : "日程のタイトルは最低2文字以上入力してください。",
-    "titleMaxLength" : "日程のタイトルは最大10文字以下で入力してください。",
+    "titleMaxLength" : "日程のタイトルは最大16文字以下で入力してください。",
     "selectStartDate" : "日程開始日を選択してください。",
     "selectEndDate" : "日程終了日を選択してください。"
   }

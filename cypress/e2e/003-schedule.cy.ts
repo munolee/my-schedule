@@ -27,10 +27,10 @@ describe('일정 등록 모달 유효성 검사', () => {
     cy.dataCy('schedule-wrap-form').find('em').contains('일정 제목은 최소 2글자 이상 입력해주세요.');
   });
 
-  it('일정 제목을 10자 이상 입력 시 필드 하단 에러 메시지 노출 확인', () => {
+  it('일정 제목을 16자 이상 입력 시 필드 하단 에러 메시지 노출 확인', () => {
     cy.dataCy('schedule-register-button').click();
-    cy.dataCy('schedule-wrap-form').find('input[id=event-title]').type('1234567890123');
-    cy.dataCy('schedule-wrap-form').find('em').contains('일정 제목은 최대 10글자 이하로 입력해주세요.');
+    cy.dataCy('schedule-wrap-form').find('input[id=event-title]').type('1234567890123456789');
+    cy.dataCy('schedule-wrap-form').find('em').contains('일정 제목은 최대 16글자 이하로 입력해주세요.');
   });
 });
 
