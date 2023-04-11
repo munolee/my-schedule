@@ -64,7 +64,7 @@ const ScheduleForm: FC<ScheduleFormProps> = ({ modalProps, type, submitRef }) =>
               message: t('common:errorMessage.titleMinLength'),
             },
             maxLength: {
-              value: 10,
+              value: 16,
               message: t('common:errorMessage.titleMaxLength'),
             },
           })}
