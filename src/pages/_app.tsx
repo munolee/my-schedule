@@ -1,5 +1,6 @@
 import { Global, ThemeProvider } from '@emotion/react';
 import { AppProps } from 'next/app';
+import { Noto_Sans_KR } from 'next/font/google';
 import { appWithTranslation } from 'next-i18next';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -25,6 +26,8 @@ const queryClient = new QueryClient({
   },
 });
 
+const notoSansKR = Noto_Sans_KR({ weight: '500', subsets: ['latin'] });
+
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const { theme, toggleTheme } = useAppTheme();
   const createScheduleModal = useModal();
@@ -35,12 +38,14 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <RecoilRoot>
           <Global styles={ResetStyle} />
           <Global styles={GlobalStyle} />
-          <Layout>
-            <Header theme={theme} toggleTheme={toggleTheme} />
-            <Component {...pageProps} createScheduleModal={createScheduleModal} />
-            <BottomNavigation createScheduleModal={createScheduleModal} />
-            <ToastBase />
-          </Layout>
+          <main className={notoSansKR.className}>
+            <Layout>
+              <Header theme={theme} toggleTheme={toggleTheme} />
+              <Component {...pageProps} createScheduleModal={createScheduleModal} />
+              <BottomNavigation createScheduleModal={createScheduleModal} />
+              <ToastBase />
+            </Layout>
+          </main>
           <ReactQueryDevtools initialIsOpen={false} />
         </RecoilRoot>
       </ThemeProvider>
