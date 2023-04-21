@@ -16,10 +16,10 @@ import useModal, { ModalPropsType } from '@hooks/useModal';
 import useMonthEvent from '@hooks/useMonthEvent';
 
 interface CalendarProps {
-  createScheduleModalProps: ModalPropsType;
+  createScheduleModal: ModalPropsType;
 }
 
-const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
+const Calendar: FC<CalendarProps> = ({ createScheduleModal }) => {
   const { calendarTitleDate, currentMonthWeeks, handleClickMonth, isSameDate, isSameMonth } = useCalendar();
   const { getEventPaintType, handleClickDate } = useEventSchedule();
   const { isLoading, currentMonthEvent } = useMonthEvent();
@@ -118,7 +118,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModalProps }) => {
         </CalendarTable>
         {isLoading && <Spinner />}
       </StyledCalendar>
-      <RegisterModal modalProps={createScheduleModalProps} />
+      <RegisterModal modalProps={createScheduleModal} />
       <EventBoardModal modalProps={eventBoardModal} />
     </>
   );
