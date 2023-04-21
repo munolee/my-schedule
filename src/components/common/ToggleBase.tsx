@@ -1,18 +1,17 @@
-import { FC, ReactElement } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import styled from '@emotion/styled';
 
 interface ToggleBaseProps {
-  size: number;
   toggle: boolean;
   setToggle: () => void;
-  renderContent?: ReactElement;
+  size?: number;
 }
 
-const ToggleBase: FC<ToggleBaseProps> = ({ size, toggle, setToggle, renderContent }) => {
+const ToggleBase: FC<PropsWithChildren<ToggleBaseProps>> = ({ children, toggle, setToggle, size = 30 }) => {
   return (
     <ToggleButton size={size} onClick={setToggle}>
       <StyledCircle size={size} toggle={toggle}>
-        {renderContent}
+        {children}
       </StyledCircle>
     </ToggleButton>
   );
@@ -39,6 +38,9 @@ const StyledCircle = styled.div<{ size: number; toggle: boolean }>`
   left: 0;
   width: ${({ size }) => (size - 1) * 0.1}rem;
   height: ${({ size }) => (size - 1) * 0.1}rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 20rem;
   background-color: ${({ theme }) => theme.calendarBackground};
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.05);

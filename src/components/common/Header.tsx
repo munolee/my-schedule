@@ -3,6 +3,7 @@ import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import HamburgerSvg from '@assets/HamburgerSvg';
 import NightSvg from '@assets/NightSvg';
+import SunSvg from '@assets/SunSvg';
 import FlatIcon from '@components/common/FlatIcon';
 import SideBar from '@components/common/SideBar';
 import ToggleBase from '@components/common/ToggleBase';
@@ -24,16 +25,17 @@ const Header: FC<HeaderProps> = ({ theme, toggleTheme }) => {
           <HamburgerSvg />
         </FlatIcon>
       </HeaderItem>
-      <ToggleBase
-        size={30}
-        toggle={theme === Theme.Light}
-        setToggle={toggleTheme}
-        renderContent={
+      <ToggleBase toggle={theme === Theme.Light} setToggle={toggleTheme}>
+        {theme === Theme.Light ? (
+          <FlatIcon size={fontSize.s20} color={fontColor}>
+            <SunSvg />
+          </FlatIcon>
+        ) : (
           <FlatIcon size={fontSize.s26} color={fontColor}>
             <NightSvg />
           </FlatIcon>
-        }
-      />
+        )}
+      </ToggleBase>
       <SideBar isOpen={isSideBarOpen} setIsOpen={setIsSideBarOpen} />
     </StyledHeader>
   );
