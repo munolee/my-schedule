@@ -13,6 +13,7 @@ const nextConfig = {
     API_DOMAIN: process.env.API_DOMAIN,
     GUEST_ID: process.env.GUEST_ID,
     GUEST_PW: process.env.GUEST_PW,
+    GA_TRACKING_ID: process.env.GA_TRACKING_ID,
   },
 };
 
