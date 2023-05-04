@@ -22,7 +22,7 @@ interface CalendarProps {
 const Calendar: FC<CalendarProps> = ({ createScheduleModal }) => {
   const { calendarTitleDate, currentMonthWeeks, handleClickMonth, isSameDate, isSameMonth } = useCalendar();
   const { getEventPaintType, handleClickDate } = useEventSchedule();
-  const { isLoading, currentMonthEvent } = useMonthEvent();
+  const { isLoading, monthEventList } = useMonthEvent();
 
   const eventBoardModal = useModal();
   const { fontColor, colors, calendarBackground, fontSize } = useTheme();
@@ -96,7 +96,7 @@ const Calendar: FC<CalendarProps> = ({ createScheduleModal }) => {
                   >
                     <DateText>{date.date()}</DateText>
                     <StyledEventList>
-                      {currentMonthEvent.map((event, index) => {
+                      {monthEventList.map((event, index) => {
                         const { startDate, eventTitle, position, bgColor } = event;
                         const calendarDate = date.format(DATE_FORMAT.BASIC_FORMAT);
                         const paintType = getEventPaintType(event, calendarDate);
