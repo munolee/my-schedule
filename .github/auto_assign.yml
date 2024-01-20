@@ -1,0 +1,11 @@
+addReviewers: true
+addAssignees: author
+
+reviewers:
+  - munolee
+
+skipKeywords:
+  - wip
+  - skip-review
+
+numberOfReviewers: 0
